@@ -1,0 +1,184 @@
+#! /usr/bin/perl -pi
+
+sub emph {
+    local($pat) = @_;
+    s/([^{])($pat)([^}])/$1\\emph{$2}$3/g;
+    s/^($pat)([^}])/\\emph{$1}$2/g;
+}
+
+sub charef {
+    local($pat, $name) = @_;
+    s/([^{])($pat)\s+\[[^\]]+\]/$1\\chapgref{$2}{$name}/g;
+    s/^($pat)\s+\[[^\]]+\]/\\chapgref{$1}{$name}/g;
+    s/([^{])($pat)([^}])/$1\\charef{$2}{$name}$3/g;
+    s/^($pat)([^}])/\\charef{$1}{$name}$2/g;
+}
+
+sub patref {
+    local($pat, $name) = @_;
+
+# NB: Convert bullets to hyphens manually first!
+# Afterwards remove adjacent instance of \end{bulletlist}...\begin{bulletlist}
+s/^\-\t(.*)$/\\begin{bulletlist}\n\\item $1\n\\end{bulletlist}/;
+    s/^$pat$/%=================================================================\n%:PATTERN -- {$pat}\n\\pattern{$pat}{$name}\n/;
+    s/([^{])($pat)\s+\[[^\]]+\]/$1\\patpgref{$2}{$name}/g;
+    s/^($pat)\s+\[[^\]]+\]/\\patpgref{$1}{$name}/g;
+    s/([^{])($pat)([^}])/$1\\patref{$2}{$name}$3/g;
+    s/^($pat)([^}])/\\patref{$1}{$name}$2/g;
+}
+
+s/^"/``/g;
+s/([ (])"/$1``/g;
+s/"([ ,;.)])/''$1/g;
+# Ad hoc quote adjustments
+s/``SELECT \* Person"/"SELECT * Person"/g;
+s/this.annotateCode\(``#to: John #by: SD #on: 3\/12\/99'',/this.annotateCode("#to: John #by: SD #on: 3\/12\/99",/;
+s/``Screws up when we have nested IFs.''\);/"Screws up when we have nested IFs.");/;
+
+s/i\.e\.,?\s*/\\ie /g;
+s/e\.g\.,?\s*/\\eg /g;
+s/etc\.,?\s*/\\etc /g;
+
+s/(Consequently, .*)$/\\emph{$1}/;
+
+# s/^\s*·\s*(.*)$/\\begin{itemize}\n\\item $1\n\\end{itemize}/g;
+
+s/^Forces\s*$/\\subsection*{Forces}\n/g;
+s/^Overview\s*$/\\subsection*{Overview}\n/g;
+s/^What Next\s*$/\\subsection*{What Next}\n/g;
+
+emph("XDoctor");
+emph("proDoc");
+
+emph("Also Known As:");
+
+s/\[([A-Za-z]+\d+[a-z])\]/\\cite{$1}/g;
+
+s/Intent:\s*(.*)$/\\intent{$1}/g;
+s/^Problem\s*$/\\subsection*{Problem}\n/g;
+emph("This problem is difficult because:");
+emph("Yet, solving this problem is feasible because:");
+
+s/^Solution\s*$/\\subsection*{Solution}\n/g;
+s/^Hints\s*$/\\subsubsection*{Hints}\n/g;
+s/^Steps\s*$/\\subsubsection*{Steps}\n/g;
+
+s/^Tradeoffs\s*$/\\subsection*{Tradeoffs}\n/g;
+s/^Pros\s*$/\\subsubsection*{Pros}\n/g;
+s/^Cons\s*$/\\subsubsection*{Cons}\n/g;
+s/^Difficulties\s*$/\\subsubsection*{Difficulties}\n/g;
+s/^When the legacy solution is the solution\s*$/\\subsubsection*{When the legacy solution is the solution}\n/g;
+
+s/^Example\s*$/\\subsection*{Example}\n/g;
+s/^Examples\s*$/\\subsection*{Examples}\n/g;
+
+s/^Related Patterns\s*$/\\subsection*{Related Patterns}\n/g;
+
+s/^Rationale\s*$/\\subsection*{Rationale}\n/g;
+
+s/^Known Uses\s*$/\\subsection*{Known Uses}\n/g;
+s/^Variants\s*$/\\subsubsection*{Variants}\n/g;
+
+
+charef("Setting Direction", "SettingDirection");
+charef("First Contact", "FirstContact");
+charef("Initial Understanding", "InitialUnderstanding");
+charef("Detailed Model Capture", "DetailedModelCapture");
+charef("Tests: Your Life Insurance!", "TestsYourLifeInsurance");
+charef("Migration Strategies", "MigrationStrategies");
+charef("Detecting Duplicated Code", "DetectingDuplicatedCode");
+charef("Redistribute Responsibilities", "RedistributeResponsibilities");
+charef("Transform Conditionals to Polymorphism", "TransformConditionalsToPolymorphism");
+
+patref("Abstract Factory","AbstractFactory");
+patref("Adapter","Adapter");
+patref("Agree on Maxims","AgreeOnMaxims");
+patref("Always Have a Running Version","AlwaysHaveARunningVersion");
+patref("Analyze the Persistent Data","Analyze the Persistent Data");
+patref("Analyze the Persistent Data","AnalyzeThePersistentData");
+patref("Appoint a Navigator","AppointANavigator");
+patref("Build Confidence","BuildConfidence");
+patref("Chat with the Maintainers","ChatWithTheMaintainers");
+patref("Compare Code Mechanically","CompareCodeMechanically");
+patref("Conserve Familiarity","ConserveFamiliarity");
+patref("Deprecate Obsolete Interfaces","DeprecateObsoleteInterfaces");
+patref("Distinguish Public from Published Interface","DistinguishPublicFromPublishedInterface");
+patref("Do a Mock Installation","DoAMockInstallation");
+patref("Eliminate Navigation Code","EliminateNavigationCode");
+patref("Encapsulate Field","EncapsulateField");
+patref("Extract Method","ExtractMethod");
+patref("Facade","Facade");
+patref("Factor out State","FactorOutState");
+patref("Factor out Strategy","FactorOutStrategy");
+patref("Factory Method","FactoryMethod");
+patref("Fix Problems, Not Symptoms","FixProblemsNotSymptoms");
+patref("Flyweight","Flyweight");
+patref("Grow Your Test Base Incrementally","GrowYourTestBaseIncrementally");
+patref("If It Ain't Broke, Don't Fix It","IfItAintBrokeDontFixIt");
+patref("Interview During Demo","InterviewDuringDemo");
+patref("Introduce Null Object","IntroduceNullObject");
+patref("Involve the Users","InvolveTheUsers");
+patref("Keep It Simple","KeepItSimple");
+patref("Learn from the Past","LearnFromThePast");
+patref("Look for the Contracts","LookForTheContracts");
+patref("Make a Bridge to the New Town","MakeABridgeToTheNewTown");
+patref("Migrate Systems Incrementally","MigrateSystemsIncrementally");
+patref("Most Valuable First","MostValuableFirst");
+patref("Move Behavior Close to Data","MoveBehaviorCloseToData");
+patref("Move Method","MoveMethod");
+patref("Null Object","NullObject");
+patref("Present the Right Interface","PresentTheRightInterface");
+patref("Prototype the Target Solution","PrototypeTheTargetSolution");
+patref("Quantity","Quantity");
+patref("Read all the Code in One Hour","ReadAllTheCodeInOneHour");
+patref("Read all the Code in One Hour","ReadAllTheCodeinOneHour");
+patref("Record Business Rules as Tests","RecordBusinessRulesAsTests");
+patref("Refactor to Understand","RefactorToUnderstand");
+patref("Regression Test After Every Change","RegressionTestAfterEveryChange");
+patref("Rename Attribute","RenameAttribute");
+patref("Rename Method","RenameMethod");
+patref("Replace Conditional with Polymorphism","ReplaceConditionalWithPolymorphism");
+patref("Retest Persistent Problems","RetestPersistentProblems");
+patref("Singleton","Singleton");
+patref("Skim the Documentation","SkimTheDocumentation");
+patref("Speak to the Round Table","SpeakToTheRoundTable");
+patref("Speculate about Design","SpeculateAboutDesign");
+patref("Split Up God Class","SplitUpGodClass");
+patref("State","State");
+patref("State Patterns","StatePatterns");
+patref("Step Through the Execution","StepThroughTheExecution");
+patref("Strategy","Strategy");
+patref("Study the Exceptional Entities","StudyTheExceptionalEntities");
+patref("Template Method","TemplateMethod");
+patref("Test Fuzzy Features","TestFuzzyFeatures");
+patref("Test Old Bugs","TestOldBugs");
+patref("Test the Interface, Not the Implementation","TestTheInterfaceNotTheImplementation");
+patref("Tie Code and Questions","TieCodeAndQuestions");
+patref("Transform Client Type Checks","TransformClientTypeChecks");
+patref("Transform Conditionals into Registration","TransformConditionalsIntoRegistration");
+patref("Transform Self Type Checks","TransformSelfTypeChecks");
+patref("Use Profiler Before Optimizing","UseProfilerBeforeOptimizing");
+patref("Use a Testing Framework","UseATestingFramework");
+patref("Visitor","Visitor");
+patref("Visualize Code as Dotplots","VisualizeCodeAsDotplots");
+patref("Write Tests to Enable Evolution","WriteTestsToEnableEvolution");
+patref("Write Tests to Understand","WriteTestsToUnderstand");
+
+__END__
+
+
+
+%=================================================================
+%:PATTERN -- {xxx}
+\pattern{xxx}{xxx}
+
+
+
+\begin{figure}
+\begin{center}
+\includegraphics[width=\textwidth]{xxx}
+\caption{xxx}
+\label{fig:xxx}
+\end{center}
+\end{figure}
+

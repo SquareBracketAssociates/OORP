@@ -1,0 +1,69 @@
+% $Author: oscar $
+% $Date: 2008-03-13 16:18:43 +0100 (Thu, 13 Mar 2008) $
+% $Revision: 17031 $
+%=================================================================
+\ifx\wholebook\relax\else
+% --------------------------------------------
+% Lulu:
+	\documentclass[a4paper,10pt,twoside]{book}
+	\usepackage[
+		papersize={6.13in,9.21in},
+		hmargin={.815in,.815in},
+		vmargin={.98in,.98in},
+		ignoreheadfoot
+	]{geometry}
+	\input{common.tex}
+	\pagestyle{headings}
+	\setboolean{lulu}{true}
+% --------------------------------------------
+% A4:
+%	\documentclass[a4paper,11pt,twoside]{book}
+%	\input{common.tex}
+%	\usepackage{a4wide}
+% --------------------------------------------
+	\begin{document}
+	\frontmatter
+	% \renewcommand{\nnbb}[2]{} % Disable editorial comments
+	\sloppy
+\fi
+%=================================================================
+\chapter{Foreword}
+\chalabel{foreword1}
+
+%=================================================================
+\section*{Foreword by Martin Fowler}
+
+For a long time it's puzzled me that most books on software development processes talk about what to do when you are starting from a blank sheet of editor screen. It's puzzled me because that's not the most common situation that people write code in. Most people have to make changes to an existing code base, even if it's their own. In an ideal world this code base is well designed and well factored, but we all know how often the ideal world appears in our career.
+
+So this book is important because it's written from the perspective of what to do with an imperfect yet valuable code base. I also like the fact that it's based on an effective mix of academic and industrial work. I visited the FAMOOS group in their early days during a chill early winter in Bern. I liked the way that they cycled between the field and the lab, trying out ideas on real projects, coming back to the lab to reflect.
+
+This resulting book speaks with that experience. It gives you the building blocks for a plan to tackle a difficult code base, it gives you context for techniques like refactoring. It is a sad fact that there are too few of these kinds of books out there, when reengineering is still a common event. But I'm at least glad to see that while there aren't many books in this vein, this book is an example of how good they are.
+
+\hfill Martin Fowler, \emph{Thought Works, Inc.}
+
+\newpage
+~
+\vfill
+%=================================================================
+\section*{Foreword by Ralph E. Johnson}
+
+\noindent
+One of the signs of a good pattern is that experts who read it are likely to say ``of course, everybody knows that'' but beginners are likely to say ``interesting, but will it work?''  Patterns should be easy to follow, but the most valuable patterns are those that are not obvious.  Experts have learned from experience that the patterns work, but beginners have to take the patterns on faith until they use them and develop their own experience.
+
+Over the last couple of years, I've had the chance to give the patterns in this book to a wide variety of people and discuss them.  My pattern discussion group has a few members who have decades of consulting experience, and they could quickly regale the group with stories of using these patterns.  The younger members loved the stories as they were convinced of the value of the patterns.
+
+I made students in my software engineering class read some of the patterns as part of a section on reengineering.  The section went well even though none of the students got excited by the patterns.  They didn't have the experience to evaluate them. However, one of the students came back to me after his summer job and said that of everything in the course, the material that was the most useful was the patterns on reverse engineering.  Before that experience, the patterns seemed believable.  Afterwards, they were believed!
+
+If you have a lot of experience with software reengineering then you probably won't learn much from this book.  You should read it anyway, because you'll want to give copies to people you work with, and you will want to use the vocabulary of the book when you talk with them.  If you are new to reengineering, you should read the book, learn the patterns, and try them.  You will learn a lot that will be valuable.  Don't expect to understand the patterns completely before you try them, because patterns are practical, and practical knowledge has to be experienced to be fully understood.  Nevertheless, the book will give you a big advantage.  It is much easier to learn when you have a path to follow, and this book provides a reliable guide.
+
+\hfill Ralph E. Johnson, \emph{University of Illinois at Urbana-Champaign}
+
+\vfill
+
+%=============================================================
+\ifx\wholebook\relax\else
+   \bibliographystyle{alpha}
+   \bibliography{scg}
+   \end{document}
+\fi
+%=============================================================

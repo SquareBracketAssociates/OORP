@@ -1,0 +1,1186 @@
+% $Author: oscar $
+% $Date: 2009-09-15 16:53:48 +0200 (Tue, 15 Sep 2009) $
+% $Revision: 29111 $
+%=================================================================
+\ifx\wholebook\relax\else
+% --------------------------------------------
+% Lulu:
+	\documentclass[a4paper,10pt,twoside]{book}
+	\usepackage[
+		papersize={6.13in,9.21in},
+		hmargin={.815in,.815in},
+		vmargin={.98in,.98in},
+		ignoreheadfoot
+	]{geometry}
+	\input{common.tex}
+	\pagestyle{headings}
+	\setboolean{lulu}{true}
+% --------------------------------------------
+% A4:
+%	\documentclass[a4paper,11pt,twoside]{book}
+%	\input{common.tex}
+%	\usepackage{a4wide}
+% --------------------------------------------
+	\begin{document}
+	\renewcommand{\nnbb}[2]{} % Disable editorial comments
+	\sloppy
+\fi
+%=================================================================
+\chapter{Transform Conditionals to Polymorphism}
+\chalabel{TransformConditionalsToPolymorphism}
+
+After duplicated code, data containers and god classes, one of the most striking signs of misplaced responsibilities in object-oriented software is the occurrence of large methods consisting almost entirely of case statements that test the type of some argument. 
+
+Although case statements are not inherently bad, in object-oriented code they are frequently a sign that the object doing the testing is assuming responsibilities that would better be distributed to the objects being tested. Big conditionals arise naturally over time, just as duplicated code does. As the software is adapted to handle new cases, these cases pop up as conditionals in the code. The problem with these big conditionals is that they can make the code much more fragile in the long term.
+
+\subsection*{Forces}
+
+The following forces are at play:
+
+\begin{bulletlist}
+\item As requirements change over time, classes in a software system will have to be adapted to handle new, special cases.
+
+\item Adding new classes or subclasses to a system clutters the namespace.
+
+\item The quickest way to adapt a working piece of software to handle a new requirement, is often to add a conditional test for the special case at some point in the code.
+
+\item Over time, a simple design tends to get cluttered with many conditional tests for special cases.
+
+\item Case statements group all the variants into a single place instead of spreading the different cases across different classes. However, they lead to design that is less flexible if the case statement appears in more than one place. 
+
+\item In some programming languages, case statements are a more conventional idiom to implement varying behavior than polymorphism.
+\end{bulletlist}
+
+Large conditionals are often a sign that behavior implemented by clients should probably be be shifted to the provider classes. Typically a new method will be introduced to the provider hierarchy, and the individual cases of the conditional statement will each move to one of the provider classes.
+
+Although the symptom is readily recognizable, the technical details and the preferred solution may differ considerably. In particular, when the provider hierarchy already exists, and the conditions explicitly check the class of the provider instance, the refactoring is relatively straightforward. But often the provider hierarchy does not exist, and the conditions test attributes that only implicitly model type information. Furthermore, the conditionals may occur not only in external clients, but even in the provider hierarchy itself. 
+
+\subsection*{Overview}
+
+\charef{Transform Conditionals to Polymorphism}{TransformConditionalsToPolymorphism} is a pattern language that describes how to redistribute responsibilities to eliminate these large conditionals, thereby reducing coupling between classes, and improving flexibility in the face of future changes. 
+
+This pattern language consists of six patterns which address the most common problems that occur when conditionals are used to simulate polymorphism. \patref{Transform Self Type Checks}{TransformSelfTypeChecks} and \patref{Transform Client Type Checks}{TransformClientTypeChecks} address the most typical cases that arise when explicit type checks are performed. \patref{Transform Conditionals into Registration}{TransformConditionalsIntoRegistration} occurs less frequently. We also include \patref{Factor out State}{FactorOutState}, \patref{Factor out Strategy}{FactorOutStrategy} and \patref{Introduce Null Object}{IntroduceNullObject}, not in order to copy three established design patterns (\patpgref{State}{State}, \patpgref{Strategy}{Strategy}and \patpgref{Null Object}{NullObject}) but rather to show how these design patterns may apply in a reengineering context to eliminate type-checking conditionals.
+
+\begin{figure}
+\begin{center}
+\includegraphics[width=\textwidth]{TransformMap}
+\caption{Relationships between the patterns constituting Transform Conditionals to Polymorphism.}
+\figlabel{TransformMap}
+\end{center}
+\end{figure}
+
+\figref{TransformMap} summarizes the relationships and the differences between the patterns.
+
+\begin{bulletlist}
+\item \patref{Transform Self Type Checks}{TransformSelfTypeChecks} eliminates conditionals over type information in a provider class by \emph{introducing subclasses} for each type case. The conditional code is replaced by a single polymorphic method call to an instance of one of the new subclasses.
+
+\item \patref{Transform Client Type Checks}{TransformClientTypeChecks} transforms conditionals over type information in a client class by \emph{introducing a new method} to each of the provider classes. The conditional is replaced by a single polymorphic call to the new method.
+
+\item \patref{Factor out State}{FactorOutState} handles a special case of \patref{Transform Self Type Checks}{TransformSelfTypeChecks} in which the type information that is being tested may change dynamically. \emph{A \patpgref{State}{State} object is introduced} in the provider class to model the changing state, and the conditional is replaced by a call to a method of the new State object.
+
+\item \patref{Factor out Strategy}{FactorOutStrategy} is another special case of \patref{Transform Self Type Checks}{TransformSelfTypeChecks} in which the algorithms to handle the various provider cases is factored out by \emph{introducing a new \patpgref{Strategy}{Strategy} object}. The key difference with \patref{Factor out State}{FactorOutState} is that the algorithm rather than the state may vary dynamically.
+
+\item \patref{Introduce Null Object}{IntroduceNullObject} addresses the special case of \patref{Transform Client Type Checks}{TransformClientTypeChecks} in which the test performed checks whether or not the provider is defined. The conditional is eliminated by \emph{introducing a \patpgref{Null Object}{NullObject}} which implements the appropriate default behavior.
+
+\item \patref{Transform Conditionals into Registration}{TransformConditionalsIntoRegistration} addresses the situation in which the conditional is responsible for starting up an external tool based on some attribute of an object to be handled. The solution is to \emph{introduce a lookup service} where tools are registered as plug-ins. The conditional is then replaced by a simple lookup for the registered plug-in. The solution is then fully dynamic because new plug-ins can be added or removed without any changes to the tool users. 
+\end{bulletlist}
+
+%=================================================================
+%:PATTERN -- {Transform Self Type Checks}
+\pattern{Transform Self Type Checks}{TransformSelfTypeChecks}
+
+
+\intent{Improve the extensibility of a class by replacing a complex conditional statement with a call to a hook method implemented by subclasses.}
+
+\subsection*{Problem}
+
+A class is hard to modify or extend because it bundles multiple possible behaviors in complex conditional statements that test some attribute representing the current ``type'' of the object.
+
+\emph{This problem is difficult because:}
+
+\begin{bulletlist}
+\item Conceptually simple extensions require many changes to the conditional code.
+
+\item Subclassing is next to impossible without duplicating and adapting the methods containing the conditional code.
+
+\item Adding a new behavior always results in changes to the same set of methods and always results in adding a new case to the conditional code.
+\end{bulletlist}
+
+\emph{Yet, solving this problem is feasible because:}
+
+\begin{bulletlist}
+\item Self type checks simulate polymorphism. The conditional code tells you what subclasses you should have instead.
+\end{bulletlist}
+
+\subsection*{Solution}
+
+Identify the methods with complex conditional branches. In each case, replace the conditional code with a call to a new hook method. Identify or introduce subclasses corresponding to the cases of the conditional. In each of these subclasses, implement the hook method with the code corresponding to that case in the original case statement. 
+
+\subsubsection*{Detection}
+
+Most of the time, the type discrimination will jump in your face while you are working on the code, so this means that you will not really need to detect where the checks are made. However, it can be interesting to have simple techniques to quickly assess if unknown parts of a system suffer from similar practices. This can be a valuable source of information to evaluate the state of a system. 
+
+\begin{bulletlist}
+\item Look for long methods with complex decision structures on some immutable attribute of the object that models type information. In particular look for attributes that are set in the constructor and never changed.
+
+\item Attributes that are used to model type information typically take on values from some enumerated type, or from some finite set of constant values. Look for constant definitions whose names represent entities or concepts that one would usually expect to be associated to classes (like \lct{RetiredEmployee} or \lct{PendingOrder}). The conditionals will normally just compare the value of a fixed attribute to one of these constant values.
+
+\item Especially look for classes where \emph{multiple} methods switch on the same attribute. This is another common sign that the attribute is being used to simulate a type.
+
+\item Since methods containing case statements tend to be long, it may help to use a tool that sorts methods by lines of code or visualizes classes and methods according to their size. Alternatively, search for classes or methods with a large number of conditional statements.
+
+\item For languages like \ind{C++} or \ind{Java} where it is common to store the implementation of a class in a separate file, it is straightforward to search for and count the incidence of conditional keywords (\lct{if}, \lct{else}, \lct{case}, \etc). On a \ind{UNIX} system, for example,
+
+\begin{code}
+grep 'switch' `find . -name "*.cxx" -print`
+\end{code}
+
+enumerates all the files in a directory tree with extension \lct{.cxx} that contain a \lct{switch}. Other text processing tools like agrep offer possibilities to pose finer granularity queries. Text processing languages like \ind{Perl} may be better suited for evaluating some kinds of queries, especially those that span multiple lines. 
+
+\item \emph{C/C++:}
+Legacy C code may simulate classes by means of union types. Typically the union type will have one data member that encodes the actual type. Look for conditional statements that switch on such data members to decide which type to cast a union to and which behavior to employ.
+
+In C++ it is fairly common to find classes with data members that are declared as void pointers. Look for conditional statements that cast such pointers to a given type based on the value of some other data member. The type information may be encoded as an enum or (more commonly) as a constant integer value.
+
+\item \emph{\ind{Ada}:}
+Because Ada 83 did not support polymorphism (or subprogram access types), discriminated record types are often used to simulate polymorphism. Typically an enumeration type provides the set of variants and the conversion to polymorphism is straightforward in Ada95.
+
+\item \emph{\ind{Smalltalk}:}
+Smalltalk provides only a few ways to manipulate types. Look for applications of the methods \lct{isMemberOf:} and \lct{isKindOf:}, which signal explicit type-checking. Type checks might also be made with tests like \lct{self class = anotherClass}, or with property tests throughout the hierarchy using methods like \lct{isSymbol}, \lct{isString}, \lct{isSequenceable}, \lct{isInteger}.
+\end{bulletlist}
+
+\subsubsection*{Steps}
+
+\begin{figure}[tb]
+\begin{center}
+\includegraphics[width=\textwidth]{TransformTypeCheck}
+\caption{Transformation of explicit type check into self polymorphic method calls.}
+\figlabel{TransformTypeCheck}
+\end{center}
+\end{figure}
+
+
+\begin{enumerate}
+  \item Identify the class to transform and the different conceptual classes that it implements. An enumeration type or set of constants will probably document this well.
+
+  \item Introduce a new subclass for each behavior that is implemented (see \figref{TransformTypeCheck}). Modify clients to instantiate the new subclasses rather than the original class. Run the tests.
+
+  \item Identify all methods of the original class that implement varying behavior by means of conditional statements. If the conditionals are surrounded by other statements, move them to separate, protected hook methods. When each conditional occupies a method of its own, run the tests.
+
+  \item Iteratively move the cases of the conditionals down to the corresponding subclasses, periodically running the tests.
+
+  \item The methods that contain conditional code should now all be empty. Replace these by abstract methods and run the tests.
+
+  \item Alternatively, if there are suitable default behaviors, implement these at the root of the new hierarchy.
+
+  \item If the logic required to decide which subclass to instantiate is non-trivial, consider encapsulating this logic as a factory method of the new hierarchy root. Update clients to use the new factory method and run the tests.
+\end{enumerate}
+
+\subsection*{Tradeoffs}
+
+\subsubsection*{Pros}
+
+\begin{bulletlist}
+\item New behaviors can now be added in a incremental manner, without having to change a set of methods of a single class containing all the behavior. A specific behavior can now be understood independently from the other variations. 
+
+\item A new behavior represents its data independently from the others, thereby minimizing the possible interference and increasing the understandability of the separated behaviors. 
+
+\item All behaviors now share a common interface, thereby improving their readability.
+\end{bulletlist}
+
+\subsubsection*{Cons}
+
+\begin{bulletlist}
+\item All the behaviors are now dispersed into multiple but related abstractions, so getting an overview of the behavior may be more difficult. However, the concepts are related and share the interface represented by the abstract class reducing then the problem. 
+
+\item The larger number of classes makes the design more complex, and potentially harder to understand. If the original conditional statements are simple, it may not be worthwhile to perform this transformation.
+
+\item Explicit type checks are not always a problem and we can sometimes tolerate them. Creating new classes increases the number of abstractions in the applications and can clutter namespaces. Hence, explicit type checks may be an alternative to the creation of new classes when: 
+	\begin{bulletlist}
+	\item the set over which the method selection is fixed and will not evolve in the future, and 
+	\item the type check is only made in a few places.
+	\end{bulletlist}
+\end{bulletlist}
+
+\subsubsection*{Difficulties}
+
+\begin{figure}[tb]
+\begin{center}
+\includegraphics[width=\textwidth]{TransformDelegation}
+\caption{Combining simple delegation and \patref{Transform Self Type Checks}{TransformSelfTypeChecks} when the class cannot be subclassed.}
+\figlabel{TransformDelegation}
+\end{center}
+\end{figure}
+%:HERE<==
+
+\begin{bulletlist}
+\item Since the requisite subclasses do not yet exist, it can be hard to tell when conditionals are being used to simulate multiple types.
+
+\item Wherever instances of the transformed class were originally created, now instances of different subclasses must be created. If the instantiation occurred in client code, that code must now be adapted to instantiate the right class. Factory objects or methods may be needed to hide this complexity from clients.
+
+\item If you do not have access to the source code of the clients, it may be difficult or impossible to apply this pattern since you will not be able to change the calls to the constructors. 
+
+\item If the case statements test more than one attribute, it may be necessary to support a more complex hierarchy, possibly requiring multiple inheritance. Consider splitting the class into parts, each with its own hierarchy.
+
+\item When the class containing the original conditionals cannot be subclassed, \patref{Transform Self Type Checks}{TransformSelfTypeChecks} can be composed with delegation. The idea is to exploit polymorphism on another hierarchy by moving part of the state and behavior of the original class into a separate class to which the method will delegate, as shown in \figref{TransformDelegation}.
+\end{bulletlist}
+
+\subsubsection*{When the legacy solution is the solution}
+
+There are some situations in which explicit type-checks may nevertheless be the right solution:
+
+\begin{bulletlist}
+\item The conditional code may be generated from a special tool. Lexical analysers and parsers, for example, may be automatically generated to contain the kind of conditional code we are trying to avoid. In these cases, however, the generated classes should never be manually extended, but simply regenerated from the modified specifications.
+\end{bulletlist}
+
+\subsection*{Example}
+
+We worked on a complex system that controls large, physical machines by sending them messages. These messages are represented by the class \lct{Message} and can be of different types.
+
+\begin{figure}[h]
+\begin{center}
+\includegraphics[width=0.9\textwidth]{TransformBefore}
+\caption{Initial design and source code.}
+\figlabel{TransformBefore}
+\end{center}
+\end{figure}
+
+\subsubsection*{Before.}
+
+A message class wraps two different kinds of messages (\lct{TEXT} and \lct{ACTION}) that must be serialized to be sent across a network connection as shown in the code and the figure. We would like to be able to send a new kind of message (say \lct{VOICE}), but this will require changes to several methods of \lct{Message} as shown in \figref{TransformBefore}. 
+
+\begin{figure}[htb]
+\begin{center}
+\includegraphics[width=0.9\textwidth]{TransformAfter}
+\caption{Resulting hierarchy and source code. }
+\figlabel{TransformAfter}
+\end{center}
+\end{figure}
+
+\subsubsection*{After.}
+
+Since \lct{Message} conceptually implements two different classes, \lct{Text\_Message} and \lct{Action\_Message}, we introduce these as subclasses of \lct{Message}, as shown in \figref{TransformAfter}. We introduce constructors for the new classes, we modify the clients to construct instances of \lct{Text\_Message} and \lct{Action\_Message} rather than \lct{Message}, and we remove the \lct{set\_value()} methods. Our regression tests should run at this point.
+
+Now we find methods that switch on the \lct{type} variable. In each case, we move the entire case statement to a separate, protected hook method, unless the switch already occupies the entire method. In the case of \lct{send()}, this is already the case, so we do not have to introduce a hook method. Again, all our tests should still run.
+
+Now we iteratively move cases of the case statements from \lct{Message} to its subclasses. The \lct{TEXT} case of \lct{Message::send()} moves to \lct{Text\_Message}::send() and the \lct{ACTION} case moves to \lct{Action\_Message::send()}. Every time we move such a case, our tests should still run.
+
+Finally, since the original \lct{send()} method is now empty, it can be redeclared to be abstract (\ie \lct{virtual void send(Channel) = 0}). Again, our tests should run. 
+
+\subsection*{Rationale}
+
+Classes that masquerade as multiple data types make a design harder to understand and extend. The use of explicit type checks leads to long methods that mix several different behaviors. Introducing new behavior then requires changes to be made to all such methods instead of simply specifying one new class representing the new behavior.
+
+By transforming such classes to hierarchies that explicitly represent the multiple data types, you improve cohesion by bringing together all the code concerning a single data type, you eliminate a certain amount of duplicated code (\ie the conditional tests), and you make your design more transparent, and consequently easier to maintain.
+
+\subsection*{Related Patterns}
+
+In \patref{Transform Self Type Checks}{TransformSelfTypeChecks} the condition to be transformed tests type information that is represented as an attribute of the class itself.
+
+If the conditional tests \emph{mutable} state of the host object, consider instead applying \patpgref{Factor out State}{FactorOutState}, or possibly \patpgref{Factor out Strategy}{FactorOutStrategy}.
+
+If the conditional occurs in a \emph{client} rather than in the provider class itself, consider applying \patpgref{Transform Client Type Checks}{TransformClientTypeChecks}.
+
+If the conditional code tests some type attribute of a second object in order to \emph{select some third handler object}, consider instead applying \patpgref{Transform Conditionals into Registration}{TransformConditionalsIntoRegistration}. 
+
+%=================================================================
+%:PATTERN -- {Transform Client Type Checks}
+\pattern{Transform Client Type Checks}{TransformClientTypeChecks}
+
+
+\intent{Reduce client/provider coupling by transforming conditional code that tests the type of the provider into a polymorphic call to a new provider method.}
+
+\subsection*{Problem}
+
+How do you reduce the coupling between clients and providers of services, where the clients explicitly check the type of providers and have the responsibility to compose providers code?
+
+\emph{This problem is difficult because:}
+
+\begin{bulletlist}
+\item Adding a new subclass to the provider hierarchy requires making changes to many clients, especially where the tests occur.
+
+\item Clients and providers will tend to be strongly coupled, since clients are performing actions that should be the responsibility of the providers. 
+\end{bulletlist}
+
+\emph{Yet, solving this problem is feasible because:}
+
+\begin{bulletlist}
+\item The conditionals tell you to which classes you should transfer behavior.
+\end{bulletlist}
+
+\subsection*{Solution}
+
+Introduce a new method to the provider hierarchy. Implement the new method in each subclass of the provider hierarchy by moving the corresponding case of the clients conditional to that class. Replace the entire conditional in the client by a simple call to the new method.
+
+\subsubsection*{Detection}
+
+Apply essentially the same techniques described in \patref{Transform Self Type Checks}{TransformSelfTypeChecks} to detect case statements, but look for conditions that test the type of a separate service provider which \emph{already} implements a hierarchy. You should also look for case statements occurring in different clients of the same provider hierarchy.
+
+\begin{bulletlist}
+\item \emph{\ind{C++}:}
+Legacy C++ code is not likely to make use of run-time type information (\ind{RTTI}). Instead, type information will likely be encoded in a data member that takes its value from some enumerated type representing the current class. Look for client code switching on such data members.
+
+\item \emph{\ind{Ada}:}
+Detecting type tests falls into two cases. If the hierarchy is implemented as a single discriminated record then you will find case statements over the discriminant. If the hierarchy is implemented with tagged types then you cannot write a case statement over the types (they are not discrete); instead an if-then-else structure will be used.
+
+\item \emph{\ind{Smalltalk}:}
+As in \patref{Transform Self Type Checks}{TransformSelfTypeChecks}, look for applications of \lct{isMemberOf:} and \lct{isKindOf:}, and tests like \lct{self class = anotherClass}.
+
+\item \emph{\ind{Java}:}
+Look for applications of the operator \lct{instanceof}, which tests membership of an object in a specific, known class. Although classes in Java are not objects as in Smalltalk, each class that is loaded into the virtual machine is represented by a single instance of \lct{java.lang.Class}. It is therefore possible to determine if two objects, \lct{x} and \lct{y} belong to the same class by performing the test:
+\begin{code}
+x.getClass() == y.getClass()
+\end{code}
+Alternatively, class membership may be tested by comparing class names:
+\begin{code}
+x.getClass().getName().equals(y.getClass().getName())
+\end{code}
+
+\end{bulletlist}
+
+\begin{figure}[tb]
+\begin{center}
+\includegraphics[width=\textwidth]{TransformClient}
+\caption{Transformation of explicit type check used to determine which methods of a client should be invoked into polymorphic method calls.}
+\figlabel{TransformClient}
+\end{center}
+\end{figure}
+
+\subsubsection*{Steps}
+
+\begin{enumerate}
+  \item Identify the clients performing explicit type checks.
+
+  \item Add a new, empty method to the root of the provider hierarchy representing the action performed in the conditional code (see \figref{TransformClient}).
+
+  \item Iteratively move a case of the conditional to some provider class, replacing it with a call to that method. After each move, the regression tests should run.
+
+  \item When all methods have been moved, each case of the conditional consists of a call to the new method, so replace the entire conditional by a single call to the new method.
+
+  \item Consider making the method abstract in the provider's root. Alternatively implement suitable default behavior here.
+\end{enumerate}
+
+\subsubsection*{Other Steps to Consider}
+
+\begin{bulletlist}
+\item It may well be that multiple clients are performing exactly the same test and taking the same actions. In this case, the duplicated code can be replaced by a single method call after one of the clients has been transformed. If clients are performing different tests or taking different actions, then the pattern must be applied once for each conditional.
+
+\item If the case statement does not cover all the concrete classes of the provider hierarchy, a new abstract class may need to be introduced as a common superclass of the concerned classes. The new method will then be introduced only for the relevant subtree. Alternatively, if it is not possible to introduce such an abstract class given the existing inheritance hierarchy, consider implementing the method at the root with either an empty default implementation, or one that raises an exception if it is called for an inappropriate class.
+
+\item If the conditionals are nested, the pattern may need to be applied recursively.
+\end{bulletlist}
+
+\subsection*{Tradeoffs}
+
+\subsubsection*{Pros}
+
+\begin{bulletlist}
+\item The provider hierarchy offers a new, polymorphic service available to other clients as well.
+
+\item The code of the clients is now better organized and does not have to deal anymore with concerns that are now under the responsibility of the provider.
+
+\item All the code concerning the behavior of a single provider is now together in a single location.
+
+\item The fact that the provider hierarchy offers a uniform interface allows providers to be modified without impacting clients. 
+\end{bulletlist}
+
+\subsubsection*{Cons}
+
+\begin{bulletlist}
+\item Sometimes it is convenient to see the code handling different cases in a single location. \patref{Transform Client Type Checks}{TransformClientTypeChecks} redistributes the logic to the individual provider classes, with the result that the overview is lost.
+\end{bulletlist}
+
+\subsubsection*{Difficulties}
+
+\begin{bulletlist}
+\item Normally instances of the provider classes should be already have been created so we do not have to look for the creation of the instances, however refactoring the interface will affect all clients of the provider classes and must not be undertaken without considering the full consequences of such an action.
+\end{bulletlist}
+
+\subsubsection*{When the legacy solution is the solution}
+
+Client type checks may nevertheless be the right solution when the provider instance does not yet exist or when its class cannot be extended:
+
+\begin{bulletlist}
+\item An \patpgref{Abstract Factory}{AbstractFactory} object may need to test a type variable in order to know which class to instantiate. For example, a factory may stream objects in from a text file representation, and test some variable that tells it which class the streamed object should belong to.
+
+\item Software that interfaces to a non-object-oriented library, such as a legacy GUI library, may force the developer to simulate the dispatch manually. It is questionable whether, in such cases, it is cost-effective to develop an object-oriented facade to the procedural library.
+
+\item If the provider hierarchy is frozen (\eg because the source code is not available), then it will not be possible to transfer behavior to the provider classes. In this case, wrapper classes may be defined to extend the behavior of the provider classes, but the added complexity of defining the wrappers may overwhelm any benefits.
+\end{bulletlist}
+
+\subsection*{Example}
+
+\subsubsection*{Before}
+
+The following \ind{C++} code illustrates misplaced responsibilities since the client must explicitly type check instances of Telephone to determine what action to perform. The code in bold highlights the difficulties with this approach.
+
+%:>>>HERE<<<
+
+\begin{code}
+class Telephone {
+public:
+	enum PhoneType {
+		POTSPHONE, ISDNPHONE, OPERATORPHONE
+		};
+	Telephone() {}
+	PhoneType phoneType() { return myType; }
+
+private:
+	PhoneType myType;
+protected: 
+	void setPhoneType(PhoneType newType) { myType = newType; }
+};
+
+class POTSPhone : public Telephone {
+
+public: 
+	POTSPhone() { setPhoneType(POTSPHONE); }
+	void tourneManivelle();
+	void call();
+};
+...
+
+class ISDNPhone: public Telephone {
+public:
+	ISDNPhone() { setPhoneType(ISDNPHONE);}
+	void initializeLine();
+	void connect();
+};
+...
+
+class OperatorPhone: public Telephone {
+public: 
+	OperatorPhone() { setPhoneType(OPERATORPHONE); }
+	void operatorMode(bool onOffToggle);
+	void call();
+};
+
+void initiateCalls(Telephone ** phoneArray, int numOfCalls) {
+	for(int i = 0; i<numOfCalls ;i++ ) {
+		Telephone * p = phoneArray[i];
+
+		switch(p->phoneType()) {
+		case Telephone::POTSPHONE: {
+			POTSPhone *potsp = (POTSPhone *) p;
+			potsp->tourneManivelle();
+			potsp->call();
+			break;
+		}
+		case Telephone::ISDNPHONE: {
+			ISDNPhone *isdnp = (ISDNPhone *) p;
+			isdnp->initializeLine();
+			isdnp->connect();
+			break;
+		}
+		case Telephone::OPERATORPHONE: {
+			OperatorPhone *opp = (OperatorPhone *) p;
+			opp->operatorMode(true);
+			opp->call();
+			break;
+		}
+		default:	cerr << "Unrecognized Phonetype" << endl;
+		};
+	}
+}
+\end{code}
+
+\begin{figure}
+\begin{center}
+\includegraphics[width=\textwidth]{TransformPhone}
+\caption{Transforming explicit type checks to polymorphic method invocations.}
+\figlabel{TransformPhone}
+\end{center}
+\end{figure}
+
+\subsubsection*{After}
+
+After applying the pattern the client code will look like the following.
+(See also \figref{TransformPhone}.)
+% In bold we highlight the changes:
+
+\begin{code}
+class Telephone {
+public:
+	Telephone() {}
+	virtual void makeCall() = 0;
+};
+
+Class POTSPhone : public Telephone {
+	void tourneManivelle();
+	void call();
+public: 
+	POTSPhone() {}
+	void makeCall();
+};
+void POTSPhone::makeCall() {
+	this->tourneManivelle();
+	this->call();
+}
+
+class ISDNPhone: public Telephone {
+	void initializeLine();
+	void connect();
+
+public:
+	ISDNPhone() { }
+	void makeCall();
+};
+void ISDNPhone::makeCall() {
+	this->initializeLine();
+	this->connect();
+}
+
+class OperatorPhone: public Telephone {
+	void operatorMode(bool onOffToggle);
+	void call();
+public: 
+	OperatorPhone() { }
+	void makeCall();
+};
+void OperatorPhone::makeCall() {
+	this->operatorMode(true);
+	this->call();
+}
+void initiateCalls(Telephone ** phoneArray, int numOfCalls) {
+	for(int i = 0; i<numOfCalls ;i++ ) {
+		phoneArray[i]->makeCall();
+	}
+}
+\end{code}
+
+\subsection*{Rationale}
+
+Riel states, ``Explicit case analysis on the type of an object is usually an error. The designer should use polymorphism in most of these cases'' \cite{Riel96a}. Indeed, explicit type checks in clients are a sign of misplaced responsibilities since they increase coupling between clients and providers. Shifting these responsibilities to the provider will have the following consequences:
+
+\begin{bulletlist}
+\item The client and the provider will be more weakly coupled since the client will only need to explicitly know the root of the provider hierarchy instead of all of its concrete subclasses.
+
+\item The provider hierarchy may evolve more gracefully, with less chance of breaking client code.
+
+\item The size and complexity of client code is reduced. The collaborations between clients and providers become more abstract.
+
+\item Abstractions implicit in the old design (\ie the actions of the conditional cases) will be made explicit as methods, and will be available to other clients.
+
+\item Code duplication may be reduced (if the same conditionals occur multiply).
+\end{bulletlist}
+
+\subsection*{Related Patterns}
+
+In\patref{Transform Client Type Checks}{TransformClientTypeChecks} the conditional is made on the type information of a provider class. The same situation occurs in \patref{Introduce Null Object}{IntroduceNullObject} where the conditional tests over null value before invoking the methods. From this point of view, \patref{Introduce Null Object}{IntroduceNullObject} is a specialization of \patref{Transform Client Type Checks}{TransformClientTypeChecks}. 
+
+\patref{Transform Conditionals into Registration}{TransformConditionalsIntoRegistration} handles the special case in which the client's conditional is used to select a third object (typically an external application or tool) to handle the argument.
+
+\patpgref{Replace Conditional with Polymorphism}{ReplaceConditionalWithPolymorphism} is the core refactoring of this reengineering pattern, so the reader may refer to the steps described in \cite{Fowl99a}.
+
+%=================================================================
+%:PATTERN -- {Factor out State}
+\pattern{Factor out State}{FactorOutState}
+
+
+\intent{Eliminate complex conditional code over an object's state by applying the \patref{State}{State} design pattern.}
+
+\subsection*{Problem}
+
+How do you make a class whose behavior depends on a complex evaluation of its current state more extensible?
+
+\emph{This problem is difficult because:}
+
+\begin{bulletlist}
+\item There are several complex conditional statements spread out over the methods of the object. Adding new behavior may affect these conditionals in subtle ways.
+
+\item Whenever new possible states are introduced, all the methods that test state have to be modified.
+\end{bulletlist}
+
+\emph{Yet, solving this problem is feasible because:}
+
+\begin{bulletlist}
+\item The object's instance variables are typically used to model different abstract states, each of which has its own behavior. If you can identify these abstract states, you can factor the state and the behavior out into a set of simpler, related classes.
+\end{bulletlist}
+
+\subsection*{Solution}
+
+Apply the \patpgref{State}{State} pattern, \ie encapsulate the state-dependent behavior into separate objects, delegate calls to these objects and keep the state of the object consistent by referring to the right instance of these state objects (see figure 47). 
+
+As in \patref{Transform Self Type Checks}{TransformSelfTypeChecks}, transform complex conditional code that tests over quantified states into delegated calls to state classes. Apply the \patpgref{State}{State} pattern, delegating each conditional case to a separate State object. We invite the reader to read \patref{State}{State} and \patlangpgref{State Patterns}{StatePatterns} for a deep description of the problem and discussion \cite{Gamm95a} \cite{Alpe98a} \cite{Dyso97a}. Here we only focus on the reengineering aspects of the pattern.
+
+\begin{figure}
+\begin{center}
+\includegraphics[width=0.8\textwidth]{TransformState}
+\caption{Transformation to go from a state pattern simulated using explicit state conditional to a situation where the state pattern has been applied.}
+\figlabel{TransformState}
+\end{center}
+\end{figure}
+
+\subsubsection*{Steps}
+
+\begin{enumerate}
+  \item Identify the interface of a state and the number of states.
+
+If you are lucky, each conditional will partition the state space in the same way, and the number of states will equal the number of cases in each conditional. In case the conditionals overlap, a finer partitioning will be required.
+
+The interface of a state depends on how the state information is accessed and updated, and may need to be refined in the subsequent steps.
+
+  \item Create a new abstract class, \lct{State}, representing the interface of the state.
+
+  \item Create a new class subclass of \lct{State} for each state.
+
+  \item Define methods of the interface identified in Step 1 in each of the state classes by copying the corresponding code of the conditional to the new method. Do not forget to change the state of the instance variable in the \lct{Context} to refer to the right instance of \lct{State} class. The \lct{State} methods have the responsibility to change the \lct{Context} so that it always refers to the next state instance. 
+
+  \item Add a new instance variable in the \lct{Context} class.
+
+  \item You may have to have a reference from the \lct{State} to the \lct{Context} class to invoke the state transitions from the \lct{State} classes.
+
+  \item Initialize the newly created instance to refer to a default state class instance.
+
+  \item Change the methods of the \lct{Context} class containing the tests to delegate the call to the instance variable.
+\end{enumerate}
+
+Step 4 can be performed using the \patref{Extract Method}{ExtractMethod} operation of the Refactoring Browser. Note that after each step, the regression tests should still run. The critical step is the last one, in which behavior is delegated to the new state objects.
+
+\subsection*{Tradeoffs}
+
+\subsubsection*{Pros}
+
+\begin{bulletlist}
+\item \emph{Limited Impact.} The public interface of the original class does not have to change. Since the state instances are accessed by delegation from the original object, the clients are unaffected. In the straightforward case the application of this pattern has a limited impact on the clients. 
+\end{bulletlist}
+
+\subsubsection*{Cons}
+
+\begin{bulletlist}
+\item The systematic application of this pattern may lead to an explosion in the number of classes.
+
+\item This pattern should not be applied when:
+
+	\begin{bulletlist}
+	\item there are too many possible states, or the number of states is not fixed
+	\item it is hard to determine from the code how and when state transitions occur.
+	\end{bulletlist}
+\end{bulletlist}
+
+\subsubsection*{When the legacy solution is the solution}
+
+This pattern should not be applied lightly.
+
+\begin{bulletlist}
+\item When the states are clearly identified and it is known that they will not be changed, the legacy solution has the advantage of grouping all the state behavior by functionality instead of spreading it over different subclasses.
+
+\item In certain domains, such as parsers, table-driven behavior, encoded as conditionals over state, are well-understood, and factoring out the state objects may just make the code harder to understand, and hence to maintain.
+\end{bulletlist}
+
+\subsection*{Known Uses}
+
+The \emph{Design Patterns Smalltalk Companion} \cite{Alpe98a} presents a step-by-step code transformation. 
+
+%=================================================================
+%:PATTERN -- {Factor out Strategy}
+\pattern{Factor out Strategy}{FactorOutStrategy}
+
+
+\intent{Eliminate conditional code that selects a suitable algorithm by applying the \patref{Strategy}{Strategy} design pattern.}
+
+\subsection*{Problem}
+
+How do you make a class whose behavior depends on testing the value of some variable more extensible?
+
+\emph{This problem is difficult because:}
+
+\begin{bulletlist}
+\item New functionality cannot be added without modifying all the methods containing the conditional code. 
+
+\item The conditional code may be spread over several classes which make similar decisions about which algorithm to apply.
+\end{bulletlist}
+
+\emph{Yet, solving this problem is feasible because:}
+
+\begin{bulletlist}
+\item The alternative behaviors are essentially interchangeable.
+\end{bulletlist}
+
+\subsection*{Solution}
+
+Apply the \patref{Strategy}{Strategy} pattern, \ie encapsulate the algorithmic dependent behavior into separate objects with polymorphic interfaces and delegate calls to these objects (see \figref{TransformStrategy}). 
+
+\begin{figure}[h]
+\begin{center}
+\includegraphics[width=\textwidth]{TransformStrategy}
+\caption{Transformation to go from a state pattern simulated using explicit state conditional to a situation where the state pattern has been applied. }
+\figlabel{TransformStrategy}
+\end{center}
+\end{figure}
+
+\subsubsection*{Steps}
+\begin{enumerate}
+  \item Identify the interface of the strategy class.
+
+  \item Create a new abstract class, \lct{Strategy}, representing the interface of the strategies.
+
+  \item Create a new class subclass of \lct{Strategy} for each identified algorithms.
+
+  \item Define methods of the interface identified in Step 1 in each of the strategy classes by copying the corresponding code of the test to the method. 
+
+  \item Add a new instance variable in the \lct{Context} class to refer to the current strategy.
+
+  \item You may have to have a reference from the \lct{Strategy} to the \lct{Context} class to provide access to the information maintained by the \lct{Context} (See difficulties).
+
+  \item Initialize the newly created instance to refer to a default strategy instance.
+
+  \item Change the methods of the \lct{Context} class containing the tests by eliminating the tests and delegating the call to the instance variable.
+\end{enumerate}
+
+Step 4 can be performed using the \patref{Extract Method}{ExtractMethod} operation of the Refactoring Browser. Note that after each step, the regression tests should still run. The critical step is the last one, in which behavior is delegated to the new \lct{Strategy} objects.
+
+\subsection*{Tradeoffs}
+
+\subsubsection*{Pros}
+
+\begin{bulletlist}
+\item \emph{Limited Impact.} The public interface of the original class does not have to change. Since the \lct{Strategy} instances are accessed by delegation from the original object, the clients are unaffected. In a straightforward case the application of this pattern has a limited impact on the clients. However, the \lct{Context} interface will be reduced because all the previously implemented algorithms are now moved to \lct{Strategy} classes. So you have to check the invocations of these methods and decide on a per case base. 
+
+\item After applying this pattern, you will be able to plug new strategies without impacting modifying the interface of the \lct{Context}. Adding a new strategy does not require to recompile the \lct{Context} class and its clients. 
+
+\item After applying this pattern, the interface of the \lct{Context} class and the \lct{Strategy} classes will be clearer.
+\end{bulletlist}
+
+\subsubsection*{Cons}
+
+\begin{bulletlist}
+\item The systematic application of this pattern may lead to a class explosion. If you have 20 different algorithms you may not want to have 20 new classes each with only one method. 
+
+\item Object explosion. Strategies increase the number of instances in an application.
+\end{bulletlist}
+
+\subsubsection*{Difficulties}
+
+\begin{bulletlist}
+\item There are several ways to share information between the \lct{Context} and the \lct{Strategy} objects, and the tradeoffs can be subtle. The information can be passed as argument when the \lct{Strategy} method is invoked, the \lct{Context} object itself can be passed as argument, or the \lct{Strategy} objects can hold a reference to their context. If the relationship between the \lct{Context} and the \lct{Strategy} is highly dynamic, then it may be preferable to pass this information as a method argument. More detailed discussions of this issue exist in the literature on the \patpgref{Strategy}{Strategy} pattern \cite{Gamm95a} \cite{Alpe98a}.
+\end{bulletlist}
+
+\subsection*{Example}
+
+The \emph{Design Patterns Smalltalk Companion} \cite{Alpe98a} presents a step-by-step code transformation.
+
+\subsection*{Related Patterns}
+
+The symptoms and structure of \patref{Factor out Strategy}{FactorOutStrategy} bear comparison with \patref{Factor out State}{FactorOutState}. The main difference consists in the fact that the \patref{Factor out State}{FactorOutState} identifies behavior with different possible states of objects whereas \patref{Factor out Strategy}{FactorOutStrategy} is concerned with interchangeable algorithms that are independent of object state. \patref{Factor out Strategy}{FactorOutStrategy} allows one to add new strategies without impacting the existing strategy objects. 
+
+%=================================================================
+%:PATTERN -- {Introduce Null Object}
+\pattern{Introduce Null Object}{IntroduceNullObject}
+
+
+\intent{Eliminate conditional code that tests for null values by applying the \patref{Null Object}{NullObject} design pattern.}
+
+\subsection*{Problem}
+
+How can you ease modification and extension of a class in presence of repeated tests for null values? 
+
+\emph{This problem is difficult because:}
+
+\begin{bulletlist}
+\item Client methods are always testing that certain values are not null before actually invoking their methods.
+
+\item Adding a new subclass to the client hierarchy requires testing null values before invoking some of the provider methods.
+\end{bulletlist}
+
+\emph{Yet, solving this problem is feasible because:}
+
+\begin{bulletlist}
+\item The client does not need to know that the provider represents a null value.
+\end{bulletlist}
+
+\subsection*{Solution}
+
+Apply the \patpgref{Null Object}{NullObject} pattern, \ie encapsulate the null behavior as a separate provider class so that the client class does not have to perform a null test.
+
+\subsubsection*{Detection }
+
+Look for idiomatic null tests. 
+
+Null tests may take different forms, depending on the programming language and the kind of entity being tested. In \ind{Java}, for example, a null object reference has the value \lct{null}, whereas in \ind{C++} a null object pointer has the value 0.
+
+\subsubsection*{Steps}
+
+\index{Fowler, Martin}
+Fowler discusses in detail the necessary refactoring steps \cite{Fowl99a}.
+\begin{enumerate}
+  \item Identify the interface required for the null behavior. (This will normally be identical to that of the non-null object.)
+
+  \item Create a new abstract superclass as a superclass of the \lct{RealObject} class.
+
+  \item Create a new subclass of the abstract superclass with a name starting with \lct{No} or \lct{Null}.
+
+  \item Define default methods into the Null Object class.
+
+  \item Initialize the instance variable or structure that was checked to now hold at least an instance of the Null Object class.
+
+  \item Remove the conditional tests from the client.
+\end{enumerate}
+
+If you still want to be able to test for null values in a clean way, you may introduce a query method called \lct{isNull} in \lct{RealObject} and Null Object classes, as described by Fowler \cite{Fowl99a}. 
+
+\begin{figure}
+\begin{center}
+\includegraphics[width=\textwidth]{TransformNullObject}
+\caption{Transformation from a situation based on explicit test of null value to a situation where a Null Object is introduced.}
+\figlabel{TransformNullObject}
+\end{center}
+\end{figure}
+
+\subsection*{Tradeoffs}
+
+\subsubsection*{Pros}
+
+\begin{bulletlist}
+\item The client code is much simpler after applying the pattern.
+
+\item The pattern is relatively simple to apply since the interface of the provider does not have to be modified.
+\end{bulletlist}
+
+\subsubsection*{Cons}
+
+\begin{bulletlist}
+\item The provider hierarchy becomes more complex.
+\end{bulletlist}
+
+\subsubsection*{Difficulties}
+
+\begin{bulletlist}
+\item Multiple clients may not agree on the reasonable default behavior of the Null Object. In this case, multiple Null Object classes may need to be defined. 
+\end{bulletlist}
+
+\subsubsection*{When the legacy solution is the solution}
+
+\begin{bulletlist}
+\item If clients do not agree on a common interface.
+
+\item When very little code uses the variable directly or when the code that uses the variable is well-encapsulated in a single place.
+\end{bulletlist}
+
+\subsection*{Example}
+
+\index{Woolf, Bobby}
+The following \ind{Smalltalk} code is taken from Woolf \cite{Wool98a}. Initially the code contains explicit null tests::
+
+\begin{code}
+VisualPart>>objectWantedControl
+	...
+	^ctrl isNil 
+		ifFalse:
+			[ctrl isControlWanted
+				ifTrue:[self]
+				ifFalse:[nil]]
+\end{code}
+
+It is then transformed into :
+
+\begin{code}
+VisualPart>>objectWantedControl
+	...
+	^ctrl isControlWanted
+				ifTrue:[self]
+				ifFalse:[nil]
+Controller>>isControlWanted
+	^self viewHasCursor
+NoController>>isControlWanted
+	^false
+\end{code}
+
+
+%=================================================================
+%:PATTERN -- {Transform Conditionals into Registration}
+\pattern{Transform Conditionals into Registration}{TransformConditionalsIntoRegistration}
+
+
+\intent{Improve the modularity of a system by replacing conditionals in clients by a registration mechanism.}
+
+\subsection*{Problem}
+
+How can you reduce the coupling between \emph{tools} providing services and \emph{clients} so that the addition or removal of tools does not lead to changing the code of the clients?
+
+\emph{This problem is difficult because:}
+
+\begin{bulletlist}
+\item Having one single place to look for all the kinds of tools makes it easy to understand the system and easy to add new tools.
+
+\item However, every time you remove a \emph{tool}, you have to remove one case in some conditional statement, else certain parts (\emph{tool clients}) would still reflect the presence of the removed tools, leading to fragile systems. Then every time you add a new tool, you have to add a new conditional in all the tool clients. 
+\end{bulletlist}
+
+\emph{Yet, solving this problem is feasible because:}
+
+\begin{bulletlist}
+\item Long conditionals make it easy to identify the different type of tools used.
+\end{bulletlist}
+
+\subsection*{Solution}
+
+\begin{figure}
+\begin{center}
+\includegraphics[width=0.8\textwidth]{TransformPlugin}
+\caption{Transforming conditionals in tool users by introducing a registration mechanism.}
+\figlabel{TransformPlugin}
+\end{center}
+\end{figure}
+
+Introduce a \emph{registration mechanism} to which each tool is responsible for registering itself, and transform the \emph{tool clients} to query the registration repository instead of performing conditionals. 
+
+\subsubsection*{Steps}
+\begin{enumerate}
+  \item Define a class describing \emph{plug-in objects}, \ie an object encapsulating the information necessary for registering a tool. Although the internal structure of this class depends on the purpose of the registration, a plug-in should provide the necessary information so the tool manager can \emph{identify} it, \emph{create} instance of the represented tool and \emph{invoke} methods. To invoke a tool method, a method or a similar mechanism like a block closure or inner class should be stored in the plug-in object. 
+
+  \item Define a class representing the \emph{plug-in manager}, \ie that manages the plug-in objects and that will be queried by the tool clients to check the presence of the tools. This class will certainly be a singleton since the plug-ins representing the tools available should not be lost if a new instance of the plug-in manager is created.
+
+  \item For each case of the conditional, define a plug-in \emph{object} associated with the given tool. This plug-in object should be created and registered automatically when the tool it represents is loaded, and it should be unregistered if and when the tool becomes unavailable. Sometimes information from the tool client should be passed to the tool. The current tool client can be passed as argument when the tool is invoked. 
+
+  \item Transform the entire conditional expression into a query to the tool manager object. This query should return a tool associated to the query and invoke it to access the wished functionality.
+
+  \item Remove any tool client actions that directly activate tools. This behavior is now the responsibility of the plug-in manager.
+\end{enumerate}
+
+The client or the plug-in object may have the responsibility to invoke a tool. It is better to let the plug-in object having this responsibility because it already holds the responsibility of representing how to represent the tools and let the clients just says that they need a tool action.
+
+\subsection*{Example}
+
+In \ind{Squeak} \cite{Inga97a}, the \lct{FileList} is a tool that allows the loading of different kinds of files, such as Smalltalk code, JPEG images, MIDI files, HTML, and so on. Depending on the suffix of the selected file, the \lct{FileList} proposes different actions to the user. We show in the example the loading of the different file depending on their format. 
+
+\subsubsection*{Before}
+
+The \lct{FileList} implementation creates different menu items representing the different possible actions depending on the suffix of the files. The dynamic part of the menu is defined in the method \lct{menusForFileEnding:} which takes a file suffix as its argument and returns a menu item containing the label of the menu item and the name of the corresponding method that should be invoked on the \lct{FileList} object.
+
+\begin{code}
+FileList>>menusForFileEnding: suffix
+
+	(suffix = 'jpg') ifTrue:
+		[^MenuItem label:'open image in a window'.
+			selector: #openImageInWindow].
+	(suffix = 'morph') ifTrue:
+		[^MenuItem label: 'load as morph'.
+			selector: #openMorphFromFile].
+	(suffix = 'mid') ifTrue:
+		[^MenuItem label: 'play midi file'.
+			selector: #playMidiFile].
+	(suffix = 'st') ifTrue:
+		[^MenuItem label: 'fileIn'.
+			selector: #fileInSelection].
+	(suffix = 'swf') ifTrue:
+		[^MenuItem label: 'open as Flash'.
+			selector: #openAsFlash].
+	(suffix = '3ds') ifTrue:
+		[^MenuItem label: 'Open 3DS file'.
+			selector: #open3DSFile].
+	(suffix = 'wrl') ifTrue:
+		[^MenuItem label: 'open in Wonderland'.
+			selector: #openVRMLFile].
+	(suffix = 'html') ifTrue:
+		[^MenuItem label: 'open in html browser'.
+			selector: #openInBrowser].
+	(suffix = '*') ifTrue:
+		[^MenuItem label: 'generate HTML'.
+			selector:#renderFile].
+\end{code}
+
+The methods whose selectors are associated in the menu are implemented in the \lct{FileList} class. We give two examples here. First the method checks if the tool it needs is available, if not it generates a beep, otherwise the corresponding tool is created and then used to handle the selected file.
+
+\begin{code}
+FileList>>openInBrowser
+	Smalltalk at: #Scamper ifAbsent: [^ self beep].
+	Scamper openOnUrl: (directory url , fileName encodeForHTTP)
+
+FileList>>openVRMLFile
+	| scene |
+	Smalltalk at: #Wonderland ifAbsent: [^ self beep].
+	scene := Wonderland new.
+	scene makeActorFromVRML: self fullName.
+\end{code}
+
+\subsubsection*{After}
+
+The solution is to give each tool the responsibility to register itself and let the \lct{FileList} query the registry of available tools to find which tool can be invoked.
+
+\noindent
+\emph{Step1.}
+The solution is to first create the class \lct{ToolPlugin} representing the registration of a given tool. Here we store the suffix files, the menu label and the action to be performed when the tools will be invoked. 
+
+\begin{code}
+Object subclass: #ToolPlugin
+	instanceVariableNames: 'fileSuffix menuLabelName blockToOpen '
+\end{code}
+
+\noindent
+\emph{Step 2.}
+Then the class \lct{PluginManager} is defined. It defines a structure to hold the registered tools and defines behavior to add, remove and find registered tool.
+
+\begin{code}
+Object subclass: #PluginManager
+	instanceVariableNames: 'plugins '
+
+PluginManager>>initialize
+	plugins := OrderedCollection new.
+
+PluginManager>>addPlugin : aPlugin
+	plugins add: aRegistree
+
+PluginManager>>removePlugin: aBlock
+
+	(plugins select: aBlock) copy 
+		do: [:each| plugins remove: each]
+
+PluginManager>>findToolFor: aSuffix
+	"return a registree of a tool being able to treat file of format 
+	aSuffix"
+
+	^ plugins 
+			detect: [:each| each suffix = aSuffix]
+			ifNone: [nil]
+\end{code}
+
+Note that the \lct{findToolFor:} method could take a block to select which of the plug-in objects satisfying it and that it could return a list of plug-in representing all the tools currently able to treat a given file format. 
+
+\noindent
+\emph{Step 3.}
+Then the tools should register themselves when they are loaded in memory. Here we present two registrations, showing that a plug-in object is created for each tool. As the tools need some information from the \lct{FileList} object such as the filename or the directory, the action that has to be performed takes as a parameter the instance of the \lct{FileList} object that invokes it (\lct{[:fileList |...]} in the code below).
+
+In \ind{Squeak}, when a class specifies a class (static) \lct{initialize} method, this method is invoked once the class is loaded in memory. We then specialize the class methods \lct{initialize} of the classes \lct{Scamper} and \lct{Wonderland} to invoke their class methods \lct{toolRegistration} defined below:
+
+\begin{code}
+Scamper class>>toolRegistration
+
+	PluginManager uniqueInstance 
+		addPlugin: 
+		(ToolPlugin 
+				forFileSuffix: 'html' 
+				openingBlock: 
+					[:fileList |
+					self openOnUrl: 
+						(fileList directory url , 
+							fileList fileName encodeForHTTP)]
+				menuLabelName: 'open in html browser')	
+
+Wonderland class>>toolRegistration
+
+	PluginManager uniqueInstance 
+		addPlugin: 
+		(ToolPlugin 
+				forFileSuffix: 'wrl' 
+				openingBlock: 
+					[:fileList | 
+					| scene |
+					scene := self new.
+					scene makeActorFromVRML: fileList fullName]
+				menuLabelName: 'open in Wonderland')
+\end{code}
+
+In Squeak, when a class is removed from the system, it receives the message \lct{removeFromSystem}. Here we then specialize this method for every tool so that it can unregister itself.
+
+\begin{code}
+Scamper class>>removeFromSystem
+	
+	super removeFromSystem.
+	PluginManager uniqueInstance 
+		removePlugin: [:plugin| plugin forFileSuffix = 'html']
+
+Wonderland class>>removeFromSystem
+	
+	super removeFromSystem.
+	PluginManager uniqueInstance 
+		removePlugin: [:plugin| plugin forFileSuffix = 'wrl']
+\end{code}
+
+\noindent
+\emph{Step 4.}
+The \lct{FileList} object now has to use the \lct{ToolsManager} to identify the right plug-in object depending on the suffix of the selected file. Then if a tool is available for the given suffix, it creates a menu item specifying that the \lct{FileList} has to be passed as argument of the action block associated with the tool. In the case where there is no tool a special menu is created whose action is to do nothing. 
+
+\begin{code}
+FileList>>itemsForFileEnding: suffix
+	
+	| plugin |
+	plugin := PluginManager uniqueInstance
+							findToolFor: suffix ifAbsent: [nil].
+	^ plugins isNil 
+			ifFalse: [Menu label: (plugin menuLabelName)
+									actionBlock: (plugin openingBlock)
+									withParameter: self]
+			ifTrue: [ErrorMenu new 
+								label: 'no tool available for the suffix ', suffix]	
+\end{code}
+
+\subsection*{Tradeoffs}
+
+\subsubsection*{Pros}
+
+\begin{bulletlist}
+\item By applying   \patref{Transform Conditionals into Registration}{TransformConditionalsIntoRegistration} you obtain a system which is both dynamic and flexible. New tools can be added without impacting tool clients.
+
+\item Tool clients no longer have to check whether a given tool is available. The registration mechanism ensures you that the action can be performed.
+
+\item The interaction protocol between tools and tool clients is now normalized.
+\end{bulletlist}
+
+\subsubsection*{Cons}
+
+\begin{bulletlist}
+\item You have to define two new classes, one for the object representing tool representation (plugin) and one for the object managing the registered tools (plugin manager). 
+\end{bulletlist}
+
+\subsubsection*{Difficulties}
+
+\begin{bulletlist}
+\item While transforming a branch of the conditional into a plug-in object, you will have to define an action associated with the tools via the plug-in object. To ensure a clear separation and full dynamic registration, this action should be defined on the tool and not anymore on the tool client. However, as the tool may need some information from the tool client, the tool client should be passed to the tool as a parameter when the action is invoked. This changes the protocol between the tool and the tool client from a single invocation on the tool client to a method invocation to the tool with an extra parameter. This also implies that in some cases the tool client class have to define new public or friend methods to allow the tools to access the tool client right information. 
+
+\item If each single conditional branch is associated only with a single tool, only one plug-in object is needed. However, if the same tool can be called in different ways we will have to create multiple plug-in objects.
+\end{bulletlist}
+
+\subsubsection*{When the legacy solution is the solution}
+
+\begin{bulletlist}
+\item If there is only a single tool client class, if all the tools are always available, and if you will never add or remove a tool at run-time, a conditional is simpler.
+\end{bulletlist}
+
+\subsection*{Related Patterns}
+
+Both \patref{Transform Conditionals into Registration}{TransformConditionalsIntoRegistration} and \patref{Transform Client Type Checks}{TransformClientTypeChecks} eliminate conditional expressions that decide which method should be invoked on which object. The key difference between the two patterns is that \patref{Transform Client Type Checks}{TransformClientTypeChecks} moves behavior from the client to the service provider, whereas \patref{Transform Conditionals into Registration}{TransformConditionalsIntoRegistration} deals with behavior that cannot be moved because it is implemented by an external tool.
+
+\subsection*{Script: Identifying simulated switches in C++}
+
+This \ind{Perl} script searches the methods in \ind{C++} files and lists the occurrences of statements used to simulate case statement with if then else \ie matching the following expression: elseXif where X can be replaced by {, //... or some white space including carriage return.
+
+\begin{code}
+#!/opt/local/bin/perl
+$/ = '::'; 
+# new record delim., 
+$elseIfPattern = 'else[\s\n]*{?[\s\n]*if';
+$linecount = 1;
+while (<>) {
+	s/(//.*)//g; # remove C++ style comments
+	$lc = (split /\n/) - 1; # count lines 
+ 
+	if(/$elseIfPattern/) {
+	# count # of lines until first
+	# occurrence of "else if"
+	$temp = join("",$`,$&);
+	$l = $linecount + split(/\n/,$temp) - 1;
+	# count the occurrences of else-if pairs,
+	# flag the positions for an eventual printout
+	$swc = s/(else)([\s\n]*{?[\s\n]*if)
+											/$1\n		* HERE *$2/g;
+	printf "\n%s: Statement with 
+					%2d else-if's, first at: %d", 
+					$ARGV, $swc, $l; 
+ }
+ $linecount += $lc;
+ if(eof) {
+	close ARGV;
+	$linecount = 0; 
+	print "\n"; 
+ }
+}
+\end{code}
+
+%=============================================================
+\ifx\wholebook\relax\else
+   \bibliographystyle{alpha}
+   \bibliography{scg}
+   \end{document}
+\fi
+%=============================================================
+

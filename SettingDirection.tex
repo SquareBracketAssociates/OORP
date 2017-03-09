@@ -1,0 +1,271 @@
+% $Author: oscar $
+% $Date: 2009-09-15 16:53:48 +0200 (Tue, 15 Sep 2009) $
+% $Revision: 29111 $
+%=================================================================
+\ifx\wholebook\relax\else
+% --------------------------------------------
+% Lulu:
+	\documentclass[a4paper,10pt,twoside]{book}
+	\usepackage[
+		papersize={6.13in,9.21in},
+		hmargin={.815in,.815in},
+		vmargin={.98in,.98in},
+		ignoreheadfoot
+	]{geometry}
+	\input{common.tex}
+	\pagestyle{headings}
+	\setboolean{lulu}{true}
+% --------------------------------------------
+% A4:
+%	\documentclass[a4paper,11pt,twoside]{book}
+%	\input{common.tex}
+%	\usepackage{a4wide}
+% --------------------------------------------
+	\begin{document}
+	\renewcommand{\nnbb}[2]{} % Disable editorial comments
+	\sloppy
+\fi
+%=================================================================
+\chapter{Setting Direction}
+\chalabel{SettingDirection}
+
+When you start a reengineering project, you will be pulled in many different directions, by management, by the users, by your own team. It is easy to be tempted to focus on the parts that are technically the most interesting, or the parts that seem like they will be easiest to fix. But what is the best strategy? How do you set the direction of the reengineering effort, and how do you maintain direction once you have started?
+
+%-----------------------------------------------------------------
+\subsection*{Forces}
+\begin{bulletlist}
+  \item A typical reengineering project will be burdened with a lot of interests that pull in different directions. Technical, ergonomic, economic and political considerations will make it difficult for you and your team to establish and maintain focus. 
+
+  \item Communication in a reengineering project can be complicated by either the presence or absence of the original development team.
+
+  \item The legacy system will pull you towards a certain \ind{architecture} that may not be the best for the future of the system.
+
+  \item You will detect many problems with the legacy software, and it will be hard to set priorities.
+
+  \item It is easy to get seduced by focussing on the technical problems that interest you the most, rather than what is best for the project.
+
+  \item It can be difficult to decide whether to wrap, refactor or rewrite a problematic component of a legacy system. Each of these options will address different risks, and will have different consequences for the effort required, the speed with which results can be evaluated, and the kinds of changes that can be accommodated in the future.
+
+  \item When you are reengineering the system, you may be tempted to over-engineer the new solution to deal with every possible eventuality.
+\end{bulletlist}
+
+\begin{figure}
+\begin{center}
+\includegraphics[width=\textwidth]{SettingDirectionMap}
+\caption{Principles and guidelines to set and maintain direction in reengineering project.}
+\figlabel{SettingDirectionMap}
+\end{center}
+\end{figure}
+
+%-----------------------------------------------------------------
+\subsection*{Overview}
+
+\charef{Setting Direction}{SettingDirection} is a cluster of patterns that can apply to any development project, but also have special relevance to a reengineering effort. As such, we have chosen a \emph{streamlined pattern format} to describe them (Problem, Solution and Discussion).
+
+You should \patref{Agree on Maxims}{AgreeOnMaxims} in order to establish a common understanding within the reengineering team of what is at stake and how to achieve it. You should \patref{Appoint a Navigator}{AppointANavigator} to maintain the architectural vision. Everyone should \patref{Speak to the Round Table}{SpeakToTheRoundTable} to maintain team awareness of the state of the project.
+
+To help you focus on the right problems and the critical decisions, it is wise to tackle the \patref{Most Valuable First}{MostValuableFirst}. Note that this will help you to \patpgref{Involve the Users}{InvolveTheUsers} and \patpgref{Build Confidence}{BuildConfidence}. In order to decide whether to wrap, refactor or rewrite, you should \patref{Fix Problems, Not Symptoms}{FixProblemsNotSymptoms}. Change for change's sake is not productive, so \patref{If It Ain't Broke, Don't Fix It}{IfItAintBrokeDontFixIt}. Although you may be tempted to make the new system very flexible and generic, it is almost always better to \patref{Keep It Simple}{KeepItSimple}.
+
+%=================================================================
+%:PATTERN -- Agree on Maxims
+\pattern{Agree on Maxims}{AgreeOnMaxims}
+
+\problem{How do you establish a common sense of purpose in a team?}
+
+\solution{Establish the key priorities for the project and identify guiding principles that will help the team to stay on track.}
+
+\discussion
+Any reengineering project must cope with a large number of conflicting interests. Management wants to protect its legacy by improving competitiveness of its product and reducing \ind{maintenance costs}. Users want improved functionality without disrupting their established work patterns. Developers and maintainers would like their jobs to become simpler without being made obsolete. Your team members may each have their own ideas about what a new system should look like.
+
+\index{Goldberg, Adele}
+\index{Rubin, Kenny}
+Unless there is a clear understand about certain fundamental questions, such as \emph{What is our \ind{business model}?} or \emph{Who is responsible for what?} you risk that the team will be pulled apart by conflicting interests, and you will not achieve your goal. Maxims are rules of conduct that can help steer a project that is pulled in many directions. Goldberg and Rubin \cite{Gold95a} give numerous examples of \ind{maxims}, such as \emph{``Everyone is responsible for testing and debugging''} and \emph{``You cannot do it right the first time.''}
+
+All of the patterns in this chapter can be read as maxims (rather than as patterns), since they are intended to guide a team and keep it on track. A maxim like \patref{Most Valuable First}{MostValuableFirst}, for example, is intended to prevent a team from squandering reengineering effort on technically interesting, but marginal aspects that neither protect nor add value to the legacy system. \patref{Agree on Maxims}{AgreeOnMaxims} is itself a maxim, that can help a team detect when it is rudderless.
+
+A key point to remember is that any maxim may only have a limited lifetime. It is important to periodically reevaluate the validity of any maxims that have been adopted. A project can get completely off track if you agree on the wrong maxims, or the right ones but at the wrong time.
+
+%=================================================================
+%:PATTERN -- Appoint a Navigator
+\pattern{Appoint a Navigator}{AppointANavigator}
+
+\problem{How do you maintain architectural vision during the course of complex project?}
+
+\solution{Appoint a specific person whose responsibility in role of navigator is to ensure that the architectural vision is maintained.}
+
+\discussion
+The \ind{architecture} of any system tends to degrade with time as it becomes less relevant to new, emerging requirements. The challenge of a reengineering project is to develop a new architectural vision that will allow the legacy system to continue to live and evolve for several more years. Without a \ind{navigator}, the design and architecture of the old system will tend to creep into and take over the new one.
+
+You should tackle the \patref{Most Valuable First}{MostValuableFirst} so you can determine what are the most critical issues that the new architecture should address, and test those aspects early in the reengineering project.
+
+A sound architecture will help you to \patref{Fix Problems, Not Symptoms}{FixProblemsNotSymptoms}.
+
+Alan O'Callaghan also refers to the navigator as the ``Keeper of the Flame'' \cite{Ocal99a}.
+
+%=================================================================
+%:PATTERN -- Speak to the Round Table
+\pattern{Speak to the Round Table}{SpeakToTheRoundTable}
+
+\problem{How do you keep your team synchronized?}
+
+\solution{Hold brief, regular round table meetings.}
+
+\discussion
+Knowledge and understanding of a legacy system is always distributed and usually hidden. A reengineering team is also performing archeology. The information that is extracted from a legacy system is a valuable asset that must be shared for it to be exploited.
+
+Nobody has time for \ind{meetings}, but without meetings, communication is ad hoc and random. Regular, focussed, round table meetings can achieve the goal of keeping team members synchronized with the current state of affairs. Round table meetings should be brief, but everyone must be required to contribute. A simple approach is to have everyone say \emph{what they have done} since the last meeting, \emph{what they have learned} or perhaps \emph{what problems they have encountered}, and \emph{what they plan to do} until the next meeting.
+
+Round table meetings should be held at least once a week, but perhaps as often as daily.
+
+Minutes of a meeting are important to maintain a log of progress, but keeping minutes can be an unpleasant task. To keep it simple, record only \emph{decisions} taken and \emph{actions} to be performed by a certain deadline.
+
+\index{Beck, Kent}
+\index{Fowler, Martin}
+Beck and Fowler recommend ``Stand Up Meetings'' (meetings without chairs) as a way to keep round table meetings short \cite{Beck01a}.
+
+%=================================================================
+%:PATTERN -- Most Valuable First
+\pattern{Most Valuable First}{MostValuableFirst}
+
+\problem{Which problems should you focus on first?}
+
+\solution{Start working on the aspects which are most valuable to your customer.}
+
+\discussion
+A legacy system may suffer from a great number of problems, some of which are important, and others which may not be at all critical for the customer's business. By focussing on the most valuable parts first, you increase the chance that you will identify the right issues at stake, and that you will be able to test early in the project the most important decisions, such as which \ind{architecture} to migrate to, or what kind of flexibility to build into the new system.
+
+By concentrating first on a part of the system that is valuable to the client, you also maximize the commitment that you, your team members and your customers will have in the project. You furthermore increase your chances of having early positive results that demonstrate that the reengineering effort is worthwhile and necessary.
+
+Nevertheless there are a number of difficulties in applying this pattern:
+
+\emph{Who is your customer?}
+
+\index{stakeholder}
+\begin{bulletlist}
+  \item There are many stakeholders in any legacy system, but only one of these is your customer. You can only set priorities if you have a clear understanding who should be calling the shots.
+\end{bulletlist}
+
+\emph{How do you tell what is valuable?}
+
+\begin{bulletlist}
+  \item It can be difficult to assess exactly what is the most valuable aspect for a customer. Once a company asked us to assess if a system could be modularized because they wanted to switch their architecture. After long discussions with them, however, it turned out that in fact they really wanted to have a system where business rules could be more explicit, a system that new programmers could understand more easily to reduce the risk that only one programmer understands it.
+
+  \item Try to understand the customer's business model. This will tell you how to assess the value of the various aspects of the system. Everything that does not relate directly to the business model is likely to be a purely technical side-issue. 
+
+  \item Try to determine what \emph{measurable goal} the customer wants to obtain. This must be an external manifestation of some aspect of the system or its evolution, for example, better response time, faster time to market of new features, easier tailoring to individual clients needs.
+
+  \item Try to understand whether the primary goal is mainly to \emph{protect an existing asset}, or rather to \emph{add value} in terms of new features or capabilities.
+
+  \item Examine the change logs and determine where the most activity has historically been in the system. The most valuable artifact is often the one which receives the most change requests (see \patpgref{Learn from the Past}{LearnFromThePast}). 
+
+  \item If the customer is unwilling or unable to set priorities, then play the \emphind{Planning Game} \cite{Beck01a}: collect requirements from all the stakeholders, and make a ballpark estimate of the effort required for each identifiable task. Given an initial budget of effort for an early first milestone, ask the customer to select tasks that will fit in the budget. Repeat this exercise at each iteration.
+
+  \item Beware of \emph{changing perceptions}. Initially the customer may draw your attention to certain symptoms of problems with the legacy system, rather than the problems themselves (see \patpgref{Fix Problems, Not Symptoms}{FixProblemsNotSymptoms}). 
+
+\end{bulletlist}
+
+\emph{Isn't there a risk of raising expectations too high?}
+
+\begin{bulletlist}
+  \item If you fail to deliver good initial results, you will learn a lot, but you risk losing credibility. It is therefore critical to choose carefully initial tasks which not only demonstrate value for the customer, but also have a high chance of success. Therefore, take great care in estimating the effort of the initial tasks.
+
+  \item The key to success is to plan for small, frequent iterations. If the initial task identified by the customer is too large to demonstrate initial results in a short time frame (such as two weeks), then insist on breaking it down into smaller subtasks that can be tackled in shorter iterations. If you are successful in your first steps, you will certainly raise expectations, but this is not bad if the steps stay small.
+
+\end{bulletlist}
+
+\emph{What if the most valuable part is a rat's nest?}
+
+\begin{bulletlist}
+  \item Unfortunately, reengineering a legacy system is often an act of desperation, rather than a normal, periodic process of renovation. It may well be that the most valuable part of the system is also the part that is the most complex, impenetrable and difficult to modify and debug. 
+
+  \item High changes rates may also be a sign of large numbers of software defects. 80\% of software defects typically occur in 5\% of the code, thus the strategy to ``Renovate the Worst First'' \cite{Davi95a} can pay off big by eliminating the most serious source of problems in the system. There are nevertheless considerable risks:
+
+	\begin{bulletlist}
+	  \item 	it may be hard to demonstrate early, positive results,
+
+	  \item 	you are tackling the most complicated part of the system with little information,
+
+	  \item 	the chances are higher that you will fall flat on your face.
+
+	\end{bulletlist}
+
+  \item Determine whether to wrap, refactor or rewrite the problematic component by making sure you \patref{Fix Problems, Not Symptoms}{FixProblemsNotSymptoms}.
+
+\end{bulletlist}
+
+Once you have decided what is the most valuable part of the system to work on, you should \patpgref{Involve the Users}{InvolveTheUsers} in the reengineering effort so you can \patpgref{Build Confidence}{BuildConfidence}. If you \patpgref{Migrate Systems Incrementally}{MigrateSystemsIncrementally}, the users will be able to use the system as it is reengineered and provide continuous feedback.
+
+%=================================================================
+%:PATTERN -- Fix Problems, Not Symptoms
+\pattern{Fix Problems, Not Symptoms}{FixProblemsNotSymptoms}
+
+\problem{How can you possibly tackle all the reported problems?}
+
+\solution{Address the source of a problem, rather than particular requests of your stakeholders.}
+
+\discussion
+Although this is a very general principle, it has a particular relevance for reengineering. Each \ind{stakeholder} has a different viewpoint of the system, and may only see part of it. The problems they want you to fix may just be manifestations of deeper problems in the system. For example, the fact that you do not get immediate feedback for certain user actions may be a consequence of a dataflow architecture. Implementing a workaround may just aggravate the problem and lead to more workarounds. If this is a real problem, you should migrate to a proper architecture.
+
+A common difficulty during a reengineering effort is to decide whether to wrap, refactor or rewrite a legacy component. \patref{Most Valuable First}{MostValuableFirst} will help you determine what priority to give to problems in the system, and will tell you which problems are on your critical path. \patref{Fix Problems, Not Symptoms}{FixProblemsNotSymptoms} tells you to focus on the source of a problem, and not its manifestation. For example:
+
+\begin{bulletlist}
+  \item If the code of a legacy component is basically stable, and problems mainly occur with changes to clients, then the problem is likely to be with the interface to the legacy component, rather than its implementation, no matter how nasty the code is. In such a case, you should consider applying \patpgref{Present the Right Interface}{PresentTheRightInterface} to just fix the interface.
+
+  \item If the legacy component is largely defect-free, but is a major bottleneck for changes to the system, then it should probably be refactored to limit the effect of future changes. You might consider applying \patpgref {Split Up God Class}{SplitUpGodClass} to migrate towards a cleaner design.
+
+  \item If the legacy component suffers from large numbers of defects, consider applying \patpgref{Make a Bridge to the New Town}{MakeABridgeToTheNewTown} as a strategy for migrating legacy data to the new implementation.
+
+\end{bulletlist}
+
+This pattern may seem to conflict with \patref{If It Ain't Broke, Don't Fix It}{IfItAintBrokeDontFixIt}, but it doesn't really. Something that is not really ``broken'' cannot really be the source of a problem. Wrapping, for example, may seem to be a workaround, but it may be the right solution if the real problem is just with the interface to a legacy component.
+
+%=================================================================
+%:PATTERN -- If It Ain't Broke, Don't Fix It
+\pattern{If It Ain't Broke, Don't Fix It}{IfItAintBrokeDontFixIt}
+
+\problem{Which parts of a legacy system should you reengineer and which should you leave as they are?}
+
+\solution{Only fix the parts that are ``broken'' --- those that can no longer be adapted to planned changes.}
+
+\discussion
+Change for change's sake is not necessarily a good thing. There may well be parts of the legacy system that may be ugly, but work well and do not pose any significant maintenance effort. If these components can be isolated and wrapped, it may never be necessary to replace them.
+
+Anytime you ``fix'' something, you also risk breaking something else in the system. You also risk wasting precious time and effort on marginal issues.
+
+In a reengineering project, the parts that are ``broken'' are the ones that are putting the legacy at risk:
+\begin{bulletlist}
+  \item components that need to be frequently adapted to meet new requirements, but are difficult to modify due to high complexity and design drift,
+
+  \item components that are valuable, but traditionally contain a large number of defects.
+
+\end{bulletlist}
+
+Software artifacts that are stable and do not threaten the future of the legacy system are not ``broken'' and do not need to be reengineered, no matter what state the code is in.
+
+%=================================================================
+%:PATTERN -- Keep It Simple
+\pattern{Keep It Simple}{KeepItSimple}
+
+\problem{How much flexibility should you try to build into the new system?}
+
+\solution{Prefer an adequate, but simple solution to a potentially more general, but complex solution.}
+
+\discussion
+This is another general principle with special significance for reengineering. We are bad at guessing how much generality and flexibility we really need. Many software systems become bloated as every conceivable feature is added to them.
+
+Flexibility is a double-edged sword. An important reengineering goal is to accommodate future change. But too much flexibility will make the new system so complex that you may actually impede future change.
+
+Some people argue that it is necessary to ``plan for reuse'', hence to make an extra effort to make sure that every software entity that might conceivably by useful to somebody else is programmed in the most general way possible, with as many knobs and buttons as possible. This rarely works, since it is pretty well impossible to anticipate who will want to use something for what purpose. The same holds for end-user software.
+
+\seeindex{XP}{Extreme Programming}
+``\ind{Do the simplest thing that will work}'' is a maxim of \ind{Extreme Programming} \cite{Beck00a} that applies to any reengineering effort. This strategy reinforces \patpgref{Involve the Users}{InvolveTheUsers} and \patpgref{Build Confidence}{BuildConfidence} since it encourages you to quickly introduce simple changes that users can evaluate and respond to.
+
+When you do the complex thing, you will probably guess wrong (in terms of what you really need) and it will be harder to fix. If you keep things simple, you will be done faster, get feedback faster, and recover from errors more easily. Then you can make the next step.
+
+%=============================================================
+\ifx\wholebook\relax\else
+   \bibliographystyle{alpha}
+   \bibliography{scg}
+   \end{document}
+\fi
+%=============================================================

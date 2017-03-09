@@ -1,0 +1,1 @@
+# TO DO- adapt code example macros for different languages (comments in italics for Java, C, C++, Perl)- Use typewriter font instead?- missing bold highlighting in code transformations (differences)---# FAQ: How to extract figures?- Print the page with the figure to PDF- Crop with Preview- Copy to OmniGraffle and export as PDF---

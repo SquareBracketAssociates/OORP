@@ -1,0 +1,161 @@
+% $Author: oscar $
+% $Date: 2009-09-28 15:56:39 +0200 (Mon, 28 Sep 2009) $
+% $Revision: 29310 $
+%=================================================================
+% This is the main file for the OORP book.
+% The individual chapters can also be latexed by themselves.
+%=================================================================
+\documentclass[a4paper,10pt,twoside]{book}
+\usepackage[
+	papersize={6.13in,9.21in},
+	hmargin={.815in,.815in},
+	vmargin={.98in,.98in},
+	ignoreheadfoot
+]{geometry}
+\input{common.tex}
+\setboolean{lulu}{true}
+%=================================================================
+% A4
+%\documentclass[a4paper,11pt,twoside]{book}
+%\input{common.tex}
+%\usepackage{a4wide}
+%=================================================================
+\let\wholebook=\relax
+\makeindex
+\makeglossary
+%=================================================================
+\renewcommand{\nnbb}[2]{} % Disable editorial comments
+%=================================================================
+\begin{document}
+\frontmatter
+%=================================================================
+\setcounter{page}{1}
+\pagestyle{headings}
+%=================================================================
+%:Inside cover
+\author{
+	Serge Demeyer\\[1ex]
+	St\'ephane Ducasse\\[1ex]
+	Oscar Nierstrasz
+}
+\title{\Huge\bf Object-Oriented\\ Reengineering Patterns}
+\isodate
+\date{\emph{Version of \today}}
+% \date{\emph{Version of 2009-09-13}}
+\maketitle
+%=================================================================
+%:Praise
+\cleardoublepage
+\input{Praise}
+\markboth{}{}
+%=================================================================
+%:Copyright notice
+\newpage
+~ % force the vfill
+\vfill
+\begin{footnotesize}
+\setlength{\parindent}{0pt}
+This book is available as a free download from \url{http://scg.unibe.ch/oorp/}.\\[1cm]
+
+Copyright \copyright~2003 by Elsevier Science (USA).\\
+Copyright \copyright~2008, 2009 by Serge Demeyer, St\'ephane Ducasse and Oscar Nierstrasz.
+
+The contents of this book are protected under Creative Commons Attribution-ShareAlike 3.0 Unported license.
+
+\emph{You are free:}
+\begin{description}
+  \item[to Share] \,---\, to copy, distribute and transmit the work
+  \item[to Remix] \,---\, to adapt the work
+\end{description}
+\emph{Under the following conditions:}
+\begin{description}
+  \item[Attribution.] You must attribute the work in the manner specified by the author or licensor (but not in any way that suggests that they endorse you or your use of the work).
+  \item[Share Alike.] If you alter, transform, or build upon this work, you may distribute the resulting work only under the same, similar or a compatible license.
+\end{description}
+\begin{bulletlist}
+  \item For any reuse or distribution, you must make clear to others the license terms of this work. The best way to do this is with a link to this web page:
+  \url{http://creativecommons.org/licenses/by-sa/3.0/}
+  \item Any of the above conditions can be waived if you get permission from the copyright holder.
+  \item Nothing in this license impairs or restricts the author's moral rights.
+\end{bulletlist}
+\raisebox{-0.25cm}{\includegraphics[width=2cm]{CreativeCommons-BY-SA}}\quad
+\parbox{\textwidth-2cm-1em}{
+	Your fair dealing and other rights are in no way affected by the above.
+	This is a human-readable summary of the Legal Code (the full license):\\
+	\url{http://creativecommons.org/licenses/by-sa/3.0/legalcode}}\\[1cm]
+Published by Square Bracket Associates, Switzerland. \sba\\
+ISBN 978-3-9523341-2-6\\
+First Open-Source Edition, June, 2008. Revised, September, 2009.
+\end{footnotesize}
+\vfill
+%=================================================================
+%:Dedications
+\newpage
+~\vfill
+\begin{center}
+\emph{For Ann, Sara and Niels.\\
+For Florence, Quentin, Thibaut and Camille.\\
+For Angela and Frida.}
+\end{center}
+\vfill
+%=================================================================
+%:Foreword Fowler
+\cleardoublepage
+\input{Foreword}
+%=================================================================
+%:TOC
+\tableofcontents
+% \listoffigures
+% \listoftables
+% \lstlistoflistings
+\sloppy % To avoid LaTeX's annoying habit of letting lines stick over the margins!
+%\cleardoublepage
+%=================================================================
+%:Preface
+\input{Preface.tex}
+\mainmatter
+%=================================================================
+%:PART 1 -- Introduction
+\part{Introduction}
+\input{Introduction.tex}
+%=================================================================
+%:PART 2 -- Reverse Engineering
+\part{Reverse Engineering}
+\input{SettingDirection.tex}
+\input{FirstContact.tex}
+\input{Initial.tex}
+\input{DetailedModel.tex}
+%=================================================================
+%:PART 3 -- Reengineering
+\part{Reengineering}
+\input{TestingCluster.tex}
+\input{MigrationStrategies.tex}
+\input{DupPatterns.tex}
+\input{Redistribute.tex}
+\input{Transform.tex}
+%=================================================================
+%:PART 4 -- Appendices
+\appendix
+\part{Appendices}
+\input{Thumbnails.tex}
+%=================================================================
+%:BIBLIOGRAPHY
+% \printglossary
+\bibliographystyle{alpha}
+\bibliography{scg}
+%=================================================================
+%:INDEX
+{\small\raggedright\printindex}
+%=================================================================
+% Round out to multiple of 4 pages
+% NB: we *must* have some blank pages at the end
+\markboth{}{}
+\pagestyle{empty}
+\cleardoublepage
+~ % Force some space
+\cleardoublepage
+~ % Force some space
+\cleardoublepage
+%=================================================================
+\end{document}
+%=================================================================

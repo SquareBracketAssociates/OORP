@@ -1,0 +1,121 @@
+% $Author: oscar $
+% $Date: 2009-09-15 16:53:48 +0200 (Tue, 15 Sep 2009) $
+% $Revision: 29111 $
+%=================================================================
+\ifx\wholebook\relax\else
+% --------------------------------------------
+% Lulu:
+	\documentclass[a4paper,10pt,twoside]{book}
+	\usepackage[
+		papersize={6.13in,9.21in},
+		hmargin={.815in,.815in},
+		vmargin={.98in,.98in},
+		ignoreheadfoot
+	]{geometry}
+	\input{common.tex}
+	\pagestyle{headings}
+	\setboolean{lulu}{true}
+% --------------------------------------------
+% A4:
+%	\documentclass[a4paper,11pt,twoside]{book}
+%	\input{common.tex}
+%	\usepackage{a4wide}
+% --------------------------------------------
+	\begin{document}
+	\frontmatter
+	% \renewcommand{\nnbb}[2]{} % Disable editorial comments
+	\sloppy
+\fi
+
+%=================================================================
+\chapter{Preface}
+\chalabel{preface}
+
+%=================================================================
+\section*{A Fairy Tale}
+
+\begin{center}
+\begin{Large}
+Once upon a time there was a Good Software Engineer whose Customers knew exactly what they wanted. The Good Software Engineer worked very hard to design the Perfect System that would solve all the Customers' problems now and for decades. When the Perfect System was designed, implemented and finally deployed, the Customers were very happy indeed. The Maintainer of the System had very little to do to keep the Perfect System up and running, and the Customers and the Maintainer lived happily every after.
+\end{Large}
+\end{center}
+
+\noindent
+Why isn't real life more like this fairy tale?
+
+Could it be because there are no Good Software Engineers? Could it be because the Users don't really know what they want? Or is it because the Perfect System doesn't exist? 
+
+Maybe there is a bit of truth in all of these observations, but the real reasons probably have more to do with certain fundamental laws of software evolution identified several years ago by \index{Lehman, Manny} Manny Lehman and \index{Belady, Les} Les Belady. The two most striking of these laws are \cite{Lehm85a}:
+\begin{bulletlist}
+  \item \emphind{The Law of Continuing Change}\,---\,A program that is used in a real-world environment must change, or become progressively less useful in that environment.
+  \item \emphind{The Law of Increasing Complexity}\,---\,
+As a program evolves, it becomes more complex, and extra resources are needed to preserve and simplify its structure.
+\end{bulletlist}
+
+In other words, we are kidding ourselves if we think that we can know all the requirements and build the perfect system. The best we can hope for is to build a useful system that will survive long enough for it to be asked to do something new. 
+
+%=================================================================
+\section*{What is this book?}
+
+This book came into being as a consequence of the realization that the most interesting and challenging side of software engineering may not be building brand new software systems, but rejuvenating existing ones.
+
+From November 1996 to December 1999, we participated in a European industrial research project called \ind{FAMOOS} (\ind{ESPRIT} Project 21975\,---\,\emph{Framework-based Approach for Mastering Object-Oriented Software Evolution}). The partners were \ind{Nokia} (Finland), \ind{Daimler-Benz} (Germany), \ind{Sema Group} (Spain), Forschungszentrum Informatik Karlsruhe (\ind{FZI}, Germany), and the \ind{University of Bern} (Switzerland). Nokia and Daimler-Benz were both early adopters of object-oriented technology, and had expected to reap significant benefits from this tactic. Now, however, they were experiencing many of the typical problems of \ind{legacy systems}: they had very large, very valuable, object-oriented software systems that were very difficult to adapt to changing requirements. The goal of the FAMOOS project was to develop tools and techniques to rejuvenate these object-oriented legacy systems so they would continue to be useful and would be more amenable to future changes in requirements.
+
+Our idea at the start of the project was to convert these big, object-oriented applications into \emphind{frameworks}\,---\,generic applications that can be easily reconfigured using a variety of different programming techniques. We quickly discovered, however, that this was easier said than done. Although the basic idea was sound, it is not so easy to determine which parts of the legacy system should be converted, and exactly how to convert them. In fact, it is a non-trivial problem just to understand the legacy system in the first place, let alone figuring out what (if anything) is wrong with it.
+
+We learned many things from this project. We learned that, for the most part, the legacy code was not bad at all. The only reason that there were problems with the legacy code was that the requirements had changed since the original system was designed and deployed. Systems that had been adapted many times to changing requirements suffered from \emphind{design drift}\,---\,the original architecture and design was almost impossible to recognize\,---\,and that made it almost impossible to make further adaptations, exactly as predicted by Lehman and Belady's laws of software evolution.
+
+Most surprising to us, however, was the fact that, although each of the case studies we looked at needed to be reengineered for very different reasons\,---\,such as unbundling, scaling up requirements, porting to new environments, and so on\,---\,the actual technical problems with these systems were oddly similar. This suggested to us that perhaps a few simple techniques could go a long way to fixing some of the more common problems.
+
+We discovered that pretty well all reengineering activity must start with some reverse engineering, since you will not be able to trust the documentation (if you are lucky enough to have some). Basically you can analyze the source code, run the system, and interview users and developers to build a model of the legacy system. Then you must determine what are the obstacles to further progress, and fix them. This is the essence of \emph{reengineering}, which seeks to transform a legacy system into the system you would have built if you had the luxury of hindsight and could have known all the new requirements that you know today. But since you can't afford to rebuild everything, you must cut corners and just reengineer the most critical parts.
+
+Since \ind{FAMOOS}, we have been involved in many other reengineering projects, and have been able to further validate and refine the results of FAMOOS.
+
+In this book we summarize what we learned in the hope that it will help others who need to reengineer object-oriented systems. We do not pretend to have all the answers, but we have identified a series of simple techniques that will take you a long way.
+
+%=================================================================
+\section*{Why patterns?}
+
+\index{Design Patterns}
+A pattern is a recurring motif, an event or structure that occurs over and over again. \emph{Design patterns} are generic solutions to recurring design problems \cite{Gamm95a}. It is because these design problems are never exactly alike, but only very similar, that the solutions are not pieces of software, but \emph{documents that communicate best practice}.
+
+Patterns have emerged in recent years as a literary form that can be used to document best practice in solving many different kinds of problems. Although many kinds of problems and solutions can be cast as patterns, they can be overkill when applied to the simplest kinds of problems. Patterns as a form of documentation are most useful and interesting when the problem being considered entails a number of conflicting \emph{forces}, and the solution described entails a number of \emph{tradeoffs}. Many well-known design patterns, for example, introduce run-time flexibility at the cost of increased design complexity.
+
+This book documents a catalogue of patterns for reverse engineering and reengineering legacy systems. None of these patterns should be applied blindly. Each patterns resolves some \emphsubind{pattern}{forces} and involves some \emphsubind{pattern}{tradeoffs}. Understanding these tradeoffs is essential to successfully applying the patterns. As a consequence the pattern form seems to be the most natural way to document the best practices we identified in the course of our reengineering projects.
+\seeindex{forces}{pattern, forces}
+\seeindex{tradeoffs}{pattern, tradeoffs}
+
+\index{pattern!language}
+A \emph{pattern language} is a set of related patterns that can be used in combination to solve a set of complex problems. We found that clusters of patterns seemed to function well in combination with each other, so we have organized this book into chapters that each presents such a cluster as a small pattern language.
+
+We do not pretend that these clusters are ``complete'' in any sense, and we do not even pretend to have patterns that cover all aspects of reengineering. We certainly do not pretend that this book represents a systematic method for object-oriented reengineering. What we do claim is simply to have encountered and identified a number of best practices that exhibit interesting synergies. Not only is there strong synergy within a cluster of patterns, but the clusters are also interrelated in important ways. Each chapter therefore contains not only a pattern map that suggests how the patterns may function as a ``language'', but each pattern also lists and explains how it may be combined or composed with other patterns, whether in the same cluster or a different one. 
+
+%=================================================================
+\section*{Who should read this book?}
+
+This book is addressed mainly to practitioners who need to reengineer object-oriented systems. If you take an extreme viewpoint, you could say that \emph{every} software project is a reengineering project, so the scope of this book is quite broad.
+
+We believe that most of the patterns in this book will be familiar to anyone with a bit of experience in object-oriented software development. The purpose of the book is to document the details.
+
+%=================================================================
+\section*{Acknowledgments}
+
+We would like to thank first and foremost our \ind{FAMOOS} partners at \ind{Nokia}, \ind{Daimler-Benz}, \ind{FZI} and \ind{Sema} who provided the context for discovering these patterns. Persons like Juha (Julho) Tuominen, Roland Trauter, Eduardo Casais and Theo Dirk Meijler played a crucial role while starting the project. We would especially like to thank our co-authors of the prototype for this book, \emph{The FAMOOS Object-Oriented Reengineering Handbook:} Holger B\"ar, Markus Bauer, Oliver Ciupke, Michele Lanza, Radu Marinescu, Robb Nebbe, Michael Przybilski, Tamar Richner, Matthias Rieger, Claudio Riva, Anne-Marie Sassen, Benedikt Schulz, Patrick Steyaert, Sander Tichelaar and Joachim Weisbrod.
+
+We gratefully acknowledge the financial support of the European Union towards \ind{ESPRIT} project 21975 (FAMOOS) as well as that of the Swiss Government towards projects NFS-2000-46947.96 and BBW-96.0015. The University of Antwerp provided financial support in terms of a grant entitled ``Object Oriented Reengineering'' while the Fund for Scientific Research in Flanders sponsored by means of a research network named ``Foundations of Software Evolution''.
+
+Some of the material in this book was presented in the graduate course ``Object-Oriented software Reengineering'' held at the \ind{University of Bern} in the winter semesters of 1998 and 1999, and at several tutorials at OOPSLA. We would like to thank the participants of the courses and tutorials for their feedback and input. We also would like to thank members of the Software Composition Group at the University of Bern for participating in several pattern workshops and giving valuable feedback on many of the patterns in this book: Michele Lanza, Pietro Malorgio, Robbe Nebbe, Tamar Richner, Matthias Rieger and Sander Tichelaar.
+
+Several of the patterns in this book have been presented elsewhere. We would like to thank our \ind{EuroPLoP} shepherds Kent Beck (1998), Kyle Brown (1999), Neil Harrison (2000), Mary Lynn Manns (2000), Don Roberts (1998) and Charles Weir (1998) and all participants of the writers' workshops where these patterns have been discussed. Special thanks go to Jens Coldewey for helping us out with pattern forms and forces. 
+
+We would like to thank the members and friends of Ralph Johnson's Software Architecture Group who workshopped several chapters of this book: John Brant, Brian Foote, Alejandra Garrido, Peter Hatch, Ralph Johnson, Brian Marick, Andrew Rosenfeld, Weerasak Witthawaskul and Joe Yoder. Downloading and playing voluminous megabytes of workshop recordings in mp3 format truly made each of us feel like a ``fly on the wall''!
+
+We would like to thank Tim Cox, our editor, and Stacie Pierce, his assistant, both at Morgan Kaufmann, for following our project with such dedication. Also, thanks to Christa Preisendanz at DPunkt Verlag for putting us in touch with Tim in the first place! We especially appreciated the two very thorough rounds of reviews that this book underwent, and we only regret that the final draft of this book is nothing like the definitive work some of reviewers clearly hoped it would be! We thank our reviewers for reading between the lines and helping to explain many of these patterns to us: Kyle Brown, Thierry Cattel, Oliver Ciupke, Koen De Hondt, Jim Coplien, Gert Florijn, Neil Harrison, Mary Lynn Manns, Alan O'Callaghan, Don Roberts and Benedikt Schulz.
+
+%=============================================================
+\ifx\wholebook\relax\else
+   \bibliographystyle{alpha}
+   \bibliography{scg}
+   \end{document}
+\fi
+%=============================================================

@@ -1,0 +1,825 @@
+% $Author: oscar $
+% $Date: 2009-09-15 16:53:48 +0200 (Tue, 15 Sep 2009) $
+% $Revision: 29111 $
+%=================================================================
+\ifx\wholebook\relax\else
+% --------------------------------------------
+% Lulu:
+	\documentclass[a4paper,10pt,twoside]{book}
+	\usepackage[
+		papersize={6.13in,9.21in},
+		hmargin={.815in,.815in},
+		vmargin={.98in,.98in},
+		ignoreheadfoot
+	]{geometry}
+	\input{common.tex}
+	\pagestyle{headings}
+	\setboolean{lulu}{true}
+% --------------------------------------------
+% A4:
+%	\documentclass[a4paper,11pt,twoside]{book}
+%	\input{common.tex}
+%	\usepackage{a4wide}
+% --------------------------------------------
+	\begin{document}
+	\renewcommand{\nnbb}[2]{} % Disable editorial comments
+	\sloppy
+\fi
+%=================================================================
+\chapter{Redistribute Responsibilities}
+\chalabel{RedistributeResponsibilities}
+
+\index{God Class}
+\index{data container}
+You are responsible for reengineering the information system that manages all employee records for a large public administration. Due to recent political upheavals, you know that there will be many changes required in the system to cope with privatization, new laws, and new regulations, but you do not know exactly what they will be. The existing system consists of a nominally object-oriented reimplementation of an older procedural system. The code contains many pseudo-objects: data containers masquerading as objects, and big, procedural ``god classes'' that implement most of a the logic of individual subsystems. One class, called \lct{TaxRevision2000}, has a single method consisting essentially of a case statement that is 3000 lines long.
+
+As long as the system was relatively stable, this design posed no particular problems, but now you see that even relatively modest changes to system require months of planning, testing and debugging due to weak encapsulation of data. You are convinced that migrating to a more object-oriented design will make the system more robust and easier to adapt to future requirements. But how do you know where the problems lie? Which responsibilities should be redistributed? Which data containers should you redesign, which ones should you wrap, and which ones are better left alone?
+
+\subsection*{Forces}
+
+\begin{bulletlist}
+\item Data containers (objects that just provide access to data, but no own behavior) are a simple and convenient way to share information between many subsystems. Among others, data containers are the easiest way to provide access to database entities.
+
+\item However, data containers expose the data representation, hence are difficult to change when many application components depend on them. \emph{Consequently, a proliferation of data containers leads to fragile navigation code in the implementation of business logic.}
+
+\item It is hard to teach an old dog new tricks. Many designers received a training in functional decomposition and will use the same habits when doing an object design.
+
+\item However, functional decomposition tends to generate god classes, \ie big classes that do all of the work and have a myriad of tiny provider classes around of it. God classes are hard to extend, modify or subclass because such changes affect large numbers of other methods or instance variables.
+\end{bulletlist}
+
+\subsection*{Overview}
+
+This cluster deals with problems of misplaced responsibilities. The two extreme cases are \emph{data containers}, classes that are nothing but glorified data structures and have almost no identifiable responsibilities, and \emph{god classes}, procedural monsters that assume too many responsibilities.
+
+Although there are sometimes borderlines cases where data containers and god classes may be tolerated, particularly if they are buried in a stable part of the system which will not change, generally they are a sign of a fragile design.
+
+Data containers lead to violations of the \emphind{Law of Demeter} (LOD) \cite{Lieb88a}. In a nutshell, the Law of Demeter provides a number of design guidelines to reduce coupling between distantly-related classes. Although the Law of Demeter has various forms, depending on whether one focusses on objects or classes, and depending on which programming language is being used, the law essentially states that methods should only send messages to instance variables, method arguments, self, super, and the receiver class.
+
+Violations of the Law of Demeter typically take the form of \emph{navigation code} in which an \emph{indirect client} accesses an \emph{indirect provider} by accessing either an instance variable or an acquaintance of an \emph{intermediate provider}. The indirect client and provider are thereby unnecessarily coupled, making future enhancements more difficult to realize (\figref{RedistributeMap}). The intermediate provider may take the form of a data container or opens its encapsulation by providing accessor methods. Designs with many data containers present often suffer from complex navigation code in which indirect clients may have to navigate through a chain of intermediates to reach the indirect provider.
+
+\begin{figure}[h]
+\begin{center}
+\includegraphics[width=\textwidth]{RedistributeDemeter}
+\caption{An indirect client violates the \ind{Law of Demeter} by navigating through an intermediate provider to an indirect provider, unnecessarily coupling the two.}
+\figlabel{RedistributeDemeter}
+\end{center}
+\end{figure}
+
+\index{God Class}
+\index{data container}
+Whereas data containers have too few responsibilities, god classes assume too many. A god class can be a single class that implements an entire subsystem, consisting of thousands of lines of code and hundreds of methods and instance variables. Particularly vicious god classes consist of only static instance variables and methods, \ie all data and behavior have class scope, and the god class is never instantiated. Such god classes are purely procedural beasts, and are object-oriented in name only. 
+
+Occasionally some procedural classes known as \emph{utility classes} are convenient. The best known examples are object-oriented interfaces to math libraries, or collections of algorithms. Real god classes, however, are not libraries, but complete applications or subsystems that controls the entire application execution.
+
+God classes and data containers often occur together, with the god class assuming all the control of the application, and treating other classes as glorified data structures. Since they assume too many responsibilities, god classes are hard to understand and maintain. Incremental modification and extension of a god class through inheritance is next to impossible due to the complexity of its interface and the absence of clear subclassing contract.
+
+\begin{figure}[h]
+\begin{center}
+\includegraphics[width=\textwidth]{RedistributeMap}
+\caption{Data containers are the clearest sign of misplaced responsibilities. These three patterns redistribute responsibilities by moving behavior close to data.}
+\figlabel{RedistributeMap}
+\end{center}
+\end{figure}
+
+This cluster provides a number of patterns to eliminate data containers and god classes by redistributing responsibilities and thereby improving encapsulation.
+
+\begin{bulletlist}
+\item \patpgref{Move Behavior Close to Data}{MoveBehaviorCloseToData} moves behavior defined in indirect clients to an intermediate data container to make it more ``object-like''. This pattern not only decouples indirect clients from the contents of the data container, but also typically eliminates duplicated code occurring in multiple clients of the data container.
+
+\item \patpgref{Eliminate Navigation Code}{EliminateNavigationCode} is technically very similar to \patref{Move Behavior Close to Data}{MoveBehaviorCloseToData} in terms of the reengineering steps, but is rather different in its intent. This pattern focusses on redistributing responsibilities down chains of data containers to eliminate navigation code.
+
+\item \patpgref{Split Up God Class}{SplitUpGodClass} refactors a procedural god class into a number of simple, more cohesive classes by moving all data to external data containers, applying \patref{Move Behavior Close to Data}{MoveBehaviorCloseToData} to promote the data containers to objects, and finally removing or deprecating the facade that remains.
+\end{bulletlist}
+
+%=================================================================
+%:PATTERN -- {Move Behavior Close to Data}
+\pattern{Move Behavior Close to Data}{MoveBehaviorCloseToData}
+
+
+\intent{Strengthen encapsulation by moving behavior from indirect clients to the class containing the data it operates on. }
+
+\subsection*{Problem}
+
+How do you transform a class from being a mere data container into a real service provider?
+
+\emph{This problem is difficult because:}
+
+\begin{bulletlist}
+\item Data containers offer only accessor methods or public instance variables, and not real behavior, forcing clients to define the behavior themselves instead of just using it. New clients typically have to reimplement this behavior.
+
+\item If the internal representation of a data container changes, many clients have to be updated.
+
+\item Data containers cannot be used polymorphically since they define no behavior and their interfaces consist mainly of accessor methods. As a consequence, clients will be responsible for deciding which behavior is called for in any given context.
+\end{bulletlist}
+
+\emph{Yet, solving this problem is feasible because:} 
+
+\begin{bulletlist}
+\item You know what operations clients perform with the data.
+\end{bulletlist}
+
+\subsection*{Solution}
+
+Move behavior defined by indirect clients to the container of the data on which it operates.
+
+\subsubsection*{Detection}
+
+Look for:
+
+\begin{bulletlist}
+\item Data containers, \ie classes defining mostly public accessor methods and few behavior methods (\ie the number of methods is approximately 2 times larger than the number of attributes.
+
+\item Duplicated client code that manipulates data of separate provider classes. If multiple clients implement \emph{different} behavior, consider instead applying \patpgref{Transform Client Type Checks}{TransformClientTypeChecks}.
+
+\item Methods in client classes that invoke a sequence of accessor methods (see \patref{Eliminate Navigation Code}{EliminateNavigationCode}).
+\end{bulletlist}
+
+\subsubsection*{Steps}
+
+\patref{Move Behavior Close to Data}{MoveBehaviorCloseToData} makes use of the refactorings \patpgref{Extract Method}{ExtractMethod} and \patpgref{Move Method}{MoveMethod}, since the behavior in question will have to be extracted from a client method and then moved to a provider class.
+
+\begin{figure}
+\begin{center}
+\includegraphics[width=\textwidth]{RedistributeDataContainers}
+\caption{Classes that were mere data containers are transformed into real service providers.}
+\figlabel{RedistributeDataContainers}
+\end{center}
+\end{figure}
+
+\begin{enumerate}
+\item \emph{Identify the client behavior that you want to move}, \ie the complete method or a part of a method that accesses provider data.
+
+	\begin{bulletlist}
+	\item Look for the invocations of the accessor methods of the data container.
+
+	\item Look for duplicated code in multiple clients that access the same provider data.
+	\end{bulletlist}
+
+\item \emph{Create the corresponding method in the provider class}, if it does not already exist. Be sure to check that moving the code will not introduce any naming conflicts. Tools like the Refactoring Browser \cite{Robe97a} automate these steps:
+
+	\begin{bulletlist}
+	\item If the extracted functionality is a complete method with arguments, check that the arguments do not conflict with attributes of the provider class. If so, rename the arguments. 
+
+	\item If the extracted functionality uses temporary variables, check that the local variables do not conflict with attributes or variables in the target scope. If so, rename the temporary variables.
+
+	\item Check if the extracted functionality accesses local variables of the client classes (attributes, temporary variables,...), if so, add arguments to the method to represent these client variables. 
+	\end{bulletlist}
+
+\item \emph{Give an intention-revealing name to the new method.} Among others, intention revealing names do not contain references to the class they belong to, because this makes the method less reusable. For instance, instead of defining a method \lct{addToSet()} on a class \lct{Set}, it is better to name it simply \lct{add()}. Similarly, it is not such a good idea to define a method \lct{binarySearch()} on a class \lct{Array}, because the method name implies a sorted random access collection, while the name \lct{search()} does not have such implications.
+
+\item In the client \emph{invoke the new provider method} with the correct parameters.
+
+\item \emph{Clean up the client code.} In the case the moved functionality was a complete method of the client class:
+
+	\begin{bulletlist}
+	\item check all the methods that invoke the old, moved method and ensure that they now call the new provider method instead, and
+
+	\item remove the old method from the client or deprecate it. (\patpgref{Deprecate Obsolete Interfaces}{DeprecateObsoleteInterfaces}). 
+	\end{bulletlist}
+
+It may be the case that the calling methods defined on the same object have to be also moved to the provider. In such a case repeat the steps for the methods.
+
+\item \emph{Repeat} for multiple clients. Note that duplicated code in multiple clients will be removed in step 2, since there is no need to move code that has already been transferred to the provider. In case many similar, but not identical methods are introduced to the provider, consider factoring out the duplicated fragments as protected helper methods.
+
+\end{enumerate}
+
+\subsection*{Tradeoffs}
+
+\subsubsection*{Pros}
+
+\begin{bulletlist}
+\item Data containers are converted to service providers with clear responsibilities.
+
+\item The service providers become more useful to other clients.
+
+\item Clients are no longer responsible for implementing provider behavior.
+
+\item Clients are less sensitive to internal changes of the provider. 
+
+\item Code duplication in the system decreases.
+\end{bulletlist}
+
+\subsubsection*{Cons}
+
+\begin{bulletlist}
+\item If the moved behavior also accesses client data, turning these accesses into parameters will make the interface of the provider more complex and introduce explicit dependencies from the provider to the client.
+\end{bulletlist}
+
+\subsubsection*{Difficulties}
+
+\begin{bulletlist}
+\item It may not be clear whether client code really should be moved to the data provider. Some classes like \lct{Stream} or \lct{Set} are really designed as data providers. Consider moving the code to the provider if:
+
+\begin{bulletlist}
+\item the functionality represents a \emph{responsibility} of the provider. For example, a class Set should provide mathematical operations like union and intersection. On the other hand, a generic \lct{Set} should not be responsible for operations on sets of \lct{Employees}.
+\item the functionality accesses the attributes of the provider,
+\item the functionality is defined by multiple clients.
+\end{bulletlist}
+
+\item If the provider is really designed as a data container, consider defining a new provider class that wraps an instance of the data provider and holds the associated behavior. For example, an \lct{EmployeeSet} might wrap a \lct{Set} instance and provide a more suitable interface.
+\end{bulletlist}
+
+\subsubsection*{When the legacy solution is the solution}
+
+Data containers may have been automatically generated from a database schema to provide an object interface to an existing database. It is almost always a bad idea to modify generated classes, since you will lose your changes if the code ever needs to be regenerated. In this case, you may decide to implement wrapper classes to hold the behavior that should be associated with the generated classes. Such a wrapper would function as an \patpgref{Adapter}{Adapter} that converts the generated data container to a real service provider. 
+
+Sometimes you know that a class defined in a library is missing crucial functionality. For example, an operation \lct{convertToCapitals} that is missing for class \lct{String}. In such a case it is typically impossible to add code to the library, so you may have to define it in client class. In \ind{C++} for example, it may be the only way to avoid recompilation or to extend a class when the code is not available \cite{Alpe98a} (p. 378). In \ind{Smalltalk} you have the possibility to extend or modify the library, however you should pay particular attention to separate the additional code so you can easily merge it with future releases of the library, and quickly detect any conflicts. 
+
+The intent of the \patpgref{Visitor}{Visitor} design pattern states: \emph{``Represent an operation to be performed on the elements of an object structure in a class separate from the elements themselves. \patref{Visitor}{Visitor} lets you define a new operation without changing the classes of the elements on which it operates''} \cite{Gamm95a}. The \patref{Visitor}{Visitor} pattern is one of the few cases where you want to have classes access the data of a separate provider class. \patref{Visitor}{Visitor} allows one to dynamically add new operations to a set of stable classes without having to change them. 
+
+\emph{Configuration classes} are classes that represent the configuration of a system (\eg global parameters, language dependent representation, policies in place). For example, in a graphic tool the default size of the boxes, edges, width of the lines can be stored in a such class and other classes refer to it when needed. 
+
+\emph{Mapping classes} are classes used to represent mappings between objects and their user interface or database representation. For example, a software metric tool should graphically represent the available metrics in a widget-list so that the user can select the metrics to be computed. In such a case the graphical representation of the different metrics will certainly differ from their internal representation. A mapping class keeps track of the association.
+
+\subsection*{Example}
+
+One of the recurring complaints of the customers is that it takes too much time to change the reports generated by the information system. By talking to the maintainers you learn that they find generating the reports quite boring. ``Its's always the same code you have to write,'' says Chris, one of the maintainers. ``You fetch a record out of the database, print its fields and then proceed to the next record.'' 
+
+You strongly suspect a case of data-containers and a closer examination of the code confirms your suspicion. Almost all of the classes interfacing with the database contain accessor methods only, and the programs generating reports are forced to use these accessors. One striking example is the case of the \lct{Payroll} application, which has lots in common with the \lct{TelephoneGuide} application and you decide to try to move the common functionality to the \lct{Employee} class.
+
+\subsubsection*{Before}
+
+\begin{figure}
+\begin{center}
+\includegraphics[width=\textwidth]{RedistributeBefore}
+\caption{The \lct{Payroll} and \lct{Telephone} classes access the internal representation of the class \lct{Employee} to print a representation. }
+\figlabel{RedistributeBefore}
+\end{center}
+\end{figure}
+
+As shown in \figref{RedistributeBefore}, both the \lct{Payroll} and \lct{TelephoneGuide} classes print labels, treating \lct{Employee} instances as data containers. Thus, \lct{Payroll} and \lct{TelephoneGuide} are indirect clients of the attributes of \lct{Employee}, and define printing code that should have been provided by the \lct{Employee} class. The following code show how this would look like in \ind{Java}.
+
+\begin{code}
+public class Employee {
+	public String[] telephoneNumbers = {};
+	...
+	public String name() {
+		return name;}
+	
+	public String address() {
+		return address;}
+}
+
+public class Payroll {
+
+	public static Employee currentEmployee;
+
+	public static void printEmployeeLabel () {
+		System.out.println(currentEmployee.name());
+		System.out.println(currentEmployee.address());
+		for (int i=0; i < currentEmployee.telephoneNumbers.length; i++) {
+			System.out.print(currentEmployee.telephoneNumbers[i]);
+			System.out.print(" ");}
+		System.out.println("");}
+...
+}
+
+public class TelephoneGuide {
+
+	public static void printEmployeeTelephones (Employee emp) {
+		System.out.println(emp.name());
+		System.out.println(emp.address());
+		for (int i=0; i < emp.telephoneNumbers.length - 1; i++) {
+			System.out.print(emp.telephoneNumbers[i]);
+			System.out.print(" -- ");}
+		System.out.print(emp.telephoneNumbers[
+				emp.telephoneNumbers.length - 1]);
+		System.out.println("");}
+	...
+}
+\end{code}
+
+Note that although both print methods implement essentially the same functionality, there are some slight differences. Among others, \lct{TelephoneGuide.printEmployeeTelephones} uses a different separator while printing out the telephone numbers.
+
+\subsubsection*{Steps}
+
+The different separators can easily be dealt with by defining a special parameter representing the separator to be used. Thus \lct{TelephoneGuide.printEmployeeTelephones} gets rewritten as follows. 
+
+\begin{code}
+	public static void printEmployeeTelephones
+						(Employee emp, String separator) {
+		...
+		for (int i=0; ...
+			System.out.print(separator);}
+		...}
+	...
+\end{code}
+
+Next, move the \lct{printEmployeeTelephones} method from \lct{TelephoneGuide} to \lct{Employee}. Thus, copy the code and replace all references to the \lct{emp} parameter with a direct reference to the attributes and methods. Also, ensure that the new method has an intention revealing name, thus omit the \lct{Employee} part from the method name, resulting in a method \lct{printLabel}.
+
+\begin{code}
+public class Employee {
+	...
+	public void printLabel (String separator) {
+		
+		System.out.println(name);
+		System.out.println(address);
+		for (int i=0; i < telephoneNumbers.length - 1; i++) {
+			System.out.print(telephoneNumbers[i]);
+			System.out.print(separator);
+		}
+		System.out.print(telephoneNumbers[telephoneNumbers.length - 1]);
+		System.out.println("");
+	}
+\end{code}
+
+Then replace the method bodies of \lct{Payroll.printEmployeeLabel} and \lct{TelephoneGuide.printEmployeeTelephones} with a simple invocation of the \lct{Employee.printLabel} method.
+
+\begin{code}
+public class Payroll {
+	...
+	public static void printEmployeeLabel () {
+		currentEmployee.printLabel(" ");
+	...}
+
+public class TelephoneGuide {
+	...
+	public static void printEmployeeTelephones (Employee emp) {
+		emp.printLabel(" -- ");}
+	...}
+\end{code}
+
+Finally, verify which other methods refer to the \lct{name()}, \lct{address()} and \lct{telephoneNumbers}. If no such methods exist, consider to declare those methods and attributes as \lct{private}.
+
+\subsubsection*{After}
+
+After applying \patref{Move Behavior Close to Data}{MoveBehaviorCloseToData} the class \lct{Employee} now provides a \lct{printLabel} method which takes one argument to represent the different separators (see \figref{RedistributeAfter}). This is a better situation because now clients do not rely on the internal representation of \lct{Employee}. Moreover, by moving the behavior near the data it operates, the class represents a conceptual entity with an emphasis on the services it provides instead of structure it implements.
+
+\begin{figure}
+\begin{center}
+\includegraphics[width=\textwidth]{RedistributeAfter}
+\caption{The \lct{Payroll} class uses the public interface of the class \lct{Employee} to print a representation of \lct{Employee}; data accessors became private.}
+\figlabel{RedistributeAfter}
+\end{center}
+\end{figure}
+
+
+\subsection*{Rationale}
+
+\index{Riel, Arthur}
+\begin{quotation}
+\emph{Keep related data and behavior in one place.}
+
+\hfill  --- Arthur Riel, Heuristic 2.9 \cite{Riel96a}
+\end{quotation}
+
+Data containers impede evolution because they expose structure and force clients to define their behavior rather than sharing it. By promoting data containers to service providers, you reduce coupling between classes and improve cohesion of data and behavior.
+
+\subsection*{Related Patterns}
+
+\patpgref{Encapsulate Field}{EncapsulateField} offers heuristics that help determine where methods should be defined during a design phase. The text offers rationale for applying \patref{Move Behavior Close to Data}{MoveBehaviorCloseToData}.
+
+%=================================================================
+%:PATTERN -- {Eliminate Navigation Code}
+\pattern{Eliminate Navigation Code}{EliminateNavigationCode}
+
+
+\emph{Also Known As:}  \ind{Law of Demeter} \cite{Lieb88a}
+
+\intent{Reduce the impact of changes by shifting responsibility down a chain of connected classes.}
+
+\subsection*{Problem}
+
+How do you reduce coupling due to classes that navigate through the object graph?
+
+\emph{This problem is difficult because:} 
+
+\begin{bulletlist}
+\item Changes in the interfaces of a class will affect not only direct clients, but also all the indirect clients that navigate to reach it.
+\end{bulletlist}
+
+\emph{Yet, solving this problem is feasible because:}
+
+\begin{bulletlist}
+\item Navigation code is typically a sign of misplaced responsibilities and \subind{encapsulation}{violation of} encapsulation.
+\end{bulletlist}
+
+\subsection*{Solution}
+
+Iteratively move behavior defined by an indirect client to the container of the data on which it operates.
+
+Note that actual reengineering steps are basically the same as those of \patref{Move Behavior Close to Data}{MoveBehaviorCloseToData}, but the manifestation of the problem is rather different, so different detection steps apply.
+
+\subsubsection*{Detection}
+
+Look for \emph{indirect providers}:
+
+\begin{bulletlist}
+\item Each time a class changes, \eg by modifying its internal representation or collaborators, not only its direct but also \emph{indirect} client classes have to be changed.
+
+\item Look for classes that contain a lot public attributes, accessor methods or methods returning as value attributes of the class.
+
+\item Big aggregation hierarchies containing mostly data classes often play the role of indirect provider.
+\end{bulletlist}
+
+Look for \emph{indirect clients} that contain a lot of \emph{navigation code}. Navigation code is of two kinds:
+
+\begin{bulletlist}
+\item a \emph{sequence of attribute accesses}, \eg \lct{a.b.c.d} where b is an attribute of a, c is an attribute of b and d an attribute of c. The result of such a sequence can be assigned to variable or a method of the last object can be invoked, \eg \lct{a.b.c.d.op()}. Such a sequence navigation does not occur in Smalltalk where all the attributes are protected. 
+
+\item a \emph{sequence of accessor method calls}. In Java and C++ such a sequence has the form \lct{object.m1().m2().m3()} where \lct{object} is an expression returning an object, \lct{m1} is a method of \lct{object}, \lct{m2} a method of the object returned by the invocation of \lct{m1}, \lct{m3} a method of the object returned by the invocation of \lct{m2} and so on. In Smalltalk navigation code has the following form receiver \lct{m1 m2 ... mn} The same navigation code sequence is repeated in different methods on the same or different clients. 
+\end{bulletlist}
+
+Navigation code can be detected by simple pattern matching. However, to really detect a method call navigation sequence leading to coupled classes, you should filter out sequences of calls converting one object to another one. For example, the following two Java expressions are not problematic because they deal with object conversion.
+
+\begin{code}
+leftSide().toString()
+i.getValue().isShort()
+\end{code}
+
+To deal with this case you can: 
+
+\begin{bulletlist}
+\item look for more than two calls, or 
+
+\item eliminate from consideration known object conversion calls, including standard method invocations for converting to and from primitive types.
+\end{bulletlist}
+
+The use of additional variables, can sometimes disguise navigation code, so reading the code is often necessary. For instance, the following Java code does not contain a chain of invocations.
+
+\begin{code}
+Token token;
+token = parseTree.token();
+if (token.identifier() != null) {
+	...
+\end{code}
+
+However, it is equivalent to the following code, which does contain a chain of invocations
+
+\begin{code}
+if (parseTree.token().identifier() != null) {
+	...
+\end{code}
+
+\noindent
+\emph{\ind{Smalltalk}.}
+Simply searching for sequences of calls in Smalltalk code can create a lot of noise because Smalltalk does not have predefined control structures but uses messages even for implementing control structures. The above example with the disguised navigation code would read as follows in Smalltalk. (Note the messages \lct{isNil} and \lct{ifFalse:[...]})
+
+\begin{code}
+| token |
+token := parseTree token.
+token identifier isNil ifFalse:[...]
+\end{code}
+
+The equivalent version with navigation code becomes.
+
+\begin{code}
+parseTree token identifier isNil ifFalse: [...]
+\end{code}
+
+The following code segments contain a sequence of invocations but do not pose any problems because the first deals with boolean testing and the second with conversion (abuse of conversion, in fact). 
+
+\begin{code}
+(a isNode) & (a isAbstract) ifTrue: [...]
+aCol asSet asSortedCollection asOrderedCollection 
+\end{code}
+
+\noindent
+\emph{\ind{Java}.}
+For Java or C++, primitives data types and control structures are not implemented using objects, so simple pattern matching produces less noise. For example, a simple Unix command like: 
+
+\begin{code}
+egrep '.*\(\).*\(\).*\(\).' *.java
+egrep '.*\..*\..*\..' *.java
+\end{code}
+\noindent
+identifies lines of code like the following ones, which are examples of navigation code coupling between classes, and filters out the conversions mentioned above. 
+
+\begin{code}
+a.getAbstraction().getIdentifier().traverse(this) 
+a.abstraction.identifier.traverse(this)
+\end{code}
+
+More sophisticated matching expressions can reduce the noise produced by the parentheses of casts or other combinations.
+
+\noindent
+\emph{\ind{AST Matching}.}
+If you have a way to express tree matching, you can detect navigation code. For example, the \ind{Rewrite Rule Editor} that comes with the \ind{Refactoring Browser} \cite{Robe97a} can detect navigation code using the pattern \lct{'@object 'mess1 'mess2 'mess3}. To narrow the analysis of the results you should only consider messages that belong to the domain objects and eliminate all the method selectors of libraries objects like (\lct{isNil}, \lct{not}, \lct{class}, ...). 
+
+\subsubsection*{Steps}
+
+\begin{figure}
+\begin{center}
+\includegraphics[width=0.8\textwidth]{RedistributeChains}
+\caption{Chains of data containers can be converted into service providers, thereby eliminating navigation code and reducing coupling between classes.}
+\figlabel{RedistributeChains}
+\end{center}
+\end{figure}
+
+The recipe for eliminating navigation code is to recursively \patref{Move Behavior Close to Data}{MoveBehaviorCloseToData}. \figref{RedistributeChains} illustrates the transformation.
+\begin{enumerate}
+  \item \emph{Identify} the navigation code to move.
+  \item \emph{Apply} \patref{Move Behavior Close to Data}{MoveBehaviorCloseToData} to remove one level of navigation. (At this point your regression tests should run.)
+  \item \emph{Repeat}, if necessary.
+\end{enumerate}
+
+\noindent
+\emph{Caution.}
+It is important to note that the refactoring process relies on pushing code \emph{from the clients to the providers}. In the example, from \lct{Car} to \lct{Engine} and from \lct{Engine} to \lct{Carburetor}. A common mistake is to try to eliminate navigation code by defining accessors at the client class level that access the attributes of the provider attribute values, \eg defining an accessor \lct{getCarburetor} in the class \lct{Car}. Instead of reducing coupling between the classes, it just increases the number of public accessors and makes the system more complex.
+
+\subsection*{Tradeoffs}
+
+\subsubsection*{Pros}
+
+\begin{bulletlist}
+\item Chains of dependencies between classes are eliminated, so changes in classes at the lowest level will impact fewer clients.
+
+\item Functionality that was implicit in the system is now named and explicitly available to new clients.
+\end{bulletlist}
+
+\subsubsection*{Cons}
+
+\begin{bulletlist}
+\item The systematic application of \patref{Eliminate Navigation Code}{EliminateNavigationCode} may lead to large interfaces. In particular, if a class defines many instance variables that are collections, then \patref{Eliminate Navigation Code}{EliminateNavigationCode} would force you to define a large number of additional methods to shield the underlying collections. 
+\end{bulletlist}
+
+\subsubsection*{Difficulties}
+
+\begin{bulletlist}
+\item Deciding when to apply \patref{Eliminate Navigation Code}{EliminateNavigationCode} can be difficult. Defining methods that merely delegate requests to class collaborators may not always be the solution. It may happen that giving away internal information can reduce the interface of a class. For example, if a class implements some well-defined behaviors but also serves as a \patpgref{Facade}{Facade} to other collaborators, it may be simpler to give access to the collaborator directly to reduce the interface of the class.
+\end{bulletlist}
+
+\subsubsection*{When the legacy solution is the solution}
+
+Navigation code may be the best solution when objects are graphically presented or mapped to a database. In such cases the goal is to really expose and mimic the structural relationships between classes. Eliminating navigation code will be a futile exercise. 
+
+It is sometimes necessary for a client to talk with its indirect providers. This is true when direct providers play the role of an object server that returns certain objects given certain properties (OOID, keys...). In this situation the client calls the object \emph{server} (a direct provider) that returns objects (indirect providers) to which the client sends messages. 
+
+\subsection*{Example}
+
+After having modified the \lct{Employee}, \lct{Payroll} and \lct{TelephoneGuide} classes, you noticed that it took 1/2 an hour to rebuild the whole project. Next time you see Chris (one of the maintainers) you ask him why this build took so long. ``You probably changed the Employee class'' he answers, ``we don't dare to touch that class anymore since so many classes depend on it''.
+
+\begin{figure}
+\begin{center}
+\includegraphics[width=0.8\textwidth]{RedistributeDependencies}
+\caption{How to remove the unnecessary dependencies between the \lct{Reports} class and the \lct{File} and \lct{Employee} Classes.}
+\figlabel{RedistributeDependencies}
+\end{center}
+\end{figure}
+
+You decide to examine this \lct{Employee} class in further detail and find many unnecessary dependencies. For instance (as shown in \figref{RedistributeDependencies}) there is a class \lct{Reports}, implementing one method \lct{countHandledFiles}, which counts for each \lct{Department} the number of files that are handled by all of its \lct{employees}. Unfortunately, there is no direct relationship between \lct{Department} and \lct{File} and consequently the \lct{ReportHandledFiles} must navigate over a department's \lct{employees} to enumerate all the \lct{files} and access the \lct{handled()} status.
+
+The \ind{Java} code below shows the situation before and after applying \patref{Eliminate Navigation Code}{EliminateNavigationCode}. The bold textual elements highlight problems and the solutions in the before and after situation.
+
+\subsubsection*{Before}
+
+\begin{code}
+public class Reports {
+...
+	public static void countHandledFiles(Department department) {
+		int nrHandled = 0, nrUnhandled = 0;
+	
+		for (int i=0; i < department.employees.length; i++) {
+			for (int j=0; j < department.employees[i].files.length; j++) {
+				if (department.employees[i].files[j].handled()) {
+					nrHandled++;}
+				else {
+					nrUnhandled++;}}}
+...}
+\end{code}
+
+The method \lct{countHandledFiles} counts the number of handled files, by asking the current department its \lct{employees} and for each of these \lct{files}. The classes \lct{Department} and \lct{Employee} have to declare those attributes public. With this implementation, two problems occur: 
+\begin{enumerate}
+  \item The \lct{Reports} class must know how to enumerate the associations between \lct{Department}, \lct{Employee} and \lct{File}, and this information must be accessible in the public interface of each of the classes. If one of these public interfaces change, then this change will affect all associated classes. 
+  \item The method \lct{countHandledFiles} is implemented by directly accessing the variables \lct{employees} and \lct{files}. This unnecessarily couples the class \lct{Reports} and the classes \lct{Department} and \lct{Employee}. If the class \lct{Department} or \lct{Employee} change the data-structure used to gold the associated objects, then all the methods in class \lct{Reports} will have to be adapted. 
+\end{enumerate}
+
+\subsubsection*{Steps}
+
+The solution is to extract the nested \lct{for} loops as separate methods and move them on the appropriate classes. This is actually a two step process.
+
+First extract the outer for loop from \lct{Reports.countHandledFiles} as a separate method (name it \lct{countHandledFiles} as well) and move it to the class \lct{Department}.
+
+\begin{code}
+public class Department {
+...
+		public void countHandledFiles
+				(Counter nrHandled, Counter nrUnhandled) {
+		for (int i=0; i < this.employees.length; i++) {
+			for (int j=0; j < this.employees[i].files.length; j++) {
+				if (this.employees[i].files[j].handled()) {
+					nrHandled.increment();}
+				else {
+					nrUnhandled.increment();}}}}
+...}
+
+public class Reports {
+...
+	private static void countHandledFiles(Department department) {
+		Counter nrHandled = new Counter (0), nrUnhandled = new Counter (0);
+		department.countHandledFiles(nrHandled, nrUnhandled);
+...}
+\end{code}
+
+Next, extract the inner for loop from \lct{Department.countHandledFiles} (also named \lct{countHandledFiles}) and move it to the class Employee.
+
+\begin{code}
+public class Employee {
+...
+	public void countHandledFiles
+				(Counter nrHandled, Counter nrUnhandled) {
+		for (int j=0; j < this.files.length; j++) {
+			if (this.files[j].handled()) {
+				nrHandled.increment();}
+			else {
+				nrUnhandled.increment();}}}
+...}
+
+public class Department {
+...
+	public void countHandledFiles
+				(Counter nrHandled, Counter nrUnhandled) {
+		for (int i=0; i < this.employees.length; i++) {
+			this.employees[i].countHandledFiles(nrHandled, nrUnhandled);}}
+...}
+\end{code}
+
+If all direct accesses to the \lct{employees} and \lct{files} variables are removed, these attributes can be declared private. 
+
+\subsection*{Rationale}
+
+\begin{quotation}
+\noindent
+\emph{A method ``M'' of an object ``O'' should invoke only the methods of the following kinds of objects.
+\begin{enumerate}
+  \item itself
+  \item its parameters
+  \item any object it creates/instantiates
+  \item its direct component objects
+\end{enumerate}}
+
+\hfill --- \ind{Law of Demeter}
+\end{quotation}
+
+Navigation code is a well-known symptom of misplaced behavior \cite{Lore94a} \cite{Shar97a} \cite{Riel96a} that violates the Law of Demeter \cite{Lieb88a}. It leads to unnecessary dependencies between classes and as a consequence changing the representation of a class requires \emph{all} clients to be adapted.
+
+\subsection*{Related Patterns}
+
+\patref{Eliminate Navigation Code}{EliminateNavigationCode} and \patpgref{Compare Code Mechanically}{CompareCodeMechanically} reinforce each other: Navigation code that is spread across different clients spreads duplicated code over the system. \patref{Compare Code Mechanically}{CompareCodeMechanically} helps to detect this phenomenon. \patref{Eliminate Navigation Code}{EliminateNavigationCode} brings the duplicated code together, where it is easier to refactor and eliminate.
+
+%=================================================================
+%:PATTERN -- {Split Up God Class}
+\pattern{Split Up God Class}{SplitUpGodClass}
+
+
+\emph{Also Known As:}  \ind{The Blob} \cite{Brow98a}, \ind{God Class} \cite{Riel96a}
+
+\intent{Split up a class with too many responsibilities into a number of smaller, cohesive classes.}
+
+\subsection*{Problem}
+
+How do you maintain a class that assumes too many responsibilities?
+
+\emph{This problem is difficult because:} 
+
+\begin{bulletlist}
+\item By assuming too many responsibilities, a god class monopolizes control of an application. Evolution of the application is difficult because nearly every change touches this class, and affects multiple responsibilities.
+
+\item It is difficult to understand the different abstractions that are intermixed in a god class. Most of the data of the multiple abstractions are accessed from different places.
+
+\item Identifying where to change a feature without impacting the other functionality or other objects in the system is difficult. Moreover, changes in other objects are likely to impact the god class, thus hampering the evolution of the system. 
+
+\item It is nearly impossible to change a part of the behavior of a god class in a black-box way.
+\end{bulletlist}
+
+\emph{Yet, solving this problem is feasible because:}
+
+\begin{bulletlist}
+\item You don't have to fix the problem in one shot.
+
+\item You can use \ind{Semantic Wrapper} to wrap it and present interfaces.
+\end{bulletlist}
+
+\subsection*{Solution}
+
+Incrementally redistribute the responsibilities of the god class either to its collaborating classes or to new classes that are pulled out the god class. When there is nothing left of the god class but a facade, remove or deprecate the facade.
+
+\subsubsection*{Detection}
+
+A god class may be recognized in various ways:
+
+\begin{bulletlist}
+\item a single huge class treats many other classes as data structures.
+
+\item a ``root'' class or other huge class has a name containing words like ``System'', ``Subsystem'', ``Manager'', ``Driver'', or ``Controller''.
+
+\item changes to the system always result in changes to the same class.
+
+\item changes to the class are extremely difficult because you cannot identify which parts of the class they affect.
+
+\item reusing the class is nearly impossible because it covers too many design concerns.
+
+\item the class is a domain class holding the majority of attributes and methods of a system or subsystem. (Note that the threshold is not absolute because some UI frameworks produce big classes with lots of methods, and some database interface classes may need a lot of attributes). 
+
+\item the class has an unrelated set of methods working on separated instance variables. The cohesiveness of the class is usually low. 
+
+\item the class requires long compile times, even for small modifications.
+
+\item the class is difficult to test due to the many responsibilities it assumes.
+
+\item the class uses a lot of memory.
+
+\item people tell you: ``This is the heart of the system''.
+
+\item when you ask for the responsibility of a god class you get various, long and unclear answers.
+
+\item god classes are the nightmare of maintainers, so ask what classes are huge and difficult to maintain. Ask what is the class they would not like to work on. (Variant: Ask people to choose which class they want to work on. The one that everybody avoids may be a god class.)
+\end{bulletlist}
+
+\subsubsection*{Steps}
+
+The solution relies on incrementally moving behavior away from the god class. During this process, data containers will become more object-like by acquiring the functionality that the god class was performing on their data. Some new classes will also be extracted from the god class.
+
+The following steps describe how this process ideally works. Note, however, that god classes can vary greatly in terms of their internal structure, so different techniques may be used to implement the transformation steps. Furthermore, it should be clear that a god class cannot be cured in one shot, so a safe way to proceed is to first transform a god class into a lightweight god class, then into a \patpgref{Facade}{Facade} that delegates behavior to its acquaintances. Finally, clients are redirected to the refactored data containers and the other new objects, and the \patref{Facade}{Facade} can be removed. The process is illustrated in figure 39.
+
+\begin{figure}
+\begin{center}
+\includegraphics[width=0.8\textwidth]{RedistributeGodClass}
+\caption{A god class is refactored in two stages, first by redistributing responsibilities to data containers, or by spawning off new classes, until there is nothing left but a facade, and second by removing the facade.}
+\figlabel{RedistributeGodClass}
+\end{center}
+\end{figure}
+
+The following steps are applied iteratively. Be sure to apply \patpgref{Regression Test After Every Change}{RegressionTestAfterEveryChange}:
+\begin{enumerate}
+  \item Identify cohesive subsets of instance variables of the god class, and convert them to external data containers. Change the initialization methods of the god class to refer to instances of the new data containers.
+
+  \item Identify all classes used as data containers by the god class (including those created in step 1) and apply \patref{Move Behavior Close to Data}{MoveBehaviorCloseToData} to promote the data containers into service providers. The original methods of the god class will simply delegate behavior to the moved methods.
+
+  \item After iteratively applying steps 1 and 2, there will be nothing left of the god class except a facade with a big initialization method. Shift the responsibility for initialization to a separate class, so only a pure facade is left. Iteratively redirect clients to the objects for which the former god class is now a facade, and either deprecate the facade (see \patpgref{Deprecate Obsolete Interfaces}{DeprecateObsoleteInterfaces}), or simply remove it.
+\end{enumerate}
+
+\subsection*{Tradeoffs}
+
+\subsubsection*{Pros}
+
+\begin{bulletlist}
+\item Application control is no longer centralized in a single monolithic entity but distributed amongst entities that each assume a well-defined set of responsibilities. The design evolves from a procedural design towards an object-oriented design based on autonomous interacting objects.
+
+\item Parts of the original god class are easier to understand and to maintain.
+
+\item Parts of the original god class are more stable because they deal with less issues. 
+
+\item Overall compilation time may be reduced due to the simplification of system dependencies.
+\end{bulletlist}
+
+\subsubsection*{Cons}
+
+\begin{bulletlist}
+\item Splitting up a god class is a long, slow and tedious process.
+
+\item Maintainers will no longer be able to go to a single god class to locate behavior to fix.
+
+\item The number of classes will increase.
+\end{bulletlist}
+
+\subsubsection*{Difficulties}
+
+\begin{bulletlist}
+\item God class methods may themselves be large, procedural abstractions with too many responsibilities. Such methods may need to be decomposed before cohesive sets of instance variables and methods can be teased out as classes.
+\end{bulletlist}
+
+\subsubsection*{When the legacy solution is the solution}
+
+What is riskier? To \patref{Split Up God Class}{SplitUpGodClass} or to leave it alone? A real god class is a large, unwieldy beast. Splitting it up into more robust abstractions may introduce considerable cost.
+
+The key issue is whether the god class needs to be \emph{maintained}. If the god class consists of stable, legacy code that rarely needs to be extended or modified, then refactoring it is a questionable investment of effort.
+
+Suppose, on the other hand, that it is the \emph{clients} of the god class that are unstable, and need to be frequently adapted to changing requirements. Then the clients should be shielded from the god class since it is not presenting a clean interface. Consider instead applying \patpgref{Present the Right Interface}{PresentTheRightInterface}, which will introduce a layer of clean, object-oriented abstractions between the clients and the god class, and may make it easier to evolve the clients.
+
+\subsection*{Rationale}
+
+\index{Riel, Arthur}
+\begin{quotation}
+\emph{Do not create god classes/objects in your system.}
+
+\hfill --- Arthur Riel, Heuristic 3.2 \cite{Riel96a}
+\end{quotation}
+
+God classes impede evolution because they achieve only a low level of procedural abstraction, so changes may affect many parts of the god class, its data containers and its clients. By splitting a god class up into object-oriented abstractions, changes will tend to be more localized, therefore easier to implement.
+
+\subsection*{Related Patterns}
+
+\index{Foote, Brian}
+\index{Yoder, Joseph}
+Foote and Yoder in ``\ind{Big Ball of Mud}'' \cite{Foot00a} note that god classes (and worse) arise naturally in software development. 
+
+\begin{quotation}
+\noindent
+\emph{``People build BIG BALLS OF MUD because they work. In many domains, they are the only things that have been shown to work. Indeed, they work where loftier approaches have yet to demonstrate that they can compete.}
+
+\emph{It is not our purpose to condemn BIG BALLS OF MUD. Casual architecture is natural during the early stages of a system's evolution. The reader must surely suspect, however, that our hope is that we can aspire to do better. By recognizing the forces and pressures that lead to architectural malaise, and how and when they might be confronted, we hope to set the stage for the emergence of truly durable artifacts that can put architects in dominant positions for years to come. The key is to ensure that the system, its programmers, and, indeed the entire organization, learn about the domain, and the architectural opportunities looming within it, as the system grows and matures.''}
+
+\hfill --- Foote \& Yoder \cite{Foot00a}
+\end{quotation}
+
+\patpgref{Present the Right Interface}{PresentTheRightInterface} is a competing pattern that should be applied when the god class itself rarely needs to be modified or extended.
+
+%=============================================================
+\ifx\wholebook\relax\else
+   \bibliographystyle{alpha}
+   \bibliography{scg}
+   \end{document}
+\fi
+%=============================================================
+

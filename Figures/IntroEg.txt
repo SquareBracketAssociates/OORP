@@ -1,0 +1,74 @@
+If It Ain't Broke, Don't Fix It
+
+Intent: Save your reengineering effort for the parts of the system that will make a difference.
+
+Problem
+
+Which parts of a legacy system should you reengineer?
+
+This problem is difficult because: 
+
+\begin{itemize}
+  \item Legacy software systems can be large and complex.
+
+  \item Rewriting everything is expensive and risky.
+
+Yet, solving this problem is feasible because:
+
+  \item Reengineering is always driven by some concrete goals.
+\end{itemize}
+
+Solution
+
+Only fix the parts that are ``broken''\,---\,that can no longer be adapted to planned changes.
+
+Tradeoffs
+
+Pros 
+
+You don't waste your time fixing things that are not only your critical path.
+
+Cons 
+
+Delaying repairs that do not seem critical may cost you more in the long run.
+
+Difficulties 
+
+It can be hard to determine what is ``broken''.
+
+Rationale 
+
+There may well be parts of the legacy system that are ugly, but work well and do not pose any significant maintenance effort. If these components can be isolated and wrapped, it may never be necessary to replace them.
+
+Known Uses 
+
+Alan M. Davis discusses this in his book, 201 Principles of Software Development .
+
+Related Patterns 
+
+Be sure to Fix Problems, Not Symptoms. 
+
+What Next
+
+Consider starting with the Most Valuable First. 
+
+There may follow a realistic example of applying the pattern.
+
+We explain why the solution makes sense.
+
+Each pattern entails some positive and negative tradeoffs. 
+
+The problem is phrased as a simple question. Sometimes the context is explicitly described.
+
+The intent should capture the essence of the pattern
+
+The name is usually an action phrase.
+
+Next we discuss the forces! They tell us why the problem is difficult and interesting. We also pinpoint the key to solving the problem.
+
+Related patterns may suggest alternative actions. Other patterns may suggest logical followup action.
+
+We list some well documented instances of the pattern.
+
+The solution sometimes includes a recipe of steps to apply the pattern.
+

@@ -1,0 +1,19 @@
+
+First Contact
+
+Initial Understanding
+
+Detailed Model Capture
+
+Tests: Your Life Insurance!
+
+Migration Strategies
+
+Setting Direction
+
+Detecting Duplicated Code
+
+Transform Conditionals to Polymorphism
+
+Redistribute Responsibilities
+

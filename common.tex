@@ -1,0 +1,281 @@
+% $Author: oscar $
+% $Date: 2009-09-13 20:58:29 +0200 (Sun, 13 Sep 2009) $
+% $Revision: 29070 $
+%=============================================================
+% NB: documentclass must be set in main document.
+% Allows book to be generated in multiple formats.
+%=============================================================
+%:Packages
+\usepackage[T1]{fontenc}  %%%%%really important to get the code directly in the text!
+\usepackage{palatino}
+\usepackage{ifthen}
+\usepackage{graphicx}
+\graphicspath{{figures/}}
+\usepackage{xspace}
+\usepackage{makeidx}
+\usepackage{isodateo} % enable \isodate
+\usepackage{amssymb,textcomp}
+%=============================================================
+%:More packages
+%\usepackage[english]{babel}
+%\usepackage{lmodern}
+%\usepackage[scaled=0.85]{helvet}
+%\usepackage{microtype}
+%\usepackage{theorem}
+%\usepackage{float}
+%\usepackage{longtable}
+%\usepackage[nottoc]{tocbibind}
+%\usepackage{multicol}
+%\usepackage{booktabs}	% book-style tables
+%\usepackage{topcapt}	% enables \topcaption
+%\usepackage{multirow}
+%\usepackage{tabularx}
+%\usepackage{alltt}
+\usepackage[usenames,dvipsnames]{color}
+%\usepackage[hang]{subfigure}\makeatletter\def\p@subfigure{\thefigure\,}\makeatother
+%\usepackage{rotating}
+%\usepackage{enumitem}	% apb: allows more control over tags in enumerations
+%\usepackage{verbatim}     % for comment environment
+%\usepackage{varioref}	% for page references that work
+%\usepackage{needspace}
+%\usepackage[newparttoc]{titlesec}
+%\usepackage{titletoc}
+%\usepackage{wrapfig}
+\usepackage[
+	colorlinks=true,
+	linkcolor=black,
+	urlcolor=black,
+	citecolor=black
+]{hyperref}   % should come last
+%=============================================================
+%:URL style
+\makeatletter
+\def\url@leostyle{%
+  \@ifundefined{selectfont}{\def\UrlFont{\sf}}{\def\UrlFont{\sffamily}}}
+\makeatother
+\urlstyle{leo}
+%=============================================================
+%:Booleans
+\newboolean{lulu}
+\setboolean{lulu}{false}
+\newcommand{\ifluluelse}[2]{\ifthenelse{\boolean{lulu}}{#1}{#2}}
+%=============================================================
+%:Editorial comment macros
+\newcommand{\nnbb}[2]{
+  \fbox{\bfseries\sffamily\scriptsize#1}
+  {\sf\small$\blacktriangleright$\textit{#2}$\blacktriangleleft$}
+}
+\newcommand{\on}[1]{\nnbb{Oscar}{#1}}
+\newcommand{\here}{\nnbb{CONTINUE}{HERE}}
+%=============================================================
+%:Abbreviation macros
+\newcommand{\ie}{\emph{i.e.},\xspace}
+\newcommand{\eg}{\emph{e.g.},\xspace}
+\newcommand{\etc}{\emph{etc.}\xspace}
+\newcommand{\etal}{\emph{et al.}\xspace}
+\newcommand{\straightquote}{"}
+\newcommand{\sba}{\url{SquareBracketAssociates.org}\xspace}
+%=============================================================
+%:Patterns
+% \newcommand{\pattern}[2]{\newpage\section{{\sf #1}}\label{pat:#2}}
+% \newcommand{\pattern}[2]{\newpage\index{#1 (Pattern)}\section{#1}\label{pat:#2}}
+\newcommand{\pattern}[2]{\cleardoublepage\index{#1 (Pattern)}\section{#1}\label{pat:#2}}
+\newcommand{\thumbnail}[2]{\index{#1 (Pattern)}\subsection{#1}\label{pat:#2}}
+\newcommand{\thumblang}[2]{\index{#1 (Pattern language)}\subsection{#1}\label{pat:#2}}
+\newcommand{\variant}[1]{{\emph{#1}}\xspace}
+% \newcommand{\problem}[1]{\subsection*{Problem}\emph{#1}}
+\newcommand{\intent}[1]{\paragraph{Intent}\emph{#1}}
+\newcommand{\problem}[1]{\paragraph{Problem}\emph{#1}}
+\newcommand{\solution}[1]{\paragraph{Solution}\emph{#1}}
+\newcommand{\discussion}[0]{\paragraph{Discussion}}
+\newcommand{\cmd}[1]{{\tt #1}\xspace}
+%=============================================================
+%:Environments
+\newenvironment{bulletlist}{\begin{itemize}\setlength{\itemsep}{0ex}}
+{\end{itemize}}
+%=============================================================
+%:Cross reference macros
+\newcommand{\chalabel}[1]{\label{cha:#1}}
+\newcommand{\seclabel}[1]{\label{sec:#1}}
+\newcommand{\figlabel}[1]{\label{fig:#1}}
+\newcommand{\tablabel}[1]{\label{tab:#1}}
+\newcommand{\rulelabel}[1]{\label{rule:#1}}
+\newcommand{\eglabel}[1]{\label{eg:#1}}
+\newcommand{\scrlabel}[1]{\label{scr:#1}}
+\newcommand{\mthlabel}[1]{\label{mth:#1}}
+\newcommand{\clslabel}[1]{\label{cls:#1}}
+\newcommand{\faqlabel}[1]{\label{faq:#1}}
+%\newcommand{\charef}[1]{Chapter~\ref{cha:#1}\xspace}
+%\newcommand{\secref}[1]{Section~\ref{sec:#1}\xspace}
+\newcommand{\figref}[1]{Figure~\ref{fig:#1}\xspace}
+% \newcommand{\patpgref}[2]{\hyperref[pat:#2]{\sf #1} [p.~\pageref{pat:#2}]\xspace}
+\newcommand{\patpgref}[2]{\index{#1 (Pattern)}\hyperref[pat:#2]{#1} [p.~\pageref{pat:#2}]\xspace}
+\newcommand{\patlangpgref}[2]{\index{#1 (Pattern language)}\hyperref[pat:#2]{#1} [p.~\pageref{pat:#2}]\xspace}
+% \newcommand{\patref}[2]{\hyperref[pat:#2]{\sf #1}\xspace}
+\newcommand{\patref}[2]{\index{#1 (Pattern)}\hyperref[pat:#2]{#1}\xspace}
+\newcommand{\patlangref}[2]{\index{#1 (Pattern language)}\hyperref[pat:#2]{#1}\xspace}
+% \newcommand{\charef}[2]{\hyperref[cha:#2]{\underline{\sf #1}}\xspace}
+% \newcommand{\charef}[2]{\hyperref[cha:#2]{\sf #1}\xspace}
+\newcommand{\charef}[2]{\index{#1 (Pattern cluster)}\hyperref[cha:#2]{#1}\xspace}
+% \newcommand{\chapgref}[2]{\hyperref[cha:#2]{\sf #1} [p.~\pageref{cha:#2}]\xspace}
+\newcommand{\chapgref}[2]{\index{#1 (Pattern cluster)}\hyperref[cha:#2]{#1} [p.~\pageref{cha:#2}]\xspace}
+%\newcommand{\Figref}[1]{Figure~\ref{fig:#1}\xspace}
+%\newcommand{\appref}[1]{Appendix~\ref{app:#1}\xspace}
+%\newcommand{\tabref}[1]{Table~\ref{tab:#1}\xspace}
+%\newcommand{\ruleref}[1]{\ref{rule:#1}\xspace}
+%\newcommand{\egref}[1]{example~\ref{eg:#1}\xspace}
+%\newcommand{\Egref}[1]{Example~\ref{eg:#1}\xspace}
+%\newcommand{\scrref}[1]{script~\ref{scr:#1}\xspace}
+%\newcommand{\Scrref}[1]{Script~\ref{scr:#1}\xspace}
+%\newcommand{\tscrref}[1]{the script~\ref{scr:#1}\xspace}
+%\newcommand{\Tscrref}[1]{The script~\ref{scr:#1}\xspace}
+%\newcommand{\mthref}[1]{method~\ref{mth:#1}\xspace}
+%\newcommand{\mthsref}[1]{methods~\ref{mth:#1}\xspace}
+%\newcommand{\Mthref}[1]{Method~\ref{mth:#1}\xspace}
+%\newcommand{\tmthref}[1]{the method~\ref{mth:#1}\xspace}
+%\newcommand{\Tmthref}[1]{The method~\ref{mth:#1}\xspace}
+%\newcommand{\clsref}[1]{class~\ref{cls:#1}\xspace}
+%\newcommand{\tclsref}[1]{the class~\ref{cls:#1}\xspace}
+%\newcommand{\Tclsref}[1]{The class~\ref{cls:#1}\xspace}
+%=============================================================
+%:Page Layout
+\setlength{\headsep}{1cm}
+%=============================================================
+%:Menu item macro
+%\definecolor{lightgray}{gray}{0.89}
+%\newcommand{\menu}[1]{{%
+%	\setlength{\fboxsep}{0pt}%
+%	\colorbox{lightgray}{{{\upshape\sffamily\strut \,#1\,}}}}}
+%\newcommand{\go}{\,$\triangleright$\,}
+%\newcommand{\short}[1]{\mbox{{\sc cmd}\hspace{0.08em}--\hspace{0.09em}#1}\xspace}
+%\newcommand{\button}[1]{{%
+%	\setlength{\fboxsep}{0pt}%
+%	\fbox{{\upshape\sffamily\strut \,#1\,}}}}
+%\newcommand{\toolsflap}{\textit{Tools} flap\xspace}
+%=============================================================
+%:Section depth
+%\setcounter{secnumdepth}{2}
+%
+%\DeclareGraphicsExtensions{.pdf, .jpg, .png}
+%=============================================================
+%:PDF setup
+\hypersetup{
+   pdftitle={Object-Oriented Reengineering Patterns},
+   pdfauthor={Serge Demeyer, St\'ephane Ducasse, Oscar Nierstrasz},
+   pdfkeywords={Reengineering, Object-Oriented Programming, Patterns},
+   pdfsubject={Computer Science}
+}
+%=============================================================
+%:Page layout and appearance
+%\renewcommand{\chaptermark}[1]{\markboth{#1}{}}
+%\renewcommand{\sectionmark}[1]{\markright{\thesection\ #1}}
+%\renewpagestyle{plain}[\small\itshape]{%
+%	\setheadrule{0pt}%
+%	\sethead[][][]{}{}{}%
+%	\setfoot[][][]{}{}{}}
+%\renewpagestyle{headings}[\small\itshape]{%
+%	\setheadrule{0pt}%
+%	\setmarks{chapter}{section}%
+%	\sethead[\thepage][][\chaptertitle]{\sectiontitle}{}{\thepage}%
+%	\setfoot[][][]{}{}{}}
+%=============================================================
+%:Title section setup and TOC numbering depth
+%\setcounter{secnumdepth}{1}
+%\setcounter{tocdepth}{1}
+%\titleformat{\part}[display]{\centering}{\huge\partname\ \thepart}{1em}{\Huge\textbf}[]
+%\titleformat{\chapter}[display]{}{\huge\chaptertitlename\ \thechapter}{1em}{\Huge\raggedright\textbf}[]
+%\titlecontents{part}[3pc]{%
+%		\pagebreak[2]\addvspace{1em plus.4em minus.2em}%
+%		\leavevmode\large\bfseries}
+%	{\contentslabel{3pc}}{\hspace*{-3pc}}
+%	{}[\nopagebreak]
+%\titlecontents{chapter}[3pc]{%
+%		\pagebreak[0]\addvspace{1em plus.2em minus.2em}%
+%		\leavevmode\bfseries}
+%	{\contentslabel{3pc}}{}
+%	{\hfill\contentspage}[\nopagebreak]
+%\dottedcontents{section}[3pc]{}{3pc}{1pc}
+%\dottedcontents{subsection}[3pc]{}{0pc}{1pc}
+%\let\origdoublepage\cleardoublepage
+%\newcommand{\clearemptydoublepage}{%
+%  \clearpage
+%  {\pagestyle{empty}\origdoublepage}}
+%\let\cleardoublepage\clearemptydoublepage % see http://www.tex.ac.uk/cgi-bin/texfaq2html?label=patch
+%=============================================================
+%:Listings package configuration
+\newcommand{\caret}{\makebox{\raisebox{0.4ex}{\footnotesize{$\wedge$}}}}
+% \newcommand{\escape}{{\sf \textbackslash}}
+\definecolor{source}{gray}{0.95}
+\usepackage{listings}
+\lstdefinelanguage{Smalltalk}{
+  morestring=[d]',
+% Adapt this to other languages!
+%  morecomment=[s]{"}{"},
+  alsoletter={\#:},
+  %escapechar={!},
+  literate=
+    {BANG}{!}1
+%    {UNDERSCORE}{\_}1
+    {\\st}{Smalltalk}9 % convenience -- in case \st occurs in code
+    % {'}{{\textquotesingle}}1 % replaced by upquote=true in \lstset
+%    {_}{{$\leftarrow$}}1
+    {>>>}{{\sep}}1
+    {^}{{$\uparrow$}}1
+    {~}{{$\sim$}}1
+    {-}{{\sf -\hspace{-0.13em}-}}1  % the goal is to make - the same width as +
+    {+}{\raisebox{0.08ex}{+}}1		% and to raise + off the baseline to match -
+    {-->}{{\quad$\longrightarrow$\quad}}3
+	, % Don't forget the comma at the end!
+  tabsize=4
+}[keywords,comments,strings]
+
+\lstset{language=Smalltalk,
+	basicstyle=\sffamily,
+	keywordstyle=\color{black}\bfseries,
+	% stringstyle=\ttfamily, % Ugly! do we really want this? -- on
+	mathescape=true,
+	showstringspaces=false,
+	keepspaces=true,
+	breaklines=true,
+	breakautoindent=true,
+	backgroundcolor=\color{source},
+	lineskip={-1pt}, % Ugly hack
+	upquote=true, % straight quote; requires textcomp package
+	columns=fullflexible} % no fixed width fonts
+% \newcommand{\ct}{\lstinline[mathescape=false,basicstyle={\sffamily\upshape}]}
+\newcommand{\ct}{\lstinline[mathescape=false,backgroundcolor=\color{white},basicstyle={\sffamily\upshape}]}
+\newcommand{\lct}[1]{{\textsf{\textup{#1}}}}
+%\newcommand{\scat}[1]{\emph{\textsf{#1}}\xspace}
+%\newcommand{\prot}[1]{\emph{\textsf{#1}}\xspace}
+% NB: No argument!
+\lstnewenvironment{code}[0]{%
+	\lstset{%
+		% frame=lines,
+		frame=single,
+		framerule=0pt,
+		mathescape=false
+	}
+}{}
+%\def\ignoredollar#1{}
+%=============================================================
+%:Reserving space
+%\newcommand{\needlines}[1]{\Needspace{#1\baselineskip}}
+%=============================================================
+%:Indexing macros
+% Macros ending with "ind" generate text as well as an index entry
+% Macros ending with "index" *only* generate an index entry
+\newcommand{\ind}[1]{\index{#1}#1\xspace} % plain text
+\newcommand{\subind}[2]{\index{#1!#2}#2\xspace} % show #2, subindex under #1
+\newcommand{\emphind}[1]{\index{#1}\emph{#1}\xspace} % emph #1
+\newcommand{\emphsubind}[2]{\index{#1!#2}\emph{#2}\xspace} % show emph #2, subindex under #1
+\newcommand{\patind}[1]{\index{#1@#1 (pattern)}\ct{#1}\xspace} % pattern
+\newcommand{\seeindex}[2]{\index{#1|see{#2}}} % #1, see #2
+%\newcommand{\boldidx}[1]{{\bf #1}} % breaks hyperlink
+%\newcommand{\indmain}[1]{\index{#1}#1\xspace} 
+%\newcommand{\emphsubindmain}[2]{\index{#1!#2}\emph{#2}\xspace} % subindex, main entry
+%\newcommand{\subindmain}[2]{\index{#1!#2}#2\xspace} % subindex, main entry
+%\newcommand{\clsindmain}[1]{\index{#1!\#@(class)}\ct{#1}\xspace} % class main
+%\newcommand{\indexmain}[1]{\index{#1}} 
+%=============================================================
+\parskip 1ex
+%=============================================================

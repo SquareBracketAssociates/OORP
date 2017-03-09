@@ -1,0 +1,506 @@
+\begin{theindex}
+
+  \item Abstract Factory (Pattern), \hyperpage{139}, \hyperpage{284}, 
+		\hyperpage{319}
+  \item Abstract Instance Variable, \hyperpage{317}
+  \item Ada, \hyperpage{40}, \hyperpage{274}, \hyperpage{282}
+  \item Adapter (Pattern), \hyperpage{13}, \hyperpage{208}, 
+		\hyperpage{247}, \hyperpage{319}
+  \item ADAPTOR pattern language, \hyperpage{208}, \hyperpage{212}
+  \item Agree on Maxims (Pattern), \hyperpage{20}, \hyperpage{23}, 
+		\hyperpage{43}
+  \item Alexander, Christopher, \hyperpage{12}
+  \item Always Have a Running Version (Pattern), \hyperpage{13}, 
+		\hyperpage{152}, \hyperpage{157}, \hyperpage{183}, 
+		\hyperpage{193}, \hyperpage{199--201}
+  \item Analyze the Persistent Data (Pattern), \hyperpage{59}, 
+		\hyperpage{67}, \hyperpage{85--87}, \hyperpage{96}, 
+		\hyperpage{320}
+  \item Appoint a Navigator (Pattern), \hyperpage{20}, \hyperpage{25}, 
+		\hyperpage{164}, \hyperpage{193}
+  \item architecture, \hyperpage{19}, \hyperpage{25}, \hyperpage{29}, 
+		\hyperpage{99}
+  \item Arranging the Furniture, \hyperpage{130}
+  \item AST Matching, \hyperpage{255}
+
+  \indexspace
+
+  \item Beck, Kent, \hyperpage{6}, \hyperpage{27}, \hyperpage{58}, 
+		\hyperpage{223}
+  \item Belady, Les, \hyperpage{xiii}, \hyperpage{219}
+  \item Bennett, Simon, \hyperpage{74}
+  \item Big Ball of Mud, \hyperpage{197}, \hyperpage{267}
+  \item Binder, Robert, \hyperpage{149}, \hyperpage{315}
+  \item black box testing, \hyperpage{160}, \hyperpage{174}
+  \item Blaha, Michael, \hyperpage{95}
+  \item Boehm, Barry, \hyperpage{8}
+  \item Brant, John, \hyperpage{130}
+  \item Bridge to the New Town, \hyperpage{203}
+  \item Brodie, Michael, \hyperpage{205}
+  \item Brooks, Frederick, \hyperpage{117}, \hyperpage{197}
+  \item bug reports, \hyperpage{46}
+  \item Build Confidence (Pattern), \hyperpage{20}, \hyperpage{31}, 
+		\hyperpage{37}, \hyperpage{182, 183}, \hyperpage{185}, 
+		\hyperpage{187}, \hyperpage{189, 190}, \hyperpage{192}, 
+		\hyperpage{200, 201}, \hyperpage{205}
+  \item business model, \hyperpage{23}
+
+  \indexspace
+
+  \item C++, \hyperpage{40}, \hyperpage{58}, \hyperpage{130}, 
+		\hyperpage{212}, \hyperpage{232}, \hyperpage{247}, 
+		\hyperpage{274}, \hyperpage{281}, \hyperpage{285}, 
+		\hyperpage{299}, \hyperpage{310}
+  \item Chapin, John, \hyperpage{66}
+  \item Chat with the Maintainers (Pattern), \hyperpage{42}, 
+		\hyperpage{45}, \hyperpage{55}, \hyperpage{59}, 
+		\hyperpage{67}, \hyperpage{71}, \hyperpage{76}, 
+		\hyperpage{82}, \hyperpage{144}
+  \item Chicken Little, \hyperpage{191, 192}
+  \item Chikofsky, Elliot, \hyperpage{8}, \hyperpage{11}
+  \item class abuse, \hyperpage{11}
+  \item COBOL, \hyperpage{232}
+  \item Cobol, \hyperpage{130}
+  \item Cockburn, Alistair, \hyperpage{103}
+  \item code reviews, \hyperpage{54}
+  \item code smells, \hyperpage{6}, \hyperpage{53}
+  \item CodeCrawler, \hyperpage{104}, \hyperpage{115}
+  \item coding idioms, \hyperpage{54}
+  \item Compare Code Mechanically (Pattern), \hyperpage{225}, 
+		\hyperpage{227}, \hyperpage{261}
+  \item Conserve Familiarity (Pattern), \hyperpage{183}, 
+		\hyperpage{186}, \hyperpage{219, 220}
+  \item Continuous Integration, \hyperpage{200}
+  \item Conway's law, \hyperpage{49}
+  \item Conway, Melvin, \hyperpage{49}
+  \item Cook, Stephen, \hyperpage{51}
+  \item Coplien, James, \hyperpage{187}
+  \item Cross, James, \hyperpage{8}, \hyperpage{11}
+
+  \indexspace
+
+  \item Daimler-Benz, \hyperpage{xiv}, \hyperpage{xvii}
+  \item DALI, \hyperpage{105}
+  \item data bridge, \hyperpage{203}
+  \item data container, \hyperpage{239}, \hyperpage{241}
+  \item database, \hyperpage{87}
+    \subitem schema, \hyperpage{87}
+  \item DATRIX, \hyperpage{232}
+  \item Davis, Alan, \hyperpage{157}, \hyperpage{202}, \hyperpage{222}
+  \item De Marco, Tom, \hyperpage{49}, \hyperpage{114}
+  \item debugger, \hyperpage{133}
+  \item DeLano, David, \hyperpage{315}
+  \item Deprecate Obsolete Interfaces (Pattern), \hyperpage{183}, 
+		\hyperpage{208}, \hyperpage{212, 213}, \hyperpage{215}, 
+		\hyperpage{245}, \hyperpage{266}
+  \item Deprecation, \hyperpage{215}, \hyperpage{217}
+  \item DESEL project, \hyperpage{51}
+  \item design drift, \hyperpage{xiv}
+  \item Design Patterns, \hyperpage{xv}, \hyperpage{315}
+  \item DESIRE, \hyperpage{105}
+  \item Detailed Model Capture (Pattern cluster), \hyperpage{14}, 
+		\hyperpage{86}, \hyperpage{105}, \hyperpage{115}, 
+		\hyperpage{117--119}
+  \item Detecting Duplicated Code (Pattern cluster), \hyperpage{16}, 
+		\hyperpage{224, 225}
+  \item Distinguish Public from Published Interface (Pattern), 
+		\hyperpage{183}, \hyperpage{209}, \hyperpage{211}, 
+		\hyperpage{213}
+  \item Do a Mock Installation (Pattern), \hyperpage{47}, 
+		\hyperpage{51}, \hyperpage{59}, \hyperpage{72}, 
+		\hyperpage{77}, \hyperpage{79}, \hyperpage{82}
+  \item Do it, then do it right, then do it fast, \hyperpage{222}
+  \item Do the simplest thing that will work, \hyperpage{37}
+  \item documentation, \hyperpage{61}
+    \subitem insufficient, \hyperpage{10}
+    \subitem obsolete, \hyperpage{4}
+  \item dotplot, \hyperpage{236}
+  \item Dup, \hyperpage{238}
+  \item duplicated code, \hyperpage{6}, \hyperpage{10}, \hyperpage{227}
+  \item duplicated functionality, \hyperpage{10}
+  \item Duploc, \hyperpage{238}
+
+  \indexspace
+
+  \item Eiffel, \hyperpage{124}
+  \item Eliminate Navigation Code (Pattern), \hyperpage{242}, 
+		\hyperpage{244}, \hyperpage{253}, \hyperpage{257}, 
+		\hyperpage{259}, \hyperpage{261}, \hyperpage{317}, 
+		\hyperpage{319}
+  \item Encapsulate Field (Pattern), \hyperpage{251}, \hyperpage{317}
+  \item encapsulation
+    \subitem violation of, \hyperpage{11}, \hyperpage{253}
+  \item Engage Customers, \hyperpage{185}
+  \item Envy, \hyperpage{81}
+  \item ESPRIT, \hyperpage{xiv}, \hyperpage{xvii}
+  \item EuroPLoP, \hyperpage{xvii}
+  \item evolutionary prototype, \hyperpage{195}
+  \item exploratory prototype, \hyperpage{195}
+  \item Extract Method (Pattern), \hyperpage{128}, \hyperpage{130}, 
+		\hyperpage{225}, \hyperpage{238}, \hyperpage{244}, 
+		\hyperpage{293}, \hyperpage{296}, \hyperpage{317}
+  \item Extreme Programming, \hyperpage{37}, \hyperpage{157}, 
+		\hyperpage{190}, \hyperpage{202}
+
+  \indexspace
+
+  \item Facade (Pattern), \hyperpage{13}, \hyperpage{257}, 
+		\hyperpage{265}, \hyperpage{319}
+  \item Factor out State (Pattern), \hyperpage{270, 271}, 
+		\hyperpage{280}, \hyperpage{291}, \hyperpage{297}, 
+		\hyperpage{321}
+  \item Factor out Strategy (Pattern), \hyperpage{270, 271}, 
+		\hyperpage{280}, \hyperpage{295}, \hyperpage{297, 298}, 
+		\hyperpage{321}
+  \item Factory Method (Pattern), \hyperpage{139}, \hyperpage{319}
+  \item FAMOOS, \hyperpage{xiv, xv}, \hyperpage{xvii}, \hyperpage{40}, 
+		\hyperpage{58}, \hyperpage{66, 67}, \hyperpage{75}, 
+		\hyperpage{81}, \hyperpage{115}, \hyperpage{130}, 
+		\hyperpage{238}
+  \item First Contact (Pattern cluster), \hyperpage{14}, \hyperpage{42}, 
+		\hyperpage{83, 84}, \hyperpage{87}, \hyperpage{107}, 
+		\hyperpage{117}
+  \item Fix Problems, Not Symptoms (Pattern), \hyperpage{20}, 
+		\hyperpage{25}, \hyperpage{30, 31}, \hyperpage{33}
+  \item Flyweight (Pattern), \hyperpage{102}, \hyperpage{320}
+  \item Foote, Brian, \hyperpage{197}, \hyperpage{267}
+  \item forces, \see{pattern, forces}{xvi}
+  \item foreign key, \hyperpage{91}
+  \item forward engineering
+    \subitem definition, \hyperpage{8}
+  \item Fowler, Martin, \hyperpage{11}, \hyperpage{27}, \hyperpage{223}, 
+		\hyperpage{299}, \hyperpage{315}
+  \item frameworks, \hyperpage{xiv}
+  \item FZI, \hyperpage{xiv}, \hyperpage{xvii}
+
+  \indexspace
+
+  \item God Class, \hyperpage{239}, \hyperpage{241}, \hyperpage{263}
+  \item Goldberg, Adele, \hyperpage{23}, \hyperpage{75}
+  \item Grow Your Test Base Incrementally (Pattern), \hyperpage{150}, 
+		\hyperpage{157}, \hyperpage{159}, \hyperpage{178}, 
+		\hyperpage{193}, \hyperpage{201}, \hyperpage{316, 317}
+
+  \indexspace
+
+  \item hook method, \hyperpage{139}, \hyperpage{166}
+
+  \indexspace
+
+  \item IEEE, \hyperpage{11}
+  \item If It Ain't Broke, Don't Fix It (Pattern), \hyperpage{20}, 
+		\hyperpage{33}, \hyperpage{35}
+  \item inheritance
+    \subitem missing, \hyperpage{11}
+    \subitem misuse of, \hyperpage{11}
+  \item Initial Understanding (Pattern cluster), \hyperpage{14}, 
+		\hyperpage{43}, \hyperpage{86}, \hyperpage{117}, 
+		\hyperpage{137}, \hyperpage{141}
+  \item Interview During Demo (Pattern), \hyperpage{42}, \hyperpage{47}, 
+		\hyperpage{51}, \hyperpage{55}, \hyperpage{59}, 
+		\hyperpage{63}, \hyperpage{67}, \hyperpage{69}, 
+		\hyperpage{71}, \hyperpage{76}, \hyperpage{79}, 
+		\hyperpage{81, 82}, \hyperpage{97}, \hyperpage{99}, 
+		\hyperpage{135}, \hyperpage{144}
+  \item Introduce Null Object (Pattern), \hyperpage{270, 271}, 
+		\hyperpage{289}, \hyperpage{299}, \hyperpage{320}
+  \item Involve the Users (Pattern), \hyperpage{20}, \hyperpage{31}, 
+		\hyperpage{37}, \hyperpage{43}, \hyperpage{182, 183}, 
+		\hyperpage{185}, \hyperpage{187}, \hyperpage{190}, 
+		\hyperpage{220}
+
+  \indexspace
+
+  \item Jackson, Daniel, \hyperpage{66}
+  \item Java, \hyperpage{6}, \hyperpage{139}, \hyperpage{211}, 
+		\hyperpage{215}, \hyperpage{248}, \hyperpage{255}, 
+		\hyperpage{259}, \hyperpage{274}, \hyperpage{282}, 
+		\hyperpage{299}
+  \item Javadoc, \hyperpage{57}
+  \item JUnit, \hyperpage{156}, \hyperpage{163, 164}
+
+  \indexspace
+
+  \item Keep It Simple (Pattern), \hyperpage{21}, \hyperpage{37}, 
+		\hyperpage{228}
+  \item Keep the Data --- Toss the Code, \hyperpage{203}
+  \item Keller, Wolfgang, \hyperpage{205}
+  \item Konigsberg, Allen, \hyperpage{57}
+
+  \indexspace
+
+  \item Law of Conservation of Familiarity, \hyperpage{220}
+  \item Law of Demeter, \hyperpage{240, 241}, \hyperpage{253}, 
+		\hyperpage{261}
+  \item Law of Increasing Complexity, \hyperpage{5}
+  \item layering
+    \subitem improper, \hyperpage{10}
+  \item Learn from the Past (Pattern), \hyperpage{30}, \hyperpage{120}, 
+		\hyperpage{140, 141}
+  \item legacy software, \hyperpage{3}
+  \item legacy systems, \hyperpage{xiv}
+  \item Lehman, Manny, \hyperpage{xiii}, \hyperpage{219}
+  \item literate programming, \hyperpage{124}
+  \item Look for the Contracts (Pattern), \hyperpage{92}, 
+		\hyperpage{96}, \hyperpage{120}, \hyperpage{135}, 
+		\hyperpage{137}, \hyperpage{140}, \hyperpage{144}, 
+		\hyperpage{319, 320}, \hyperpage{322}
+  \item Love, Tom, \hyperpage{197}
+
+  \indexspace
+
+  \item maintenance, \hyperpage{46}
+  \item maintenance costs, \hyperpage{23}
+  \item Make a Bridge to the New Town (Pattern), \hyperpage{33}, 
+		\hyperpage{183}, \hyperpage{190}, \hyperpage{193}, 
+		\hyperpage{197}, \hyperpage{203}
+  \item maxims, \hyperpage{23}
+  \item MediaGeniX, \hyperpage{125}
+  \item meetings, \hyperpage{27}
+  \item metrics, \hyperpage{107}, \hyperpage{142}
+  \item Migrate Systems Incrementally (Pattern), \hyperpage{31}, 
+		\hyperpage{152}, \hyperpage{157}, \hyperpage{182, 183}, 
+		\hyperpage{186, 187}, \hyperpage{191}, \hyperpage{205}, 
+		\hyperpage{220}
+  \item Migrating Legacy Systems, \hyperpage{192}
+  \item Migration Strategies (Pattern cluster), \hyperpage{16}, 
+		\hyperpage{152}
+  \item misplaced operations, \hyperpage{11}
+  \item modularity
+    \subitem lack of, \hyperpage{10}
+  \item Most Valuable First (Pattern), \hyperpage{20}, \hyperpage{23}, 
+		\hyperpage{25}, \hyperpage{29}, \hyperpage{33}, 
+		\hyperpage{181}, \hyperpage{185}, \hyperpage{193}
+  \item Move Behavior Close to Data (Pattern), \hyperpage{225}, 
+		\hyperpage{238}, \hyperpage{241--244}, 
+		\hyperpage{250, 251}, \hyperpage{253}, \hyperpage{256}, 
+		\hyperpage{266}, \hyperpage{317--319}, \hyperpage{322}
+  \item Move Method (Pattern), \hyperpage{244}, \hyperpage{317}
+  \item mural visualization, \hyperpage{236}
+
+  \indexspace
+
+  \item navigator, \hyperpage{25}
+  \item Nielsen, Jakob, \hyperpage{74}
+  \item Nokia, \hyperpage{xiv}, \hyperpage{xvii}
+  \item Nortel, \hyperpage{50}
+  \item Null Object (Pattern), \hyperpage{270, 271}, \hyperpage{299}, 
+		\hyperpage{320}
+
+  \indexspace
+
+  \item O'Callaghan, Alan, \hyperpage{208}
+
+  \indexspace
+
+  \item pattern
+    \subitem forces, \hyperpage{xvi}
+    \subitem language, \hyperpage{xvi}, \hyperpage{14}
+    \subitem tradeoffs, \hyperpage{xvi}
+  \item Perl, \hyperpage{274}, \hyperpage{310}
+  \item Planning Game, \hyperpage{30}, \hyperpage{187}
+  \item Pooley, Rob, \hyperpage{217}
+  \item Present the Right Interface (Pattern), \hyperpage{33}, 
+		\hyperpage{183}, \hyperpage{192, 193}, \hyperpage{196}, 
+		\hyperpage{207--209}, \hyperpage{213}, 
+		\hyperpage{267, 268}, \hyperpage{319}
+  \item Pressman, Roger, \hyperpage{65}
+  \item Prototype the Target Solution (Pattern), \hyperpage{183}, 
+		\hyperpage{190}, \hyperpage{192}, \hyperpage{195}, 
+		\hyperpage{220}
+  \item Published Interface, \hyperpage{211, 212}
+  \item Python, \hyperpage{237}
+
+  \indexspace
+
+  \item Quantity (Pattern), \hyperpage{100}, \hyperpage{320}
+
+  \indexspace
+
+  \item Read all the Code in One Hour (Pattern), \hyperpage{42}, 
+		\hyperpage{47}, \hyperpage{51}, \hyperpage{53}, 
+		\hyperpage{58, 59}, \hyperpage{63}, \hyperpage{67}, 
+		\hyperpage{72}, \hyperpage{76}, \hyperpage{81}, 
+		\hyperpage{97}, \hyperpage{321}
+  \item Record Business Rules as Tests (Pattern), \hyperpage{76}, 
+		\hyperpage{120}, \hyperpage{134}, \hyperpage{152}, 
+		\hyperpage{160, 161}, \hyperpage{173}, \hyperpage{175}, 
+		\hyperpage{178}
+  \item Redistribute Responsibilities (Pattern cluster), \hyperpage{16}, 
+		\hyperpage{115}
+  \item reengineering, \hyperpage{10}
+    \subitem continuous, \hyperpage{7}, \hyperpage{12}
+    \subitem definition, \hyperpage{8}
+  \item reengineering patterns, \hyperpage{12, 13}
+    \subitem form, \hyperpage{14}
+  \item Refactor to Understand (Pattern), \hyperpage{14}, 
+		\hyperpage{118}, \hyperpage{120}, \hyperpage{125}, 
+		\hyperpage{127--131}, \hyperpage{140}, \hyperpage{180}, 
+		\hyperpage{222}, \hyperpage{317, 318}
+  \item refactoring, \hyperpage{128}
+    \subitem definition, \hyperpage{11}
+  \item Refactoring Browser, \hyperpage{58}, \hyperpage{129}, 
+		\hyperpage{255}
+  \item Regression Test After Every Change (Pattern), \hyperpage{152}, 
+		\hyperpage{183}, \hyperpage{192, 193}, 
+		\hyperpage{200--202}, \hyperpage{265}, \hyperpage{316}
+  \item Rename Attribute (Pattern), \hyperpage{128}, \hyperpage{318}
+  \item Rename Method (Pattern), \hyperpage{128}, \hyperpage{318}
+  \item Replace Conditional with Polymorphism (Pattern), 
+		\hyperpage{289}, \hyperpage{318}
+  \item restructuring
+    \subitem definition, \hyperpage{11}
+  \item Retest Persistent Problems (Pattern), \hyperpage{152}, 
+		\hyperpage{202}, \hyperpage{316}
+  \item reverse engineering, \hyperpage{9}
+    \subitem definition, \hyperpage{8}
+  \item Rewrite Rule Editor, \hyperpage{255}
+  \item Riel, Arthur, \hyperpage{95}, \hyperpage{251}, \hyperpage{267}
+  \item Rigi, \hyperpage{105}
+  \item Rising, Linda, \hyperpage{315}
+  \item Roberts, Don, \hyperpage{130}
+  \item Roberts, Donald, \hyperpage{315}
+  \item RT-100, \hyperpage{50}
+  \item RTTI, \hyperpage{281}
+  \item Rubin, Kenny, \hyperpage{23}, \hyperpage{75}
+  \item Rugaber, Spencer, \hyperpage{50}
+
+  \indexspace
+
+  \item Sema, \hyperpage{xvii}
+  \item Sema Group, \hyperpage{xiv}
+  \item Semantic Wrapper, \hyperpage{207, 208}, \hyperpage{263}
+  \item Setting Direction (Pattern cluster), \hyperpage{14}, 
+		\hyperpage{20}, \hyperpage{181}
+  \item Singleton (Pattern), \hyperpage{54}, \hyperpage{320}
+  \item Skim the Documentation (Pattern), \hyperpage{42}, 
+		\hyperpage{47}, \hyperpage{51}, \hyperpage{55}, 
+		\hyperpage{59}, \hyperpage{61}, \hyperpage{67}, 
+		\hyperpage{72}, \hyperpage{76}, \hyperpage{97, 98}
+  \item Small Releases, \hyperpage{190}
+  \item Smalltalk, \hyperpage{58}, \hyperpage{81}, \hyperpage{144}, 
+		\hyperpage{177}, \hyperpage{212}, \hyperpage{247}, 
+		\hyperpage{255}, \hyperpage{275}, \hyperpage{282}, 
+		\hyperpage{301}
+  \item Sneed, Harry, \hyperpage{130}
+  \item software maintenance, \hyperpage{11}
+    \subitem definition, \hyperpage{11}
+  \item software reuse, \hyperpage{7}
+  \item Speak to the Round Table (Pattern), \hyperpage{20}, 
+		\hyperpage{27}, \hyperpage{84}
+  \item Speculate about Design (Pattern), \hyperpage{67}, 
+		\hyperpage{76}, \hyperpage{85, 86}, \hyperpage{90}, 
+		\hyperpage{92}, \hyperpage{96, 97}, \hyperpage{104}, 
+		\hyperpage{143}, \hyperpage{320}
+  \item spiral development lifecycle, \hyperpage{8}
+  \item Split Up God Class (Pattern), \hyperpage{33}, \hyperpage{242}, 
+		\hyperpage{263}, \hyperpage{267}, \hyperpage{319}
+  \item SQL, \hyperpage{88}, \hyperpage{91--93}
+  \item Squeak, \hyperpage{125}, \hyperpage{305}, \hyperpage{307}
+  \item stakeholder, \hyperpage{29}, \hyperpage{33}
+  \item State (Pattern), \hyperpage{270, 271}, \hyperpage{291}, 
+		\hyperpage{321}
+  \item State Patterns (Pattern language), \hyperpage{291}, 
+		\hyperpage{321}
+  \item Step Through the Execution (Pattern), \hyperpage{120}, 
+		\hyperpage{133}, \hyperpage{135}, \hyperpage{140}
+  \item Stevens, Perdita, \hyperpage{217}
+  \item Stonebraker, Michael, \hyperpage{205}
+  \item Strategy (Pattern), \hyperpage{270, 271}, \hyperpage{295}, 
+		\hyperpage{297}, \hyperpage{321}
+  \item Study the Exceptional Entities (Pattern), \hyperpage{59}, 
+		\hyperpage{85, 86}, \hyperpage{105}, \hyperpage{107}
+  \item SUnit, \hyperpage{163}
+  \item Sweeping it Under the Rug, \hyperpage{207}
+
+  \indexspace
+
+  \item Template Method (Pattern), \hyperpage{139}, 
+		\hyperpage{321, 322}
+  \item Test Fuzzy Features (Pattern), \hyperpage{152}, \hyperpage{160}, 
+		\hyperpage{316}
+  \item Test Old Bugs (Pattern), \hyperpage{152}, \hyperpage{160}, 
+		\hyperpage{316}
+  \item Test the Interface, Not the Implementation (Pattern), 
+		\hyperpage{120}, \hyperpage{144}, \hyperpage{152}, 
+		\hyperpage{158}, \hyperpage{160, 161}, \hyperpage{171}, 
+		\hyperpage{174}, \hyperpage{193}
+  \item Test-Driven development, \hyperpage{202}
+  \item testing, \hyperpage{149}
+  \item tests
+    \subitem  missing, \hyperpage{5}
+  \item Tests: Your Life Insurance
+    \subitem  (Pattern cluster), \hyperpage{14}, \hyperpage{54}, 
+		\hyperpage{77}, \hyperpage{96}, \hyperpage{105}, 
+		\hyperpage{120}
+  \item The Blob, \hyperpage{263}
+  \item The Law of Continuing Change, \hyperpage{xiii}
+  \item The Law of Increasing Complexity, \hyperpage{xiii}
+  \item Thomsett, Rob, \hyperpage{49}
+  \item Throwaway Code, \hyperpage{197}
+  \item throwaway prototype, \hyperpage{195}
+  \item Tie Code and Questions (Pattern), \hyperpage{118}, 
+		\hyperpage{121}, \hyperpage{123}, \hyperpage{125}, 
+		\hyperpage{129}, \hyperpage{131}, \hyperpage{134}, 
+		\hyperpage{180}
+  \item tradeoffs, \see{pattern, tradeoffs}{xvi}
+  \item Transform Client Type Checks (Pattern), \hyperpage{244}, 
+		\hyperpage{270, 271}, \hyperpage{280, 281}, 
+		\hyperpage{284}, \hyperpage{289}, \hyperpage{310}, 
+		\hyperpage{318, 319}
+  \item Transform Conditionals into Registration (Pattern), 
+		\hyperpage{270, 271}, \hyperpage{280}, \hyperpage{289}, 
+		\hyperpage{303}, \hyperpage{309, 310}
+  \item Transform Conditionals to Polymorphism (Pattern cluster), 
+		\hyperpage{16}, \hyperpage{115}, \hyperpage{225}, 
+		\hyperpage{237, 238}, \hyperpage{270}
+  \item Transform Self Type Checks (Pattern), \hyperpage{270, 271}, 
+		\hyperpage{273}, \hyperpage{277}, \hyperpage{280--282}, 
+		\hyperpage{291}
+
+  \indexspace
+
+  \item UML
+    \subitem class diagram, \hyperpage{87}, \hyperpage{92}, 
+		\hyperpage{105}
+  \item unit tests, \hyperpage{54}
+  \item University of Bern, \hyperpage{xiv}, \hyperpage{xvii}
+  \item UNIX, \hyperpage{274}
+  \item Unix, \hyperpage{141}
+  \item Use a Testing Framework (Pattern), \hyperpage{150}, 
+		\hyperpage{161}, \hyperpage{163}
+  \item Use Profiler Before Optimizing (Pattern), \hyperpage{184}, 
+		\hyperpage{221, 222}
+
+  \indexspace
+
+  \item violation of encapsulation, 
+		\see{encapsulation, violation of}{11}
+  \item Visitor (Pattern), \hyperpage{247}, \hyperpage{322}
+  \item Visualize Code as Dotplots (Pattern), \hyperpage{225}, 
+		\hyperpage{233}, \hyperpage{317}
+
+  \indexspace
+
+  \item white box testing, \hyperpage{174}
+  \item White, Jim, \hyperpage{50}
+  \item Wong, Kenny, \hyperpage{66}
+  \item Woolf, Bobby, \hyperpage{301}
+  \item Write Tests to Enable Evolution (Pattern), \hyperpage{150}, 
+		\hyperpage{153}, \hyperpage{157}, \hyperpage{172}, 
+		\hyperpage{181}, \hyperpage{183}, \hyperpage{193}, 
+		\hyperpage{202}
+  \item Write Tests to Understand (Pattern), \hyperpage{120}, 
+		\hyperpage{128, 129}, \hyperpage{131}, \hyperpage{135}, 
+		\hyperpage{152}, \hyperpage{162}, \hyperpage{178, 179}
+
+  \indexspace
+
+  \item XP, \see{Extreme Programming}{37}
+
+  \indexspace
+
+  \item Yoder, Joseph, \hyperpage{197}, \hyperpage{267}
+  \item Yourdon, Edward, \hyperpage{186}
+
+\end{theindex}

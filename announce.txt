@@ -1,0 +1,11 @@
+-----------------------------------------------------------------------------
+Subject: New open-source book -- Object-Oriented Reengineering Patterns
+
+Object-Oriented Reengineering Patterns collects and distills successful techniques in planning a reengineering project, reverse-engineering, problem detection, migration strategies and software redesign.
+
+The original edition was published by Morgan Kaufmann in 2003, and is now out-of-print. The copyright has reverted to the authors, so we are now making this volume available as a free PDF download or as a print-on-demand softcover edition.
+
+The LaTeX sources are also freely available under the Creative Commons Attribution-ShareAlike 3.0 license.
+
+More details are available at http://www.iam.unibe.ch/~scg/OORP/
+-----------------------------------------------------------------------------

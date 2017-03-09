@@ -1,0 +1,65 @@
+% $Author: oscar $
+% $Date: 2008-03-13 16:18:43 +0100 (Thu, 13 Mar 2008) $
+% $Revision: 17031 $
+%=================================================================
+\ifx\wholebook\relax\else
+% --------------------------------------------
+% Lulu:
+	\documentclass[a4paper,10pt,twoside]{book}
+	\usepackage[
+		papersize={6.13in,9.21in},
+		hmargin={.815in,.815in},
+		vmargin={.98in,.98in},
+		ignoreheadfoot
+	]{geometry}
+	\input{common.tex}
+	\pagestyle{headings}
+	\setboolean{lulu}{true}
+% --------------------------------------------
+% A4:
+%	\documentclass[a4paper,11pt,twoside]{book}
+%	\input{common.tex}
+%	\usepackage{a4wide}
+% --------------------------------------------
+	\begin{document}
+	\frontmatter
+	% \renewcommand{\nnbb}[2]{} % Disable editorial comments
+	\sloppy
+\fi
+%=================================================================
+~ % force vfill
+\vfill
+\noindent
+{\large \bf Praise for Object-Oriented Reengineering Patterns}
+
+\vspace{1cm}
+
+\noindent
+``How'' to refactor is already well covered in the literature. However, ``When'' and ``Why'' can only be learned by experience. This book will give you a head start in learning when to start redesigning a system, when to stop for now, and what effects you can expect to see from your efforts.
+
+\hfill--- \emph{Kent Beck, Director, Three Rivers Institute}\\[0.2cm]
+
+\noindent
+This book is full of practical, hands-on reengineering knowledge and expertise presented in a form that makes it easy to understand and use. The patterns in this book thus help everyone who is concerned with using reengineering to guide their work. I wish I had had this book in my library earlier.
+
+\hfill--- \emph{Frank Buschmann, Senior Principal Engineer Siemens AG}\\[0.2cm]
+
+\noindent
+This book is more than its title advertises. Effective reengineering is really about purposeful and efficient reading of someone else's code in order to produce predictable change. The same processes the authors highlight as patterns of skillful reengineering behavior can easily be cast as the skills you need to create readable, maintainable software systems.
+
+\hfill--- \emph{Adele Goldberg, Neometron, Inc.}\\[0.2cm]
+
+\noindent
+If a guy named Dave brought a large box to my office that contained a lot of documentation and two CDs-installation disks for software that my company wanted to reengineer --- I'd be happy to have the authors of this book by my side. Barring that, having their book is the next best thing. No silver bullets, no hype, no promises that this will be easy --- just a down-to-earth, easy-to-read, extremely useful book of helpful guidelines to tackle the project. Buy this book and browse it before Dave arrives in your office! It just might save you and your company a lot of grief.
+
+\hfill--- \emph{Linda Rising, Independent Consultant}
+
+\vfill
+
+%=============================================================
+\ifx\wholebook\relax\else
+   \bibliographystyle{alpha}
+   \bibliography{scg}
+   \end{document}
+\fi
+%=============================================================

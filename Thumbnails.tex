@@ -1,0 +1,335 @@
+% $Author: oscar $
+% $Date: 2009-09-15 16:53:48 +0200 (Tue, 15 Sep 2009) $
+% $Revision: 29111 $
+%=================================================================
+\ifx\wholebook\relax\else
+% --------------------------------------------
+% Lulu:
+	\documentclass[a4paper,10pt,twoside]{book}
+	\usepackage[
+		papersize={6.13in,9.21in},
+		hmargin={.815in,.815in},
+		vmargin={.98in,.98in},
+		ignoreheadfoot
+	]{geometry}
+	\input{common.tex}
+	\pagestyle{headings}
+	\setboolean{lulu}{true}
+% --------------------------------------------
+% A4:
+%	\documentclass[a4paper,11pt,twoside]{book}
+%	\input{common.tex}
+%	\usepackage{a4wide}
+% --------------------------------------------
+	\begin{document}
+	\appendix
+	\renewcommand{\nnbb}[2]{} % Disable editorial comments
+	\sloppy
+\fi
+%=================================================================
+\chapter{Thumbnail patterns}
+\chalabel{ThumbnailPatterns}
+
+\on{Put these in the right places:}
+
+\label{pat:Adapter}
+\label{pat:Facade}
+
+There are many patterns that are not specifically concerned with reengineering, but are still relevant to the reengineering process. In this chapter we have listed only those patterns that are specifically referred to at some point in this book. We have grouped them into the following three categories:
+
+\index{DeLano, David}
+\index{Rising, Linda}
+\index{Binder, Robert}
+\begin{bulletlist}
+\item \emph{Testing patterns.}
+These patterns help you to focus your testing efforts. Our principle source is a pattern language by DeLano and Rising \cite{DeLa98a}, though of course a vast literature is available on the subject. Binder, for example, devotes an entire book to the subject \cite{Bind99a}.
+
+\index{Fowler, Martin}
+\index{Roberts, Donald}
+\item \emph{Refactoring patterns.}
+These patterns focus on individual refactoring steps that you might applying during a reengineering project, or that you might just as well apply during any forward engineering project. Our principle sources are Fowler \etal \cite{Fowl99a}, and the Roberts' PhD thesis \cite{Robe99a}.
+
+\item \emph{Design patterns.}
+Very frequently the result of a reengineering operation is to put a particular design pattern into place. Here we remind the reader of some of the most common design patterns that pop up in a reengineering context. Our main source is, of course, the \emphind{Design Patterns} book \cite{Gamm95a}.
+\end{bulletlist}
+
+%=================================================================
+%:SECTION Testing Patterns
+\section{Testing Patterns}
+
+%:THUMBNAIL -- {Retest Persistent Problems}
+\thumbnail{Retest Persistent Problems}{RetestPersistentProblems}
+
+\paragraph*{Problem:}
+What areas of the system should receive concentrated testing, irrespective of the features being implemented?
+
+\paragraph*{Solution:}
+Keep a list of persistent problem areas and test cases to verify them, not just for resolving the current problems but also for use in subsequent testing. Test these areas thoroughly, even if there are no new features going into them. Retest regularly using, even one last time before the release goes out of the door. 
+
+\paragraph*{Source:}
+Patterns for system testing \cite{DeLa98a}.
+
+\paragraph*{Referenced from:}
+\patpgref{Regression Test After Every Change}{RegressionTestAfterEveryChange}.
+
+%:THUMBNAIL -- {Test Fuzzy Features}
+\thumbnail{Test Fuzzy Features}{TestFuzzyFeatures}
+
+\paragraph*{Problem:}
+How can possible problem areas of the system be pinpointed so that the most problems can be found in the least amount of time?
+
+\paragraph*{Solution:}
+Study the documentation available on the system. Look for areas that seems ambiguous or ill-defined. Write test plans that cover these areas more thoroughly and concentrate testing in these areas. If designers can tell you all about a feature, it probably works. It's what they can't tell you that needs attention during testing. 
+
+\paragraph*{Source:}
+Patterns for system testing \cite{DeLa98a}.
+
+\paragraph*{Referenced from:}
+\patpgref{Grow Your Test Base Incrementally}{GrowYourTestBaseIncrementally}.
+
+%:THUMBNAIL -- {Test Old Bugs}
+\thumbnail{Test Old Bugs}{TestOldBugs}
+
+\paragraph*{Problem:}
+What areas of the system should be targeted for testing so that the most problems can be found in the least amount of time?
+
+\paragraph*{Solution:}
+Examine problem reports from previous releases to help select test cases. Since it would be inefficient to test for all old problems, look at problems reported after the last valid snapshot of the system. Categorize problem reports to see if a trend is determined that could be used for additional testing.
+
+\paragraph*{Source:}
+Patterns for system testing \cite{DeLa98a}.
+
+\paragraph*{Referenced from:}
+\patpgref{Grow Your Test Base Incrementally}{GrowYourTestBaseIncrementally}.
+
+%=================================================================
+%:SECTION Refactorings
+\section{Refactorings}
+
+%:THUMBNAIL -- {Encapsulate Field}
+\thumbnail{Encapsulate Field}{EncapsulateField}
+
+\paragraph*{Also Known As:}
+\ind{Abstract Instance Variable} \cite{Robe99a}.
+
+\intent{There is a public field. Make it private and provide accessors.}
+
+\paragraph*{Source:}
+\emph{Refactoring: Improving the Design of Existing Code} \cite{Fowl99a}.
+
+\paragraph*{Referenced from:}
+\patpgref{Eliminate Navigation Code}{EliminateNavigationCode}.
+
+%:THUMBNAIL -- {Extract Method}
+\thumbnail{Extract Method}{ExtractMethod}
+
+\intent{You have a code fragment that can be grouped together. Turn the fragment into a method whose name explains the purpose of the method.}
+
+\paragraph*{Source:}
+\emph{Refactoring: Improving the Design of Existing Code} \cite{Fowl99a}.
+
+\paragraph*{Referenced from:}
+\patpgref{Refactor to Understand}{RefactorToUnderstand}, \patpgref{Visualize Code as Dotplots}{VisualizeCodeAsDotplots}, \patpgref{Move Behavior Close to Data}{MoveBehaviorCloseToData}
+
+%:THUMBNAIL -- {Move Method}
+\thumbnail{Move Method}{MoveMethod}
+
+\intent{A method is, or will be, using or used by more features of another class than the class on which it is defined. Create a new method with a similar body in the class it uses most. Either turn the old method into a simple delegation, or remove it altogether.}
+
+\paragraph*{Source:}
+\emph{Refactoring: Improving the Design of Existing Code} \cite{Fowl99a}.
+
+\paragraph*{Referenced from:}
+\patpgref{Refactor to Understand}{RefactorToUnderstand}, \patpgref{Move Behavior Close to Data}{MoveBehaviorCloseToData}
+
+%:THUMBNAIL -- {Rename Attribute}
+\thumbnail{Rename Attribute}{RenameAttribute}
+
+\intent{Rename an instance variable and update all references to it.}
+
+\paragraph*{Source:}
+\emph{Practical Analysis for Refactoring} \cite{Robe99a}.
+
+\paragraph*{Referenced from:}
+\patpgref{Refactor to Understand}{RefactorToUnderstand}.
+
+%:THUMBNAIL -- {Rename Method}
+\thumbnail{Rename Method}{RenameMethod}
+
+\intent{The name of a method does not reveal its purpose. Change the name of the method.}
+
+\paragraph*{Source:}
+\emph{Refactoring: Improving the Design of Existing Code} \cite{Fowl99a}.
+
+\paragraph*{Referenced from:}
+\patpgref{Refactor to Understand}{RefactorToUnderstand}
+
+%:THUMBNAIL -- {Replace Conditional with Polymorphism}
+\thumbnail{Replace Conditional with Polymorphism}{ReplaceConditionalWithPolymorphism}
+
+\intent{You have a conditional that chooses different behavior depending on the type of an object. Move each leg of the conditional to an overriding method in a subclass. Make the original method abstract.}
+
+\paragraph*{Source:}
+\emph{Refactoring: Improving the Design of Existing Code} \cite{Fowl99a}.
+
+\paragraph*{Referenced from:}
+\patpgref{Transform Client Type Checks}{TransformClientTypeChecks}
+
+%=================================================================
+\section{Design Patterns}
+
+%:THUMBNAIL -- {Abstract Factory}
+\thumbnail{Abstract Factory}{AbstractFactory}
+
+\intent{Provide an interface for creating families of related or dependent objects without specifying their concrete classes.}
+
+\paragraph*{Source:}
+\emph{Design Patterns} \cite{Gamm95a}.
+
+\paragraph*{Referenced from:}
+\patpgref{Look for the Contracts}{LookForTheContracts}, \patpgref{Transform Client Type Checks}{TransformClientTypeChecks}.
+
+%:THUMBNAIL -- {Adapter}
+\thumbnail{Adapter}{Adapter}
+
+\intent{Convert the interface of a class into another interface clients expect. \patref{Adapter}{Adapter} lets classes work together that couldn't otherwise because of incompatible interfaces.}
+
+\paragraph*{Source:}
+\emph{Design Patterns} \cite{Gamm95a}.
+
+\paragraph*{Referenced from:}
+\patpgref{Present the Right Interface}{PresentTheRightInterface}, \patpgref{Move Behavior Close to Data}{MoveBehaviorCloseToData}.
+
+%:THUMBNAIL -- {Facade}
+\thumbnail{Facade}{Facade}
+
+\intent{Provide a unified interface to a set of interfaces in a subsystem. \patref{Facade}{Facade} defines a higher-level interface that makes the subsystem easier to use.}
+
+\paragraph*{Source:}
+\emph{Design Patterns} \cite{Gamm95a}.
+
+\paragraph*{Referenced from:}
+\patpgref{Eliminate Navigation Code}{EliminateNavigationCode}, \patpgref{Split Up God Class}{SplitUpGodClass}.
+
+%:THUMBNAIL -- {Factory Method}
+\thumbnail{Factory Method}{FactoryMethod}
+
+\intent{Define an interface for creating an object, but let subclasses decide which class to instantiate. \patref{Factory Method}{FactoryMethod} lets a class defer instantiation to subclasses.}
+
+\paragraph*{Source:}
+\emph{Design Patterns} \cite{Gamm95a}.
+
+\paragraph*{Referenced from:}
+\patpgref{Look for the Contracts}{LookForTheContracts}
+
+%:THUMBNAIL -- {Flyweight}
+\thumbnail{Flyweight}{Flyweight}
+
+\intent{Use sharing to support large numbers of fine-grained objects efficiently.}
+
+\paragraph*{Source:}
+\emph{Design Patterns} \cite{Gamm95a}.
+
+\paragraph*{Referenced from:}
+\patpgref{Speculate about Design}{SpeculateAboutDesign}
+
+%:THUMBNAIL -- {Null Object}
+\thumbnail{Null Object}{NullObject}
+
+\intent{A \patref{Null Object}{NullObject} provides a surrogate for another object that shares the same interface but does nothing. Thus, the \patref{Null Object}{NullObject} encapsulates the implementation decisions of how to do nothing and hides those details from its collaborators}
+
+\paragraph*{Source:}
+\emph{Null Object} \cite{Wool98a}.
+
+\paragraph*{Referenced from:}
+\patpgref{Introduce Null Object}{IntroduceNullObject}.
+
+%:THUMBNAIL -- {Quantity}
+\thumbnail{Quantity}{Quantity}
+
+\paragraph*{Problem:}
+Representing a value such as 6 feet or \$5.
+
+\paragraph*{Solution:}
+Use a quantity type that includes both the amount and the unit. Currencies are a kind of unit.
+
+\paragraph*{Source:}
+\emph{Analysis Patterns: Reusable Objects Models} \cite{Fowl97b}.
+
+\paragraph*{Referenced from:}
+\patpgref{Analyze the Persistent Data}{AnalyzeThePersistentData}.
+
+%:THUMBNAIL -- {Singleton}
+\thumbnail{Singleton}{Singleton}
+
+\intent{Ensure a class only has one instance, and provide a global point of access to it.}
+
+\paragraph*{Source:}
+\emph{Design Patterns} \cite{Gamm95a}.
+
+\paragraph*{Referenced from:}
+\patpgref{Read all the Code in One Hour}{ReadAllTheCodeInOneHour}.
+
+%:THUMBNAIL -- {State}
+\thumbnail{State}{State}
+
+\intent{Allow an object to alter its behavior when its internal state changes. The object will appear to change its class. }
+
+\paragraph*{Source:}
+\emph{Design Patterns} \cite{Gamm95a}.
+
+\paragraph*{Referenced from:}
+\patpgref{Factor out State}{FactorOutState}.
+
+%:THUMBNAIL -- {State Patterns}
+\thumblang{State Patterns}{StatePatterns}
+
+\intent{The \patref{State}{State} Patterns pattern language refines and clarifies the \patref{State}{State} Pattern.}
+
+\paragraph*{Source:}
+\emph{State Patterns} \cite{Dyso97a}.
+
+\paragraph*{Referenced from:}
+\patpgref{Factor out State}{FactorOutState}.
+
+%:THUMBNAIL -- {Strategy}
+\thumbnail{Strategy}{Strategy}
+
+\intent{Define a family of algorithms, encapsulate each one in a separate class, and define each class with the same interface so they can be interchangeable. \patref{Strategy}{Strategy} lets the algorithm vary independently from clients that use it. }
+
+\paragraph*{Source:}
+\emph{Design Patterns} \cite{Gamm95a}.
+
+\paragraph*{Referenced from:}
+\patpgref{Factor out Strategy}{FactorOutStrategy}.
+
+%:THUMBNAIL -- {Template Method}
+\thumbnail{Template Method}{TemplateMethod}
+
+\intent{Define the skeleton of an algorithm in an operation, deferring some steps to subclasses. \patref{Template Method}{TemplateMethod} lets subclasses redefine certain steps of an algorithm without changing the algorithm's structure.}
+
+\paragraph*{Source:}
+\emph{Design Patterns} \cite{Gamm95a}.
+
+\paragraph*{Referenced from:}
+\patpgref{Look for the Contracts}{LookForTheContracts}.
+
+%:THUMBNAIL -- {Visitor}
+\thumbnail{Visitor}{Visitor}
+
+\intent{Represent an operation to be performed on the elements of an object structure. \patref{Visitor}{Visitor} lets you define a new operation without changing the classes of the elements on which it operates.}
+
+\paragraph*{Source:}
+\emph{Design Patterns} \cite{Gamm95a}.
+
+\paragraph*{Referenced from:}
+\patpgref{Move Behavior Close to Data}{MoveBehaviorCloseToData}.
+
+%=============================================================
+\ifx\wholebook\relax\else
+   \bibliographystyle{alpha}
+   \bibliography{scg}
+   \end{document}
+\fi
+%=============================================================
+

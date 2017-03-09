@@ -1,0 +1,700 @@
+\newcommand{\etalchar}[1]{$^{#1}$}
+\begin{thebibliography}{WBWW90}
+
+\bibitem[ABW98]{Alpe98a}
+Sherman~R. Alpert, Kyle Brown, and Bobby Woolf.
+\newblock {\em The Design Patterns {Smalltalk} Companion}.
+\newblock Addison Wesley, 1998.
+
+\bibitem[Arn92]{Arno92a}
+Robert~S. Arnold.
+\newblock {\em Software Reengineering}.
+\newblock IEEE Computer Society Press, Los Alamitos CA, 1992.
+
+\bibitem[Bak92]{Bake92a}
+Brenda~S. Baker.
+\newblock A program for identifying duplicated code.
+\newblock {\em Computing Science and Statistics}, 24:49--57, 1992.
+
+\bibitem[BCK98]{Bass98a}
+Len Bass, Paul Clements, and Rick Kazman.
+\newblock {\em Software Architecture in Practice}.
+\newblock Addison Wesley, 1998.
+
+\bibitem[BDS{\etalchar{+}}00]{Beed00a}
+Mike Beedle, Martine Devos, Yonat Sharon, Ken Schwaber, and Jeff Sutherland.
+\newblock Scrum: A pattern language for hyperproductive software development.
+\newblock In Neil Harrison, Brian Foote, and Hans Rohnert, editors, {\em
+  Pattern Languages of Program Design 4}, pages 637--652. Addison Wesley, 2000.
+
+\bibitem[BE96]{Ball96a}
+Timothy Ball and Stephen Eick.
+\newblock Software visualization in the large.
+\newblock {\em IEEE Computer}, 29(4):33--43, 1996.
+
+\bibitem[Bec97]{Beck97a}
+Kent Beck.
+\newblock {\em {Smalltalk} Best Practice Patterns}.
+\newblock Prentice-Hall, 1997.
+
+\bibitem[Bec00]{Beck00a}
+Kent Beck.
+\newblock {\em Extreme Programming Explained: Embrace Change}.
+\newblock Addison Wesley, 2000.
+
+\bibitem[BF01]{Beck01a}
+Kent Beck and Martin Fowler.
+\newblock {\em Planning Extreme Programming}.
+\newblock Addison Wesley, 2001.
+
+\bibitem[BG98]{Beck98a}
+Kent Beck and Erich Gamma.
+\newblock Test infected: Programmers love writing tests.
+\newblock {\em Java Report}, 3(7):51--56, 1998.
+
+\bibitem[BH95]{Bray95a}
+Olin Bray and Michael~M. Hess.
+\newblock Reengineering a configuration management system.
+\newblock {\em IEEE Software}, 12(1):55--63, January 1995.
+
+\bibitem[Big89]{Bigg89c}
+Ted~J. Biggerstaff.
+\newblock Design recovery for maintenance and reuse.
+\newblock {\em IEEE Computer}, 22:36--49, October 1989.
+
+\bibitem[Bin99]{Bind99a}
+Robert~V. Binder.
+\newblock {\em {Testing Object-Oriented Systems: Models, Patterns, and Tools}}.
+\newblock Object Technology Series. Addison Wesley, 1999.
+
+\bibitem[BLM98]{Blah98a}
+M.~Blaha, D.~LaPlant, and E.~Marvak.
+\newblock Requirements for repository software.
+\newblock In {\em Proceedings of WCRE '98}, pages 164--173. IEEE Computer
+  Society, 1998.
+\newblock ISBN: 0-8186-89-67-6.
+
+\bibitem[BMF99]{Benn99a}
+Simon Bennett, Steve McRobb, and Ray Farmer.
+\newblock {\em Object-Oriented System Analysis and Design using UML}.
+\newblock McGraw Hill, 1999.
+
+\bibitem[BMMM98]{Brow98a}
+William~J. Brown, Raphael~C. Malveau, Hays~W. McCormick, III, and Thomas~J.
+  Mowbray.
+\newblock {\em Anti{Patterns}: Refactoring Software, Architectures, and
+  Projects in Crisis}.
+\newblock John Wiley Press, 1998.
+
+\bibitem[BMR{\etalchar{+}}96]{Busc96a}
+Frank Buschmann, Regine Meunier, Hans Rohnert, Peter Sommerlad, and Michael
+  Stad.
+\newblock {\em Pattern-Oriented Software Architecture --- {A} System of
+  Patterns}.
+\newblock John Wiley Press, 1996.
+
+\bibitem[BMW93]{Bigg93a}
+Ted~J. Biggerstaff, Bharat~G. Mittbander, and Dallas Webster.
+\newblock The concept assignment problem in program understanding.
+\newblock In {\em Proceedings of the 15th international conference on Software
+  Engineering (ICSE 1993)}. IEEE Computer, 1993.
+
+\bibitem[BMW94]{Bigg94a}
+Ted~J. Biggerstaff, Bharat~G. Mitbander, and Dallas~E. Webster.
+\newblock Program understanding and the concept assignment problem.
+\newblock {\em Communications of the ACM}, 37(5):72--82, May 1994.
+
+\bibitem[Boe88]{Boeh88a}
+Barry~W. Boehm.
+\newblock A spiral model of software development and enhancement.
+\newblock {\em IEEE Computer}, 21(5):61--72, 1988.
+
+\bibitem[Boo94]{Booc94a}
+Grady Booch.
+\newblock {\em Object Oriented Analysis and Design with Applications}.
+\newblock The Benjamin Cummings Publishing Co. Inc., 2nd edition, 1994.
+
+\bibitem[BP94]{Barn94a}
+Jack Barnard and Art Price.
+\newblock Managing code inspection information.
+\newblock {\em IEEE Software}, 11(2):59--69, March 1994.
+
+\bibitem[Bro75]{Broo75a}
+Frederick~P. Brooks.
+\newblock {\em The Mythical Man-Month}.
+\newblock Addison Wesley, Reading, Mass., 1975.
+
+\bibitem[Bro87]{Broo87a}
+Frederick~P. Brooks.
+\newblock No silver bullet.
+\newblock {\em IEEE Computer}, 20(4):10--19, April 1987.
+
+\bibitem[Bro96]{Brow96c}
+Kyle Brown.
+\newblock Design reverse-engineering and automated design pattern detection in
+  {Smalltalk}.
+\newblock Master's thesis, North Carolina State University, 1996.
+
+\bibitem[BS95]{Brod95a}
+Michael~L. Brodie and Michael Stonebraker.
+\newblock {\em Migrating Legacy Systems}.
+\newblock Morgan Kaufmann, 1995.
+
+\bibitem[BS97]{Bell97a}
+David Bellin and Susan~Suchman Simone.
+\newblock {\em The {CRC} Card Book}.
+\newblock Addison Wesley, 1997.
+
+\bibitem[BW96]{Brow96d}
+Kyle Brown and Bruce~G. Whitenack.
+\newblock Crossing chasms: A pattern language for object-rdbms integration.
+\newblock In John~M. Vlissides, James~O. Coplien, and Norman~L. Kerth, editors,
+  {\em Pattern Languages of Program Design 2}, pages 227--238. Addison Wesley,
+  1996.
+
+\bibitem[CHR01]{Cook01a}
+Stephen Cook, Rachel Harrison, and Brian Ritchie.
+\newblock Assessing the evolution of financial management information systems.
+\newblock In {\em ECOOP 2001 Workshop Reader}, volume 2323 of {\em LNCS}.
+  Springer-Verlag, 2001.
+
+\bibitem[CI92]{Chik92a}
+Elliot~J. Chikofsky and James H.~Cross II.
+\newblock Reverse engineering and design recovery: A taxonomy.
+\newblock In Robert~S. Arnold, editor, {\em Software Reengineering}, pages
+  54--58. IEEE Computer Society Press, 1992.
+
+\bibitem[Coc93]{Cock93a}
+Alistair Cockburn.
+\newblock The impact of object-orientation on application development.
+\newblock {\em IBM Systems Journal}, 32(3):420--444, March 1993.
+
+\bibitem[Con68]{Conw68a}
+Melvin~E. Conway.
+\newblock How do committees invent?
+\newblock {\em Datamation}, 14(4):28--31, April 1968.
+
+\bibitem[Cop92]{Copl92a}
+James~O. Coplien.
+\newblock {\em Advanced {C}++: Programming Styles and Idioms}.
+\newblock Addison Wesley, 1992.
+
+\bibitem[Cop95]{Copl95d}
+James~O. Coplien.
+\newblock A development process generative pattern language.
+\newblock In James~O. Coplien and Douglas Schmidt, editors, {\em Pattern
+  Languages of Program Design}, pages 183--237. Addison Wesley, 1995.
+
+\bibitem[Cor89]{Corb89a}
+Thomas~A. Corbi.
+\newblock Program understanding: Challenge for the 1990's.
+\newblock {\em IBM Systems Journal}, 28(2):294--306, 1989.
+
+\bibitem[CRR96]{Came96a}
+Debra Cameron, Bill Rosenblatt, and Eric Raymond.
+\newblock {\em Learning {GNU} Emacs}.
+\newblock O'Reilly, 1996.
+
+\bibitem[DA97]{Dyso97a}
+Paul Dyson and Bruse Anderson.
+\newblock State patterns.
+\newblock In Robert Martin, Dirk Riehle, and Frank Buschmann, editors, {\em
+  Pattern Languages of Program Design 3}. Addison Wesley, 1997.
+
+\bibitem[Dav95]{Davi95a}
+Alan~Mark Davis.
+\newblock {\em 201 Principles of Software Development}.
+\newblock McGraw-Hill, 1995.
+
+\bibitem[DD99]{Deme99a}
+Serge Demeyer and St\'ephane Ducasse.
+\newblock Metrics, do they really help?
+\newblock In Jacques Malenfant, editor, {\em Proceedings of Languages et
+  Mod\`eles \`a Objets (LMO'99)}, pages 69--82. HERMES Science Publications,
+  Paris, 1999.
+
+\bibitem[DDL99]{Deme99c}
+Serge Demeyer, St\'ephane Ducasse, and Michele Lanza.
+\newblock A hybrid reverse engineering platform combining metrics and program
+  visualization.
+\newblock In Francoise Balmas, Mike Blaha, and Spencer Rugaber, editors, {\em
+  Proceedings of 6th Working Conference on Reverse Engineering (WCRE '99)}.
+  IEEE Computer Society, October 1999.
+
+\bibitem[DDN00]{Deme00a}
+Serge Demeyer, St\'ephane Ducasse, and Oscar Nierstrasz.
+\newblock Finding refactorings via change metrics.
+\newblock In {\em Proceedings of 15th International Conference on
+  Object-Oriented Programming, Systems, Languages, and Applications (OOPSLA
+  '00)}, pages 166--178, New York NY, 2000. ACM Press.
+\newblock Also appeared in ACM SIGPLAN Notices 35 (10).
+
+\bibitem[DG97]{Deme97a}
+Serge Demeyer and Harald Gall, editors.
+\newblock {\em Proceedings of the {ESEC}/{FSE} Workshop on Object-Oriented
+  Re-engineering}.
+\newblock TUV-1841-97-10. Technical University of Vienna --- Information
+  Systems Institute --- Distributed Systems Group, September 1997.
+
+\bibitem[DL99]{DeMa99a}
+Tom DeMarco and Timothy Lister.
+\newblock {\em Peopleware, Productive Projects and Teams}.
+\newblock Dorset House, 2nd edition, 1999.
+
+\bibitem[DR98]{DeLa98a}
+David~E. DeLano and Linda Rising.
+\newblock Patterns for system testing.
+\newblock In Robert Martin, Dirk Riehle, and Frank Buschmann, editors, {\em
+  Pattern Languages of Program Design 3}, pages 503--527. Addison-Welsey, 1998.
+
+\bibitem[DRD99]{Duca99b}
+St\'ephane Ducasse, Matthias Rieger, and Serge Demeyer.
+\newblock A language independent approach for detecting duplicated code.
+\newblock In Hongji Yang and Lee White, editors, {\em Proceedings of 15th IEEE
+  International Conference on Software Maintenance (ICSM'99)}, pages 109--118.
+  IEEE Computer Society, September 1999.
+
+\bibitem[FBB{\etalchar{+}}99]{Fowl99a}
+Martin Fowler, Kent Beck, John Brant, William Opdyke, and Don Roberts.
+\newblock {\em Refactoring: Improving the Design of Existing Code}.
+\newblock Addison Wesley, 1999.
+
+\bibitem[FH79]{Fjel79a}
+R.K. Fjeldstad and W.~T. Hamlen.
+\newblock Application program maintenance study: report to our respondents.
+\newblock In {\em Proceedings of GUIDE 48}. The Guide Corporation, 1979.
+
+\bibitem[FMvW97]{Flor97a}
+Gert Florijn, Marco Meijers, and Pieter van Winsen.
+\newblock Tool support for object-oriented patterns.
+\newblock In Mehmet Aksit and Satoshi Matsuoka, editors, {\em Proceedings ECOOP
+  '97}, volume 1241 of {\em LNCS}, pages 472--495, Jyvaskyla, Finland, June
+  1997. Springer-Verlag.
+
+\bibitem[Fow97]{Fowl97b}
+Martin Fowler.
+\newblock {\em Analysis Patterns: Reusable Objects Models}.
+\newblock Addison Wesley, 1997.
+
+\bibitem[FP96]{Fent96a}
+Norman Fenton and Shari~Lawrence Pfleeger.
+\newblock {\em Software Metrics: {A} Rigorous and Practical Approach}.
+\newblock International Thomson Computer Press, London, UK, second edition,
+  1996.
+
+\bibitem[Fro94]{Fros94a}
+Stuart Frost.
+\newblock Modelling for the rdbms legacy.
+\newblock {\em Object Magazine}, pages 43--51, September 1994.
+
+\bibitem[FY00]{Foot00a}
+Brian Foote and Joseph~W. Yoder.
+\newblock Big ball of mud.
+\newblock In N.~Harrison, B.~Foote, and H.~Rohnert, editors, {\em Pattern
+  Languages of Program Design}, volume~4, pages 654--692. Addison Wesley, 2000.
+
+\bibitem[GG93]{Gilb93a}
+Tom Gilb and Dorothy Graham.
+\newblock {\em Software Inspection}.
+\newblock Addison Wesley, 1993.
+
+\bibitem[GHJ98]{Gall98a}
+Harald Gall, Karin Hajek, and Mehdi Jazayeri.
+\newblock Detection of logical coupling based on product release history.
+\newblock In {\em Proceedings International Conference on Software Maintenance
+  (ICSM '98)}, pages 190--198, Los Alamitos CA, 1998. IEEE Computer Society
+  Press.
+
+\bibitem[GHJV95]{Gamm95a}
+Erich Gamma, Richard Helm, Ralph Johnson, and John Vlissides.
+\newblock {\em Design Patterns: Elements of Reusable Object-Oriented Software}.
+\newblock Addison Wesley, Reading, Mass., 1995.
+
+\bibitem[Gla97]{Glass97a}
+Robert~L. Glass.
+\newblock {\em Building Quality Software}.
+\newblock Prentice-Hall, 1997.
+
+\bibitem[GR95]{Gold95a}
+Adele Goldberg and Kenneth~S. Rubin.
+\newblock {\em Succeeding With Objects: Decision Frameworks for Project
+  Management}.
+\newblock Addison Wesley, Reading, Mass., 1995.
+
+\bibitem[GW99]{Gall99a}
+Harald Gall and Johannes Weidl.
+\newblock Object-model driven abstraction-to-code mapping.
+\newblock In {\em Proceedings of the 2nd Workshop on Object-Oriented
+  Reengineering (WOOR 1999)}. Technical University of Vienna --- Technical
+  Report TUV-1841-99-13, 1999.
+
+\bibitem[Har96]{Harri96a}
+Neil~B. Harrison.
+\newblock Organizational patterns for teams.
+\newblock In John~M. Vlissides, James~O. Coplien, and Norman~L. Kerth, editors,
+  {\em Pattern Languages of Program Design 2}, pages 345--352. Addison Wesley,
+  1996.
+
+\bibitem[HEH{\etalchar{+}}96]{Hain96a}
+J.-L. Hainaut, V.~Englebert, J.~Henrard, J.-M. Hick, and D.~Roland.
+\newblock Database reverse engineering: From requirements to {CARE} tools.
+\newblock {\em Automated Software Engineering}, 3(1-2), June 1996.
+
+\bibitem[Hel95]{Helf95a}
+Jonathan~I. Helfman.
+\newblock {Dotplot} patterns: a literal look at pattern languages.
+\newblock {\em TAPOS}, 2(1):31--41, 1995.
+
+\bibitem[IKM{\etalchar{+}}97]{Inga97a}
+Dan Ingalls, Ted Kaehler, John Maloney, Scott Wallace, and Alan Kay.
+\newblock Back to the future: The story of {Squeak}, {A} practical {Smalltalk}
+  written in itself.
+\newblock In {\em Proceedings OOPSLA '97, ACM SIGPLAN Notices}, pages 318--326.
+  ACM Press, November 1997.
+
+\bibitem[JAH01]{Jeff01a}
+Ron Jeffries, Ann Anderson, and Chet Hendrickson.
+\newblock {\em Extreme Programming Installed}.
+\newblock Addison Wesley, 2001.
+
+\bibitem[JC00]{Jack00a}
+Daniel Jackson and John Chapin.
+\newblock Redesigning air traffic control: An exercise in software design.
+\newblock {\em IEEE Software}, 17(3):63--70, May 2000.
+
+\bibitem[JCJO92]{Jaco92a}
+Ivar Jacobson, Magnus Christerson, Patrik Jonsson, and Gunnar Overgaard.
+\newblock {\em Object-Oriented Software Engineering --- {A} Use Case Driven
+  Approach}.
+\newblock Addison Wesley/ACM Press, Reading, Mass., 1992.
+
+\bibitem[JGJ97]{Jaco97a}
+Ivar Jacobson, Martin Griss, and Patrik Jonsson.
+\newblock {\em Software Reuse}.
+\newblock Addison Wesley/ACM Press, 1997.
+
+\bibitem[JGR99]{Jaza99a}
+Mehdi Jazayeri, Harald Gall, and Claudio Riva.
+\newblock Visualizing {Software} {Release} {Histories}: The {Use} of {Color}
+  and {Third} {Dimension}.
+\newblock In {\em Proceedings of ICSM '99 (International Conference on Software
+  Maintenance)}, pages 99--108. IEEE Computer Society Press, 1999.
+
+\bibitem[JS96]{Jerd96b}
+Dean~F. Jerding and John~T. Stasko.
+\newblock The information mural: Increasing information bandwidth in
+  visualizations.
+\newblock Technical Report GIT-GVU-96-25, Georgia Institute of Technology,
+  October 1996.
+
+\bibitem[JSZ97]{Jahn97b}
+Jens.~H. Jahnke, Wilhelm. Sch{\"a}fer, and Albert. Z{\"u}ndorf.
+\newblock Generic fuzzy reasoning nets as a basis ofr reverse engineering
+  relational database applications.
+\newblock In {\em Proceedings of ESEC/FSE '97}, number 1301 in LNCS, pages
+  193--210, 1997.
+\newblock inproceedings.
+
+\bibitem[KC98a]{Kazm98b}
+Rick Kazman and S.~Jeromy Carriere.
+\newblock View extraction and view fusion in architectural understanding.
+\newblock In {\em Proceedings of the 5th International Conference on Software
+  Reuse}, Victoria, B.C., 1998.
+
+\bibitem[KC98b]{Kell98a}
+Wolfgang Keller and Jens Coldewey.
+\newblock Accessing relational databases: {A} pattern language.
+\newblock In Robert Martin, Dirk Riehle, and Frank Bushmann, editors, {\em
+  Pattern Languages of Program Design 3}, pages 313--343. Addison Wesley, 1998.
+
+\bibitem[KC99]{Kazm99a}
+Rick Kazman and S.~J. Carriere.
+\newblock Playing detective: Reconstructing software architecture from
+  available evidence.
+\newblock {\em Automated Software Engineering}, April 1999.
+
+\bibitem[Kel00]{Kell00a}
+Wolfgang Keller.
+\newblock The bridge to the new town --- a legacy system migration pattern.
+\newblock In {\em Proceedings of EuroPLoP 2000}, 2000.
+
+\bibitem[Knu92]{Knut92a}
+Donald~E. Knuth.
+\newblock {\em Literate Programming}.
+\newblock Stanford, California: Center for the Study of Language and
+  Information, 1992.
+
+\bibitem[Lan99]{Lanz99a}
+Michele Lanza.
+\newblock Combining {Metrics} and {Graphs} for {Object} {Oriented} {Reverse}
+  {Engineering}.
+\newblock Diploma {Thesis}, University of Bern, October 1999.
+
+\bibitem[LB85]{Lehm85a}
+Manny Lehman and Les Belady.
+\newblock {\em Program Evolution: Processes of Software Change}.
+\newblock London Academic Press, London, 1985.
+
+\bibitem[Lea96]{Lea96a}
+Doug Lea.
+\newblock {\em Concurrent Programming in {Java}, Design Principles and
+  Patterns}.
+\newblock The {Java} Series. Addison Wesley, 1996.
+
+\bibitem[LHR88]{Lieb88a}
+Karl~J. Lieberherr, Ian~M. Holland, and Arthur Riel.
+\newblock Object-oriented programming: An objective sense of style.
+\newblock In {\em Proceedings OOPSLA '88, ACM SIGPLAN Notices}, volume~23,
+  pages 323--334, November 1988.
+
+\bibitem[LK94]{Lore94a}
+Mark Lorenz and Jeff Kidd.
+\newblock {\em Object-Oriented Software Metrics: {A} Practical Guide}.
+\newblock Prentice-Hall, 1994.
+
+\bibitem[Lov93]{Love93a}
+Tom Love.
+\newblock {\em Object Lessons --- Lessons Learned in Object-Oriented
+  Development Projects}.
+\newblock SIGS Books, New York, 1993.
+
+\bibitem[LPM{\etalchar{+}}97]{Lagu97a}
+Bruno Lagu{\"e}, Daniel Proulx, Ettore~M. Merlo, Jean Mayrand, and John
+  Hudepohl.
+\newblock Assessing the benefits of incorporating function clone detection in a
+  development process.
+\newblock In {\em Proceedings of ICSM (International Conference on Software
+  Maintenance)}. IEEE, 1997.
+
+\bibitem[Mar82]{Dema82a}
+Tom~De Marco.
+\newblock {\em Controlling Software Projects}.
+\newblock Yourdon Press, 1982.
+
+\bibitem[Mey96]{Meye96a}
+Scott Meyers.
+\newblock {\em More Effective {C}++}.
+\newblock Addison Wesley, 1996.
+
+\bibitem[Mey98]{Meye98a}
+Scott Meyers.
+\newblock {\em Effective {C}++}.
+\newblock Addison Wesley, second edition, 1998.
+
+\bibitem[MJS{\etalchar{+}}00]{Mull00a}
+Hausi~A. M\"{u}ller, Jens~H. Janhke, Dennis~B. Smith, Margaret-Anne Storey,
+  Scott~R. Tilley, and Kenny Wong.
+\newblock Reverse engineering: A roadmap.
+\newblock In A.~Finkelstein, editor, {\em The Future of Software Engineering
+  2000}. ACM Press, 2000.
+
+\bibitem[MLM96]{Mayr96a}
+Jean Mayrand, Claude Leblanc, and Ettore~M. Merlo.
+\newblock Experiment on the automatic detection of function clones in a
+  software system using metrics.
+\newblock In {\em International Conference on Software Maintenance (ICSM)},
+  pages 244--253, 1996.
+
+\bibitem[MN97]{Murp97a}
+Gail~C. Murphy and David Notkin.
+\newblock Reengineering with reflexion models: {A} case study.
+\newblock {\em IEEE Computer}, 8:29--36, 1997.
+
+\bibitem[Nes88]{Nesi98a}
+Paolo Nesi.
+\newblock Managing {OO} project better.
+\newblock {\em IEEE Software}, July 1988.
+
+\bibitem[Nie99]{Niel93b}
+Jakob Nielsen.
+\newblock {\em Usability Engineering}.
+\newblock Morgan Kaufmann, 1999.
+
+\bibitem[O'C00]{Ocal00a}
+Alan O'Callaghan.
+\newblock Patterns for architectural praxis.
+\newblock In {\em Proceedings of EuroPLoP 2000}, 2000.
+
+\bibitem[ODF99]{Ocal99a}
+Alan O'Callaghan, Ping Dai, and Ray Farmer.
+\newblock Patterns for change --- sample patterns from the adaptor pattern
+  language.
+\newblock In {\em Proceedings of EuroPLoP 1999}, 1999.
+
+\bibitem[PB94]{Prem94a}
+William~J. Premerlani and Michael~R. Blaha.
+\newblock An approach for reverse engineering of relational databases.
+\newblock {\em Communications of the ACM}, 37(5):42--49, May 1994.
+
+\bibitem[PK82]{Pust82a}
+J.~Pustell and F.~Kafatos.
+\newblock A high speed, high capacity homology matrix: Zooming through {SV40}
+  and polyoma.
+\newblock {\em Nucleid Acids Research}, 10(15):4765--4782, 1982.
+
+\bibitem[PK01]{Pelr01a}
+Joseph Pelrine and Alan Knight.
+\newblock {\em Mastering ENVY/Developer}.
+\newblock Cambridge University Press, 2001.
+
+\bibitem[Pre94]{Pres94a}
+Roger~S. Pressman.
+\newblock {\em Software Engineering: A Practitioner's Approach}.
+\newblock McGraw-Hill, 1994.
+
+\bibitem[RBCM91]{Robs91a}
+D.J. Robson, K.~H. Bennet, B.~J. Cornelius, and M.~Munro.
+\newblock Approaches to program comprehension.
+\newblock {\em Journal of Systems and Software}, 14:79--84, February 1991.
+\newblock Republished in [Arno92a].
+
+\bibitem[RBJ97]{Robe97a}
+Don Roberts, John Brant, and Ralph~E. Johnson.
+\newblock A refactoring tool for {Smalltalk}.
+\newblock {\em Theory and Practice of Object Systems (TAPOS)}, 3(4):253--263,
+  1997.
+
+\bibitem[RD99]{Rich99a}
+Tamar Richner and St\'ephane Ducasse.
+\newblock Recovering high-level views of object-oriented applications from
+  static and dynamic information.
+\newblock In Hongji Yang and Lee White, editors, {\em Proceedings of 15th IEEE
+  International Conference on Software Maintenance (ICSM'99)}, pages 13--22,
+  Los Alamitos CA, September 1999. IEEE Computer Society Press.
+
+\bibitem[Ree96]{Reen96a}
+Trygve Reenskaug.
+\newblock {\em Working with Objects: The OOram Software Engineering Method}.
+\newblock Manning Publications, 1996.
+
+\bibitem[RG98]{Rieh98a}
+Dirk Riehle and Thomas Gross.
+\newblock Role model based framework design and integration.
+\newblock In {\em Proceedings OOPSLA '98, ACM SIGPLAN Notices}, pages 117--133,
+  October 1998.
+
+\bibitem[Rie96]{Riel96a}
+Arthur Riel.
+\newblock {\em Object-Oriented Design Heuristics}.
+\newblock Addison Wesley, Boston MA, 1996.
+
+\bibitem[Ris00]{Risi00a}
+Linda Rising.
+\newblock Customer interaction patterns.
+\newblock In Neil Harrison, Brian Foote, and Hans Rohnert, editors, {\em
+  Pattern Languages of Program Design 4}, pages 585--609. Addison Wesley, 2000.
+
+\bibitem[Rob99]{Robe99a}
+Donald~Bradley Roberts.
+\newblock {\em Practical Analysis for Refactoring}.
+\newblock PhD thesis, University of Illinois, 1999.
+
+\bibitem[RS89]{Reen89a}
+Trygve Reenskaug and Anna~Lise Skaar.
+\newblock An environment for literate {Smalltalk} programming.
+\newblock In {\em Proceedings OOPSLA '89, ACM SIGPLAN Notices}, volume~24,
+  pages 337--346, October 1989.
+
+\bibitem[RW98]{Ruga98a}
+Spencer Rugaber and Jim White.
+\newblock Restoring a legacy: Lessons learned.
+\newblock {\em IEEE Software}, 15(4):28--33, July 1998.
+
+\bibitem[SG96]{Shaw96a}
+Mary Shaw and David Garlan.
+\newblock {\em Software Architecture: Perspectives on an Emerging Discipline}.
+\newblock Prentice-Hall, 1996.
+
+\bibitem[Sha97]{Shar97a}
+Alec Sharp.
+\newblock {\em {Smalltalk} by Example}.
+\newblock McGraw-Hill, 1997.
+
+\bibitem[SLMD96]{Stey96a}
+Patrick Steyaert, Carine Lucas, Kim Mens, and Theo D'Hondt.
+\newblock Reuse {Contracts}: {Managing} the {Evolution} of {Reusable} {Assets}.
+\newblock In {\em Proceedings of OOPSLA '96 (International Conference on
+  Object-Oriented Programming, Systems, Languages, and Applications)}, pages
+  268--285. ACM Press, 1996.
+
+\bibitem[Sne99]{Snee99a}
+Harry~M. Sneed.
+\newblock Risks involved in reengineering projects.
+\newblock In {\em Proceedings of the 6th Working Conference on Reverse
+  Engineering (WCRE)}. IEEE, 1999.
+
+\bibitem[Som96]{Somm96a}
+Ian Sommerville.
+\newblock {\em Software Engineering}.
+\newblock Addison Wesley, fifth edition, 1996.
+
+\bibitem[SP98]{Stev98a}
+Perdita Stevens and Rob Pooley.
+\newblock System reengineering patterns.
+\newblock In {\em Proceedings of FSE-6}. ACM-SIGSOFT, 1998.
+
+\bibitem[SRMK99]{Scha99a}
+Reinhard Schauer, S\'ebastian Robitaille, Francois Martel, and Rudolf Keller.
+\newblock Hot-{Spot} {Recovery} in {Object}-{Oriented} {Software} with
+  {Inheritance} and {Composition} {Template} {Methods}.
+\newblock In {\em Proceedings of ICSM '99 (International Conference on Software
+  Maintenance)}. IEEE Computer Society Press, 1999.
+
+\bibitem[SSRB00]{Schm00a}
+Douglas~C. Schmidt, Michael Stal, Hans Rohnert, and Frank Buschmann.
+\newblock {\em Pattern-Oriented Software Architecture Volume 2 --- Networked
+  and Concurrent Objects}.
+\newblock John Wiley and Sons, 2000.
+
+\bibitem[SW98]{Schn98a}
+Geri Schneider and Jason~P. Winters.
+\newblock {\em Applying Use Cases}.
+\newblock Addison Wesley, 1998.
+
+\bibitem[Tay00]{Tayl00a}
+Paul Taylor.
+\newblock Capable, productive, and satisfied: Some organizational patterns for
+  protecting productive people.
+\newblock In N.~Harrison, B.~Foote, and H.~Rohnert, editors, {\em Pattern
+  Languages of Program Design}, volume~4, pages 611--636. Addison Wesley, 2000.
+
+\bibitem[Tho98]{Thom98a}
+Rob Thomsett.
+\newblock The year 2000 bug: a forgotten lesson.
+\newblock {\em IEEE Software}, 15(4):91--93,95, July 1998.
+
+\bibitem[WBWW90]{Wirf90b}
+Rebecca Wirfs-Brock, Brian Wilkerson, and Lauren Wiener.
+\newblock {\em Designing Object-Oriented Software}.
+\newblock Prentice-Hall, 1990.
+
+\bibitem[WG98]{Weid98a}
+Johannes Weidl and Harald Gall.
+\newblock Binding object models to source code: An approach to object-oriented
+  rearchitecting.
+\newblock In {\em Proceedings of the 22nd Computer Software and Application
+  Conference (COMPSAC 1998)}. IEEE Computer Society Press, 1998.
+
+\bibitem[Woo98]{Wool98a}
+Bobby Woolf.
+\newblock Null object.
+\newblock In Robert Martin, Dirk Riehle, and Frank Buschmann, editors, {\em
+  Pattern Languages of Program Design 3}, pages 5--18. Addison Wesley, 1998.
+
+\bibitem[WTMS95]{Wong95a}
+Kenny Wong, Scott~R. Tilley, Hausi~A. M{\"u}ller, and Margaret-Anne~D. Storey.
+\newblock Structural redocumentation: A case study.
+\newblock {\em IEEE Software}, 12(1):46--54, January 1995.
+
+\bibitem[Wuy98]{Wuyt98a}
+Roel Wuyts.
+\newblock Declarative reasoning about the structure object-oriented systems.
+\newblock In {\em Proceedings of the TOOLS USA '98 Conference}, pages 112--124.
+  IEEE Computer Society Press, 1998.
+
+\bibitem[You97]{Your97a}
+Edward Yourdon.
+\newblock {\em Death March}.
+\newblock Prentice-Hall, 1997.
+
+\end{thebibliography}

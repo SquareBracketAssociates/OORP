@@ -1,0 +1,8 @@
+#! /bin/sh
+
+for arg
+do
+    cp $arg BACKUP
+    ./munge $arg
+    open $arg
+done
