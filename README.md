@@ -1,6 +1,6 @@
 # OORP
 
-This is the open source guithub repo for “Object-Oriented Reengineering Patterns”.
+This is the open source github repo for “Object-Oriented Reengineering Patterns”.
 
 *Object-Oriented Reengineering Patterns* collects and distills successful techniques in planning a reengineering project, reverse-engineering, problem detection, migration strategies and software redesign.
 
