@@ -55,7 +55,7 @@
   \item Chat with the Maintainers (Pattern), \hyperpage{42}, 
 		\hyperpage{45}, \hyperpage{55}, \hyperpage{59}, 
 		\hyperpage{67}, \hyperpage{71}, \hyperpage{76}, 
-		\hyperpage{82}, \hyperpage{144}
+		\hyperpage{81}, \hyperpage{144}
   \item Chicken Little, \hyperpage{191, 192}
   \item Chikofsky, Elliot, \hyperpage{8}, \hyperpage{11}
   \item class abuse, \hyperpage{11}
@@ -86,7 +86,7 @@
   \item database, \hyperpage{87}
     \subitem schema, \hyperpage{87}
   \item DATRIX, \hyperpage{232}
-  \item Davis, Alan, \hyperpage{157}, \hyperpage{202}, \hyperpage{222}
+  \item Davis, Alan, \hyperpage{156}, \hyperpage{202}, \hyperpage{222}
   \item De Marco, Tom, \hyperpage{49}, \hyperpage{114}
   \item debugger, \hyperpage{133}
   \item DeLano, David, \hyperpage{315}
@@ -164,7 +164,7 @@
 		\hyperpage{25}, \hyperpage{30, 31}, \hyperpage{33}
   \item Flyweight (Pattern), \hyperpage{102}, \hyperpage{320}
   \item Foote, Brian, \hyperpage{197}, \hyperpage{267}
-  \item forces, \see{pattern, forces}{xvi}
+  \item forces, \hyperindexformat{\see{pattern, forces}}{xvi}
   \item foreign key, \hyperpage{91}
   \item forward engineering
     \subitem definition, \hyperpage{8}
@@ -423,7 +423,7 @@
 		\hyperpage{316}
   \item Test the Interface, Not the Implementation (Pattern), 
 		\hyperpage{120}, \hyperpage{144}, \hyperpage{152}, 
-		\hyperpage{158}, \hyperpage{160, 161}, \hyperpage{171}, 
+		\hyperpage{157}, \hyperpage{160, 161}, \hyperpage{171}, 
 		\hyperpage{174}, \hyperpage{193}
   \item Test-Driven development, \hyperpage{202}
   \item testing, \hyperpage{149}
@@ -443,7 +443,7 @@
 		\hyperpage{121}, \hyperpage{123}, \hyperpage{125}, 
 		\hyperpage{129}, \hyperpage{131}, \hyperpage{134}, 
 		\hyperpage{180}
-  \item tradeoffs, \see{pattern, tradeoffs}{xvi}
+  \item tradeoffs, \hyperindexformat{\see{pattern, tradeoffs}}{xvi}
   \item Transform Client Type Checks (Pattern), \hyperpage{244}, 
 		\hyperpage{270, 271}, \hyperpage{280, 281}, 
 		\hyperpage{284}, \hyperpage{289}, \hyperpage{310}, 
@@ -475,7 +475,7 @@
   \indexspace
 
   \item violation of encapsulation, 
-		\see{encapsulation, violation of}{11}
+		\hyperindexformat{\see{encapsulation, violation of}}{11}
   \item Visitor (Pattern), \hyperpage{247}, \hyperpage{322}
   \item Visualize Code as Dotplots (Pattern), \hyperpage{225}, 
 		\hyperpage{233}, \hyperpage{317}
@@ -496,7 +496,7 @@
 
   \indexspace
 
-  \item XP, \see{Extreme Programming}{37}
+  \item XP, \hyperindexformat{\see{Extreme Programming}}{37}
 
   \indexspace
 
