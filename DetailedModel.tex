@@ -124,7 +124,7 @@ This approach uses the commenting conventions of the programming language and as
 /*  #to: John #by: SD #on: 3/12/99 *****
     Screws up when we have nested IFs. */
 \end{code}
-Basic tools part of your program environment can then be used to search and modify annotations. With a little bit of extra effort one can easily build tools to query, extract and cross-index all comment-based annotations.
+Basic tools that are part of your program environment can then be used to search and modify annotations. With a little bit of extra effort one can easily build tools to query, extract and cross-index all comment-based annotations.
 
 \item \emph{Method-based annotations.}
 This approach exploits the possibility to query which method invokes a given method, a feature provided by many of today's programming environments. The idea is to declare a global method accepting a few strings as an argument and having an empty method body. Each time you want to annotate a particular piece of code, you invoke that method passing your annotations as a parameter.
